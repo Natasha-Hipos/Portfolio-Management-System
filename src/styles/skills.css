@@ -1,0 +1,625 @@
+/* =====================================================
+   SKILLS PAGE CONTENT STYLES ONLY
+===================================================== */
+.skills {
+  margin-left: 20px;
+  padding: 20px 25px; /* adds a little breathing room under navbar */
+  transition: margin-left 0.3s ease;
+}
+
+body.sidebar-collapsed .skills {
+  margin-left: 20px; /* keep consistent */
+}
+
+
+.skills h2 {
+  color: #0c093d;
+  font-weight: bold;
+}
+
+.skills p.text-muted {
+  font-style: italic;
+  color: #99a9ee;
+  font-weight: bold;
+}
+
+/* Stat Cards */
+.stat-card {
+  width: 336px;
+  height: 100px;
+  padding: 15px 15px 10px 15px;
+  flex: 1;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.25);
+}
+
+.stat-card p {
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.stat-card h3 {
+  color: #0c093d;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* ============================
+   MODAL STYLE (Clean UI)
+============================ */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35); /* dark dim */
+  backdrop-filter: blur(6px);       /* blur effect */
+  -webkit-backdrop-filter: blur(6px); /* Safari support */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+
+/* White modal box */
+.custom-modal-container {
+  width: 600px;
+  background: white;
+  border-radius: 50px;
+  padding: 25px 28px;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Header */
+.custom-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-modal-header h5 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1c1f3b;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+}
+
+/* Body */
+.custom-modal-body {
+  margin-top: 12px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1c1f3b;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.custom-modal-body input,
+.custom-modal-body select,
+.custom-modal-body textarea {
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+.custom-modal-body input:focus,
+.custom-modal-body select:focus,
+.custom-modal-body textarea:focus {
+  border-color: #204ecf;
+  box-shadow: 0 0 0 2px rgba(32, 78, 207, 0.1);
+}
+
+/* Footer Buttons */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.cancel-btn,
+.add-btn {
+  min-width: 130px;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* Cancel button */
+.cancel-btn {
+  background: #fff;
+  border: 1px solid #9eb3ec;
+  color: #1c1f3b;
+}
+
+.cancel-btn:hover {
+  background: #f3f5ff;
+}
+
+/* Add button */
+.add-btn {
+  background: #204ecf;
+  border: none;
+  color: #fff;
+}
+
+.add-btn:hover {
+  background: #1a3eb1;
+}
+
+
+/* =====================================================
+   DELETE CONFIRMATION MODAL STYLES
+===================================================== */
+#deleteModal .modal-content {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 35px 50px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  max-width: 420px;
+  margin: auto;
+}
+
+#deleteModal .question-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 15px auto;
+  font-size: 22px;
+  font-weight: 600;
+  color: #2f3a7b;
+  border: 2px solid #2f3a7b;
+  border-radius: 50%;
+}
+
+#deleteModal h5 {
+  color: #0c093d;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+#deleteModal .d-flex {
+  justify-content: center;
+  gap: 15px;
+}
+
+#deleteModal .btn-secondary {
+  background-color: #ffffff;
+  color: #2f3a7b;
+  border: 1.5px solid #d1d1e0;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 8px 30px;
+  transition: all 0.3s ease;
+}
+
+#deleteModal .btn-secondary:hover {
+  background-color: #f3f4f9;
+  border-color: #bfc2d6;
+}
+
+#deleteModal .btn-danger {
+  background-color: #2f3a7b;
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 8px 30px;
+  transition: all 0.3s ease;
+}
+
+#deleteModal .btn-danger:hover {
+  background-color: #24316b;
+}
+
+.modal-backdrop.show {
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* =====================================================
+   PROJECTS & DEADLINES
+===================================================== */
+.d-flex.flex-wrap.gap-3 {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.project-card,
+.deadline-card {
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  flex: 1 1 48%;
+  height: 190px;
+  min-width: 300px;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.project-card {
+  background: linear-gradient(135deg, #1e2a78, #1f3fa8);
+}
+
+.project-card:hover {
+  background: linear-gradient(135deg, #1a1f5e, #1b2e7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.deadline-card {
+  background: linear-gradient(135deg, #1e3a8a, #203a92);
+}
+
+.deadline-card:hover {
+  background: linear-gradient(135deg, #1a2f6a, #1b3a7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.deadline-card ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* =====================================================
+   SKILL TABLE STYLING
+===================================================== */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* allows scroll if content too wide */
+  background: transparent;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* ensures columns align perfectly */
+  table-layout: fixed; /* keeps columns consistent between head and body */
+}
+
+/* ================================
+   HEADER STYLING
+================================ */
+.table thead {
+  background-color: #e8edf7;
+}
+
+.table-container thead th {
+  background-color: #e8edf7;
+  color: #4b4f58;
+  text-align: center;
+  font-weight: 600;
+  padding: 14px 2px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* Rounded corners for header */
+.table th:first-child {
+  border-top-left-radius: 12px;
+}
+.table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* ================================
+   ROW STYLING
+================================ */
+.table tbody tr {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+}
+
+.table tbody td {
+  text-align: left;
+  vertical-align: middle;
+  padding: 12px 8px;
+  border: none;
+}
+
+/* ================================
+   COLUMN WIDTH + ALIGNMENT
+================================ */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 8%; /* ID */
+  text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 20%; /* Skill Name (reduced from 25%) */
+  text-align: left;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 12%; /* Level (reduced from 15%) */
+  text-align: center;
+}
+
+/* Experience column (align text properly under header) */
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 20%;
+  text-align: left;   
+  padding-left: 12px; 
+}
+
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 15%; /* Visibility */
+  text-align: center;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 15%; /* Actions */
+  text-align: center;
+}
+
+/* =============
+   ALIGN HEADERS 
+================= */
+.table th:nth-child(2) {
+  text-align: left;
+  padding-left: 12px;
+}
+
+/* keep ID, Level, Visibility, Action centered */
+.table th:nth-child(1),
+.table th:nth-child(3),
+.table th:nth-child(5),
+.table th:nth-child(6) {
+  text-align: center;
+}
+
+/* ======================
+   SKILL LEVEL BADGES
+========================= */
+
+.skill-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  min-width: 90px;
+}
+
+.skill-badge[data-level="Beginner"] {
+  background-color: #ffe0b2;
+  color: #a85d00;
+}
+
+.skill-badge[data-level="Intermediate"] {
+  background-color: #e1b8ff;
+  color: #6b00a8;
+}
+
+.skill-badge[data-level="Advanced"] {
+  background-color: #b5d7ff;
+  color: #004a99;
+}
+
+.skill-badge[data-level="Expert"] {
+  background-color: #b8ffb5;
+  color: #117a00;
+}
+
+/* ========================
+   VISIBILITY BADGES
+=========================== */
+
+.visibility-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  min-width: 70px;
+  text-align: center;
+}
+
+.visibility-badge.show {
+  background-color: #cfe2ff;
+  color: #004085;
+}
+
+.visibility-badge.hide {
+  background-color: #e2c8ff;
+  color: #5a009e;
+}
+
+/* ================================
+   ACTION BUTTONS (Edit / Delete)
+===================================*/
+
+.action-btn {
+  background: none;
+  border: 1.5px solid #cfd6e4;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+  color: #1c1f3b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.action-btn i {
+  font-size: 1rem;
+}
+
+.action-btn:hover {
+  background-color: #204ecf;
+  color: #fff;
+  border-color: #204ecf;
+  transform: scale(1.08);
+}
+
+/* =====================
+   ADD SKILL BUTTON
+======================== */
+#addSkillBtn {
+  background-color: #1a1a40;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+#addSkillBtn:hover {
+  background-color: #2b2b70;
+  transform: scale(1.05);
+}
+
+/* ===================
+   PAGINATION
+======================*/
+.table-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.page-btn,
+.current-page {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #203a92;
+  background-color: #fff;
+  color: #203a92;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.page-btn:hover {
+  background-color: #203a92;
+  color: #fff;
+}
+
+.current-page {
+  background-color: #203a92;
+  color: #fff;
+  cursor: default;
+}
+
+/* ===============
+   RESPONSIVE
+===================*/
+@media (max-width: 480px) {
+  .skills {
+    padding: 15px !important;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+  }
+
+  button.btn {
+    width: 100%;
+  }
+
+  .search-box input {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .stat-card {
+    flex: 1 1 45%;
+  }
+
+  .project-card,
+  .deadline-card {
+    flex: 1 1 100%;
+  }
+
+  .skills {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .stat-card {
+    flex: 1 1 30%;
+  }
+
+  .skills {
+    padding: 25px;
+  }
+}
+
+@media (min-width: 1201px) {
+  .skills {
+    padding: 30px;
+  }
+}

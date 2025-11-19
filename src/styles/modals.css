@@ -1,0 +1,311 @@
+/* =====================================================
+   VIEW PROJECT MODAL STYLES
+===================================================== */
+.custom-view-modal {
+  background: #ffffff;
+  border-radius: 45px;           /* nearly circular */
+  padding: 10px;
+  max-width: 650px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  color: #0c093d;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Header layout: title left, X right */
+.modal-header-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+/* Header title */
+.modal-header-custom h4 {
+  color: #0c093d;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* Close button (X) */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #0c093d;
+  transform: scale(1.2);
+}
+
+/* Modal body */
+.modal-body-custom h6 {
+  font-weight: 600;
+  color: #0c093d;
+  margin-bottom: 6px;
+}
+
+.modal-body-custom p {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: justify;
+  max-width: 95%;
+}
+
+/* Optional: blurred background overlay */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================================
+   DELETE CONFIRMATION MODAL STYLES
+===================================================== */
+#deleteModal .modal-content {
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 20px !important;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+/* Centered question icon */
+#deleteModal .modal-content::before {
+  content: "?";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 15px auto; /* Centers horizontally */
+  font-size: 22px;
+  font-weight: 600;
+  color: #2f3a7b; /* dark blue tone */
+  border: 2px solid #2f3a7b;
+  border-radius: 50%;
+}
+
+/* Modal question text */
+#deleteModal h5 {
+  color: #0c093d;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+/* Button container */
+#deleteModal .d-flex {
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Cancel button */
+#deleteModal .btn-secondary {
+  background-color: #ffffff;
+  color: #2f3a7b;
+  border: 1.5px solid #d1d1e0;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 8px 15px !important;
+  transition: all 0.3s ease;
+}
+
+#deleteModal .btn-secondary:hover {
+  background-color: #f3f4f9;
+  border-color: #bfc2d6;
+}
+
+/* Confirm button */
+#deleteModal .btn-danger {
+  background-color: #2f3a7b;
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 8px 15px !important;
+  transition: all 0.3s ease;
+}
+
+#deleteModal .btn-danger:hover {
+  background-color: #24316b;
+}
+
+/* Blurred background overlay */
+.modal-backdrop.show {
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   MODAL STYLE Add/Edit Project Modal
+====================================== */
+
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #1c1f3b;
+  font-size: 1.25rem;
+}
+
+.modal-body {
+  padding-top: 10px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #1c1f3b;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  color: #1c1f3b;
+  background-color: #fff;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #adb5bd;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #204ecf;
+  box-shadow: 0 0 0 2px rgba(32, 78, 207, 0.1);
+}
+
+
+/* Cancel and Save buttons */
+.text-end .btn {
+  min-width: 120px;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+}
+
+.text-end .btn-secondary {
+  background-color: #fff;
+  border: 1px solid #9eb3ec;
+  color: #1c1f3b;
+}
+
+.text-end .btn-secondary:hover {
+  background-color: #f5f6fa;
+}
+
+.text-end .btn-primary {
+  background-color: #204ecf;
+  border: none;
+  color: #fff;
+}
+
+.text-end .btn-primary:hover {
+  background-color: #1a3eb1;
+}
+
+
+/* ===============================
+   VIEW PROJECT MODAL STYLES
+================================== */
+.custom-view-modal {
+  background: #ffffff;
+  border-radius: 45px;           /* nearly circular */
+  padding: 35px 45px;
+  max-width: 650px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  color: #0c093d;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Header layout: title left, X right */
+.modal-header-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+/* Header title */
+.modal-header-custom h4 {
+  color: #0c093d;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* Close button (X) */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #0c093d;
+  transform: scale(1.2);
+}
+
+/* Modal body */
+.modal-body-custom h6 {
+  font-weight: 600;
+  color: #0c093d;
+  margin-bottom: 6px;
+}
+
+.modal-body-custom p {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: justify;
+  max-width: 95%;
+}
+
+/* Optional: blurred background overlay */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.3);
+}

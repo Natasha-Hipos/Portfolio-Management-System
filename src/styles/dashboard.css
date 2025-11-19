@@ -1,0 +1,310 @@
+/* =====================================================
+   DASHBOARD
+===================================================== */
+.dashboard {
+  margin-left: 20px; /* smaller internal spacing */
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard h2 {
+  color: #0c093d;
+  font-weight: bold;
+}
+
+.dashboard p.text-muted {
+  font-style: italic;
+  font-weight: bold;
+  color: rgba(151, 37, 37, 0.349);
+}
+
+.dashboard h1,
+.dashboard h2,
+.dashboard .card {
+  transition: all 0.3s ease;
+}
+
+/* Stat Cards */
+.stat-card {
+  width: 336px;
+  height: 100px;
+  padding: 15px 15px 10px 15px;
+  flex: 1;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover {
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.25);
+  transition: 0.3s;
+}
+
+.stat-card p {
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.stat-card h3 {
+  color: #0c093d;
+  font-weight: bold;
+  text-align: left;
+}
+
+button.btn {
+  background-color: #203a92;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 200px;
+}
+
+button.btn:hover {
+  background-color: #0c093d;
+}
+
+.project-status-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin-top: 10px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* =====================================================
+   PROJECTS & DEADLINES
+===================================================== */
+.d-flex.flex-wrap.gap-3 {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.project-card {
+  background: linear-gradient(135deg, #1e2a78, #1f3fa8);
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  flex: 1 1 48%;
+  height: 190px;
+  min-width: 300px;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.project-card:hover {
+  background: linear-gradient(135deg, #1a1f5e, #1b2e7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.last-updated {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.deadline-card {
+  background: linear-gradient(135deg, #1e3a8a, #203a92);
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  flex: 1 1 48%;
+  height: 190px;
+  min-width: 300px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.deadline-card:hover {
+  background: linear-gradient(135deg, #1a2f6a, #1b3a7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.deadline-card ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* =====================================================
+   CHARTS
+===================================================== */
+
+.pcircle {
+  padding-top: 40px;
+}
+/* Center donut charts better */
+.circular-chart {
+  max-width: 140px;
+  margin: 0 auto; /* centers horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular {
+  width: 100%;
+  height: auto;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #e6e6e6;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 2.8;
+  stroke: #1e2a78;
+  stroke-linecap: round;
+  animation: progress 1.5s ease-out forwards;
+}
+
+.circle-progress {
+  stroke: #4f6ef7;
+}
+
+.percentage {
+  fill: #0c093d;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+
+#completedPercentageBelow,
+#inProgressPercentageBelow {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #4f4f6b;
+  margin-top: 2px;
+}
+
+/* =====================================================
+   Project by Category 
+===================================================== */
+
+.analytics-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  flex: 1 1 48%;
+  min-width: 300px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.analytics-card:hover {
+  box-shadow: 0 10px 25px rgba(12, 9, 61, 0.15);
+  transform: translateY(-4px);
+}
+
+.static-bar-chart {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  padding-left: 40px;
+  padding-right: 10px;
+  background: repeating-linear-gradient(
+    to top,
+    #e7e7e7 0px,
+    #e7e7e7 1px,
+    transparent 1px,
+    transparent 40px
+  ); /* lighter grid */
+  border-radius: 12px;
+}
+
+/* Y-Axis Numbers */
+.static-bar-chart .y-grid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #9aa0a6;      /* lighter gray */
+  font-size: 0.78rem;  /* slightly smaller */
+  padding-top: 5px;
+}
+
+/* Bars Container */
+.bars {
+  position: absolute;
+  left: 40px;
+  bottom: 26px;
+  right: 0;
+  display: flex;
+  justify-content: space-between;  /* spacing like sample */
+  height: 150px;
+  align-items: flex-end;
+}
+
+/* Default bar style */
+.bar {
+  width: 40px;                       /* thinner bars */
+  border-radius: 8px;
+  background-color: #a9bfe0;         /* lighter pastel blue */
+  transition: 0.3s ease-in-out;
+}
+
+/* Heights */
+.bar-web { --h: 120; background-color: #2f4a83; } 
+.bar-mobile { --h: 60; }
+.bar-marketing { --h: 90; }
+.bar-research { --h: 40; }
+
+/* Apply height from variable */
+.bar[data-height] {
+  height: calc(var(--h) * 1px);
+}
+
+/* X Labels */
+.labels {
+  position: absolute;
+  bottom: 0;
+  left: 40px;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #444;
+  margin-top: 8px;
+}
+
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+
+/* Recent Activity */
+.recent-activity {
+  background-color: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.recent-activity ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+}
+
+.recent-activity ul li:last-child {
+  border-bottom: none;
+}

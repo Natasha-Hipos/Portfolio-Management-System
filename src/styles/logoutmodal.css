@@ -1,0 +1,85 @@
+/* Fullscreen blurred backdrop */
+.custom-backdrop {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1990;
+}
+
+/* Centered modal wrapper */
+.custom-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal box */
+.modal-card {
+  background: #fff;
+  border-radius: 30px;
+  padding: 25px;
+  width: 330px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Question icon */
+.modal-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #2f3a7b;
+  color: #2f3a7b;
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.modal-card h5 {
+  color: #0c093d;
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+/* Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Cancel */
+.btn-cancel {
+  background: #fff;
+  color: #2f3a7b;
+  border: 1.5px solid #d1d1e0;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn-cancel:hover {
+  background: #f3f4f9;
+}
+
+/* Confirm */
+.btn-confirm {
+  background: #2f3a7b;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn-confirm:hover {
+  background: #24316b;
+}

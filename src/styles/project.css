@@ -1,0 +1,479 @@
+/* ===============
+   PROJECT
+================== */
+.project {
+  margin-left: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.project h2 {
+  color: #0c093d;
+  font-weight: bold;
+}
+
+.project p.text-muted {
+  font-style: italic;
+  color: #99a9ee;
+  font-weight: bold;
+}
+
+/* Stat Cards */
+.stat-card {
+  width: 336px;
+  height: 100px;
+  padding: 15px 15px 10px 15px;
+  flex: 1;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover {
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.25);
+  transition: 0.3s;
+}
+
+.stat-card p {
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.stat-card h3 {
+  color: #0c093d;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* ==========================
+   PROJECTS & DEADLINES
+============================= */
+.d-flex.flex-wrap.gap-3 {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.project-card,
+.deadline-card {
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  flex: 1 1 48%;
+  height: 190px;
+  min-width: 300px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.project-card {
+  background: linear-gradient(135deg, #1e2a78, #1f3fa8);
+  position: relative;
+}
+
+.project-card:hover {
+  background: linear-gradient(135deg, #1a1f5e, #1b2e7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.deadline-card {
+  background: linear-gradient(135deg, #1e3a8a, #203a92);
+}
+
+.deadline-card:hover {
+  background: linear-gradient(135deg, #1a2f6a, #1b3a7a);
+  box-shadow: 0 12px 30px rgba(12, 9, 61, 0.3);
+  transform: translateY(-5px);
+}
+
+.last-updated {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.deadline-card ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* === Project Management Section === */
+.project-management {
+  margin-top: 40px;
+}
+
+.project-title {
+  color: #0c093d;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Search bar styling */
+.search-bar {
+  position: relative;
+  width: 100%;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar i {
+  position: absolute;
+  left: 25px;
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.search-bar input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 8px 8px 8px 45px;
+  border-radius: 30px;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Add Project Button */
+button.btn {
+  background-color: #203a92;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 200px;
+}
+
+button.btn:hover {
+  background-color: #0c093d;
+}
+
+/* ================
+   MODALS
+=================== */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #1c1f3b;
+  font-size: 1.25rem;
+}
+
+.modal-body {
+  padding-top: 10px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #1c1f3b;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  color: #1c1f3b;
+  background-color: #fff;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #adb5bd;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #204ecf;
+  box-shadow: 0 0 0 2px rgba(32, 78, 207, 0.1);
+}
+
+/* Cancel and Save buttons */
+.text-end .btn {
+  min-width: 120px;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+}
+
+.text-end .btn-secondary {
+  background-color: #fff;
+  border: 1px solid #9eb3ec;
+  color: #1c1f3b;
+}
+
+.text-end .btn-secondary:hover {
+  background-color: #f5f6fa;
+}
+
+.text-end .btn-primary {
+  background-color: #204ecf;
+  border: none;
+  color: #fff;
+}
+
+.text-end .btn-primary:hover {
+  background-color: #1a3eb1;
+}
+
+/* ===========================
+ TABLE STYLING
+=========================== */
+.table-responsive {
+  width: 100%;  
+  overflow-x: auto; /* allows scroll if content too wide */
+  background: transparent;
+  margin-top: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* ensures columns align perfectly */
+  table-layout: fixed; /* keeps columns consistent between head and body */
+  margin: 0;
+}
+
+.table-responsive thead th {
+  background-color: #e8edf7;
+  color: #4b4f58;
+  text-align: center;
+  font-weight: 600;
+  padding: 14px 8px;
+  border: none;
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+}
+
+.table tbody td {
+  text-align: left;
+  vertical-align: middle;
+  padding: 12px 8px;
+  border: none;
+}
+
+/* Keep hover color */
+.table-hover tbody tr:hover {
+  background-color: #f8faff;
+  transition: background-color 0.3s ease;
+}
+
+/* Rounded corners for header and first/last cells */
+.table td:first-child,
+.table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.table td:last-child,
+.table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Column width alignment */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 8%; /* ID */
+  text-align: center;
+}
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 25%; /* Title */
+}
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 15%; /* Status */
+  text-align: center;
+}
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 35%; /* Description */
+}
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 17%; /* Action */
+  text-align: center;
+}
+
+/* table header alignment to match body content */
+.table th:nth-child(2) {
+  text-align: left; /* align Title header like the body */
+  padding-left: 12px; /* match td padding */
+}
+
+.table th:nth-child(1),
+.table th:nth-child(3),
+.table th:nth-child(5) {
+  text-align: center; /* keep ID, Status, Action centered */
+}
+
+.table th:nth-child(4) {
+  text-align: left; /* Description aligns left like body */
+  padding-left: 12px;
+}
+
+
+/* ================================
+   STATUS BADGES
+================================ */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500 !important;
+  text-align: center;
+  min-width: 90px;
+}
+
+.status-ongoing {
+  background-color: #b5d7ff;
+  color: #004a99;
+}
+
+.status-completed {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-archived {
+  background-color: #e2d9f3;
+  color: #432874;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+.action-btn {
+  background: none;
+  border: 1px solid #cfd6e4;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+  color: #1c1f3b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #204ecf;
+  color: #fff;
+  border-color: #204ecf;
+  transition: all 0.50s ease;
+}
+
+.action-btn i {
+  font-size: 1rem;
+}
+
+/* ===========================
+   TEXT TRUNCATION
+=========================== */
+.table td.description {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+#viewProjectModal .modal-content {
+  border-radius: 15px;
+}
+
+/* ===========================
+   PAGINATION
+=========================== */
+.table-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.page-btn,
+.current-page {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #203a92;
+  background-color: #fff;
+  color: #203a92;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.page-btn:hover {
+  background-color: #203a92;
+  color: #fff;
+}
+
+.current-page {
+  background-color: #203a92;
+  color: #fff;
+  cursor: default;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 768px) {
+  .stat-card {
+    flex: 1 1 100%;
+  }
+
+  .project-card,
+  .deadline-card {
+    flex: 1 1 100%;
+  }
+
+  button.btn {
+    width: 100%;
+  }
+
+  .project {
+    padding: 15px !important;
+  }
+}

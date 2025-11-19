@@ -1,0 +1,29 @@
+/* =====================================================
+   GLOBAL LAYOUT STYLES
+===================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f5f6fa;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  z-index: 999;
+}
+
+
+/* Main content position relative to navbar + sidebar */
+main {
+  padding-top: 70px;  /* space below navbar */
+  padding-left: 190px; /* sidebar collapsed width */
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+/* When sidebar expands */
+body.sidebar-expanded main {
+  padding-left: 190px; /* sidebar expanded width */
+}
+
+
