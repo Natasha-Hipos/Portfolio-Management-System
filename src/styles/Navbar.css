@@ -6,7 +6,7 @@
   color: white;
   border-radius: 15px;
   margin: 10px 0 0 100px;
-  width: calc(100% - 90px); /* same collapsed sidebar width */
+  width: 92%; /* same collapsed sidebar width */
   transition: all 0.3s ease;
   position: fixed;
   top: 0;
@@ -18,7 +18,7 @@
 
 body.sidebar-expanded .navbar-section {
   margin-left: 210px !important;
-  width: calc(100% - 200px) !important;
+  width: calc(100% - 220px) !important;
 }
 
 /* Search Box */
