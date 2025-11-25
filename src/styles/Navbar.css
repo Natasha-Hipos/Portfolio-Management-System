@@ -4,13 +4,13 @@
   color: white;
   border-radius: 15px;
   margin: 10px 0 0 100px;
-  width: calc(100% - 90px);
+  width: 92%; /* same collapsed sidebar width */
   transition: all 0.3s ease;
   position: fixed;
   top: 0;
   left: 5px;
   right: 0;
-  z-index: 3000;
+  z-index: 3000 !important; /* HIGHER THAN SIDEBAR */
   height: 70px;
   display: flex;
   justify-content: space-between;
@@ -21,7 +21,7 @@
 
 body.sidebar-expanded .navbar-section {
   margin-left: 210px !important;
-  width: calc(100% - 200px) !important;
+  width: calc(100% - 220px) !important;
 }
 
 /* SEARCH BOX */

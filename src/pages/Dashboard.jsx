@@ -23,14 +23,25 @@ const Dashboard = () => {
   const addActivity = (message) => {
     const newEntry = {
       message,
-      timestamp: new Date().toISOString(),
+      timestamp: Date.now(),
     };
 
-    const updated = [newEntry, ...recentActivity].slice(0, 10);
-
-    setRecentActivity(updated);
-    localStorage.setItem("recentActivity", JSON.stringify(updated));
+    setRecentActivity((prev) => {
+      const updated = [newEntry, ...prev].slice(0, 10);
+      localStorage.setItem("recentActivity", JSON.stringify(updated));
+      return updated;
+    });
   };
+
+  useEffect(() => {
+  const syncActivity = () => {
+    const stored = JSON.parse(localStorage.getItem("recentActivity")) || [];
+    setRecentActivity(stored);
+  };
+
+  window.addEventListener("storage", syncActivity);
+  return () => window.removeEventListener("storage", syncActivity);
+  }, []);
 
   const [stats, setStats] = useState({
     total: 0,
@@ -141,13 +152,19 @@ const Dashboard = () => {
       {showModal && (
         <AddProjectModal
           onClose={() => setShowModal(false)}
-          onSave={(proj) => {
-            const updated = [...projects, proj];
-            setProjects(updated);
+         onSave={(proj) => {
+          // Update project list
+          setProjects((prev) => {
+            const updated = [...prev, proj];
             localStorage.setItem("projects", JSON.stringify(updated));
-            addActivity(`Added project: ${proj.title}`);
-            setShowModal(false);
-          }}
+            return updated;
+          });
+          // Update recent activity
+          addActivity(`Added project: ${proj.title}`);
+
+          // Close modal
+          setShowModal(false);
+        }}
         />
       )}
 
