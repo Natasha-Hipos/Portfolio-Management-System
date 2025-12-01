@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import "../styles/Profile.css";
+import "../styles/modals.css";
 import { 
   CheckCircleFill, 
   Building, 
@@ -11,8 +12,8 @@ import {
 } from "react-bootstrap-icons";
 
 const Profile = () => {
-  // Sample user data - replace with actual data from props or state
-  const userData = {
+  // Default user data
+  const defaultUserData = {
     name: "John Doe",
     email: "john.doe@example.com",
     company: "Acme Corporation",
@@ -26,10 +27,259 @@ const Profile = () => {
     status: ["Active", "Paid"]
   };
 
+  // Load user data from localStorage or use default
+  const [userData, setUserData] = useState(() => {
+    const stored = localStorage.getItem("profileData");
+    return stored ? JSON.parse(stored) : defaultUserData;
+  });
+
+  // Modal state
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  // Form state for editing
+  const [editForm, setEditForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    website: "",
+    mrr: "",
+    role: "",
+    type: "",
+    assignee: "",
+    source: ""
+  });
+
+  // Save to localStorage whenever userData changes
+  useEffect(() => {
+    localStorage.setItem("profileData", JSON.stringify(userData));
+  }, [userData]);
+
+  // Open edit modal and populate form
+  const handleEditClick = () => {
+    // Extract numeric value from MRR (remove $ and all commas)
+    const mrrValue = userData.mrr ? userData.mrr.replace(/\$|,/g, "") : "";
+    
+    setEditForm({
+      name: userData.name,
+      email: userData.email,
+      company: userData.company,
+      website: userData.website,
+      mrr: mrrValue,
+      role: userData.role,
+      type: userData.type,
+      assignee: userData.assignee,
+      source: userData.source
+    });
+    setShowEditModal(true);
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    
+    // Format MRR with $ and comma
+    const formattedMrr = editForm.mrr 
+      ? `$${parseFloat(editForm.mrr).toLocaleString()}`
+      : userData.mrr;
+
+    // Update user data
+    setUserData({
+      ...userData,
+      name: editForm.name,
+      email: editForm.email,
+      company: editForm.company,
+      website: editForm.website,
+      mrr: formattedMrr,
+      role: editForm.role,
+      type: editForm.type,
+      assignee: editForm.assignee,
+      source: editForm.source
+    });
+
+    setShowEditModal(false);
+    alert("Profile updated successfully!");
+  };
+
   return (
     <Layout>
+      {/* Edit Profile Modal */}
+      {showEditModal && (
+        <>
+          <div
+            className="modal fade show"
+            style={{ display: "block" }}
+            tabIndex="-1"
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg">
+              <div className="modal-content profile-edit-modal">
+                <div className="modal-header profile-modal-header">
+                  <div className="profile-modal-title-wrapper">
+                    <PencilSquare className="profile-modal-icon" />
+                    <h5 className="modal-title">Edit Profile Information</h5>
+                  </div>
+                  <button
+                    type="button"
+                    className="btn-close profile-close-btn"
+                    onClick={() => setShowEditModal(false)}
+                  ></button>
+                </div>
+                <form onSubmit={handleSaveProfile}>
+                  <div className="modal-body">
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="name"
+                          value={editForm.name}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          value={editForm.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Company</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="company"
+                          value={editForm.company}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Website</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="website"
+                          value={editForm.website}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">MRR (Monthly Recurring Revenue)</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          name="mrr"
+                          value={editForm.mrr}
+                          onChange={handleInputChange}
+                          placeholder="12500"
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Role</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="role"
+                          value={editForm.role}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Type</label>
+                        <select
+                          className="form-select"
+                          name="type"
+                          value={editForm.type}
+                          onChange={handleInputChange}
+                          required
+                        >
+                          <option value="Enterprise">Enterprise</option>
+                          <option value="Professional">Professional</option>
+                          <option value="Basic">Basic</option>
+                          <option value="Free">Free</option>
+                        </select>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Assignee</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="assignee"
+                          value={editForm.assignee}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="col-md-12 mb-3">
+                        <label className="form-label">Source</label>
+                        <select
+                          className="form-select"
+                          name="source"
+                          value={editForm.source}
+                          onChange={handleInputChange}
+                          required
+                        >
+                          <option value="Website">Website</option>
+                          <option value="Referral">Referral</option>
+                          <option value="Social Media">Social Media</option>
+                          <option value="Advertisement">Advertisement</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="modal-footer profile-modal-footer">
+                    <button
+                      type="button"
+                      className="btn profile-cancel-btn"
+                      onClick={() => setShowEditModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="btn profile-save-btn">
+                      <CheckCircleFill style={{ marginRight: "8px" }} />
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="modal-backdrop show" />
+        </>
+      )}
+
       <div className="profile-container">
         <div className="profile-card-wrapper">
+          {/* Header with Edit Button */}
+          <div className="profile-header-actions">
+            <h2 className="profile-page-title">Profile Overview</h2>
+            <button
+              className="profile-edit-btn"
+              onClick={handleEditClick}
+            >
+              <PencilSquare className="edit-icon" />
+              <span>Edit Profile</span>
+            </button>
+          </div>
           {/* Profile Card Container */}
           <div className="profile-card">
             {/* Light Beige Header */}

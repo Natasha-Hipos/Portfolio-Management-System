@@ -63,6 +63,11 @@ const Sidebar = () => {
           <span className="icon-text">Experience</span>
         </Link>
 
+        <Link to="/setting" className="icon-container" onClick={handleLinkClick}>
+          <i className="bi bi-gear"></i>
+          <span className="icon-text">Settings</span>
+        </Link>
+
         <hr className="sidebar-divider mt-auto" />
 
         <button

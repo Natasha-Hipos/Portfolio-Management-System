@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar-section d-flex justify-content-between align-items-center px-4 py-3">
@@ -25,8 +27,14 @@ const Navbar = () => {
         {dropdownOpen && (
           <div className="admin-dropdown">
             <ul>
-              <li>Profile</li>
-              <li>Settings</li>
+              <li onClick={() => {
+                setDropdownOpen(false);
+                navigate("/setting");
+              }}>Profile</li>
+              <li onClick={() => {
+                setDropdownOpen(false);
+                navigate("/setting");
+              }}>Settings</li>
             </ul>
           </div>
         )}
