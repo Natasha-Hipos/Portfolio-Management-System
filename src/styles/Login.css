@@ -41,13 +41,18 @@
 /* Login box */
 .login-box {
   background: #fff;
-  border-radius: 20px;
-  padding: 40px 30px;
-  width: 360px;
+  border-radius: 40px;
+  padding: 50px 35px;
+  width: 478px;
+  height: 488px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative;
   z-index: 1;
+}
+
+.login-box p {
+  margin-bottom: 30px !important;
 }
 
 .form-control {
@@ -74,6 +79,10 @@
 
 .input-group {
   position: relative;
+}
+
+.mb-4 {
+  margin-bottom: 34px !important;
 }
 
 .toggle-password {

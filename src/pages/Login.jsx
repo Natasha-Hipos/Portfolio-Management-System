@@ -56,8 +56,10 @@ function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-box text-center shadow-lg">
-        <h2 className="fw-bold mb-2">Login</h2>
-        <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        <div className="login-header">
+          <h2 className="fw-bold mb-2">Login</h2>
+          <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3 text-start">
