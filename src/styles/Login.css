@@ -29,11 +29,11 @@
   width: 300px;
   height: 300px;
   top: 91px;
-  left: 403px;
+  left: 450px;
   background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
   position: absolute;
   overflow: hidden;
-  filter: blur(80px);
+  filter: blur(100px);
 }
 
 /* SECOND CIRCLE — unchanged */
