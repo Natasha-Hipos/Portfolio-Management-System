@@ -20,22 +20,32 @@
 .login-wrapper::after {
   content: '';
   position: absolute;
-  width: 400px;
-  height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, #a3c9ff 0%, transparent 70%);
-  filter: blur(100px);
   z-index: 0;
 }
 
+/* FIRST CIRCLE — 300x300, linear gradient, top sharp → bottom soft */
 .login-wrapper::before {
-  top: -80px;
-  left: -100px;
+  width: 300px;
+  height: 300px;
+  top: 91px;
+  left: 403px;
+  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
+  position: absolute;
+  overflow: hidden;
+  filter: blur(80px);
 }
 
+/* SECOND CIRCLE — unchanged */
 .login-wrapper::after {
+  width: 200px;
+  height: 200px;
+  top: 550px;
+  left: 950px;
+  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
   bottom: -100px;
   right: -120px;
+  filter: blur(70px);
 }
 
 /* Login box */
@@ -45,7 +55,7 @@
   padding: 50px 35px;
   width: 478px;
   height: 488px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 10px 1px rgba(243, 236, 236, 1);
   text-align: center;
   position: relative;
   z-index: 1;

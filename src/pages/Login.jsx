@@ -63,8 +63,8 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3 text-start">
-            <label htmlFor="username" className="form-label fw-semibold">
-              Username
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
             </label>
             <div className="input-group">
               <span className="input-group-text bg-white">
@@ -73,7 +73,7 @@ function Login() {
               <input
                 type="email"
                 className="form-control"
-                id="username"
+                id="email"
                 placeholder="Enter Email"
                 required
               />
