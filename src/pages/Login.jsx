@@ -56,13 +56,15 @@ function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-box text-center shadow-lg">
-        <h2 className="fw-bold mb-2">Login</h2>
-        <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        <div className="login-header">
+          <h2 className="fw-bold mb-2">Login</h2>
+          <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3 text-start">
-            <label htmlFor="username" className="form-label fw-semibold">
-              Username
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
             </label>
             <div className="input-group">
               <span className="input-group-text bg-white">
@@ -71,7 +73,7 @@ function Login() {
               <input
                 type="email"
                 className="form-control"
-                id="username"
+                id="email"
                 placeholder="Enter Email"
                 required
               />
