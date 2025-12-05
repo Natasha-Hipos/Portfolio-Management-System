@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Project from "./pages/Project";
 import Skills from "./pages/Skills";
 import Experience from "./pages/Experience";
+import Profile from "./pages/Profile";
 import Setting from "./pages/Setting";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/project" element={<Project />} />
         <Route path="/skills" element={<Skills />} />
         <Route path="/experience" element={<Experience />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/setting" element={<Setting />} />
         {/* Redirect any unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />

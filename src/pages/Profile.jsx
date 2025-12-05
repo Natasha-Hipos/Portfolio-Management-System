@@ -1,399 +1,138 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Layout from "../components/Layout";
 import "../styles/Profile.css";
-import "../styles/modals.css";
-import { 
-  CheckCircleFill, 
-  Building, 
-  Globe, 
-  Calendar, 
-  PencilSquare, 
-  PersonCircle 
-} from "react-bootstrap-icons";
 
 const Profile = () => {
-  // Default user data
-  const defaultUserData = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    company: "Acme Corporation",
-    website: "www.acme.com",
-    mrr: "$12,500",
-    role: "Administrator",
-    type: "Enterprise",
-    createDate: "Jan 15, 2024",
-    assignee: "Sarah Johnson",
-    source: "Website",
-    status: ["Active", "Paid"]
+  // Sample user data
+  const userData = {
+    name: "Christian Macaranas",
+    handle: "GalaxyDestroyer@gmail.com",
+    bio: "designer & developer.",
+    nickname: "Chan",
+    stats: {
+      posts: 128,
+      followers: "1m",
+      following: 1,
+    },
   };
 
-  // Load user data from localStorage or use default
-  const [userData, setUserData] = useState(() => {
-    const stored = localStorage.getItem("profileData");
-    return stored ? JSON.parse(stored) : defaultUserData;
-  });
-
-  // Modal state
-  const [showEditModal, setShowEditModal] = useState(false);
-
-  // Form state for editing
-  const [editForm, setEditForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-    website: "",
-    mrr: "",
-    role: "",
-    type: "",
-    assignee: "",
-    source: ""
-  });
-
-  // Save to localStorage whenever userData changes
-  useEffect(() => {
-    localStorage.setItem("profileData", JSON.stringify(userData));
-  }, [userData]);
-
-  // Open edit modal and populate form
-  const handleEditClick = () => {
-    // Extract numeric value from MRR (remove $ and all commas)
-    const mrrValue = userData.mrr ? userData.mrr.replace(/\$|,/g, "") : "";
-    
-    setEditForm({
-      name: userData.name,
-      email: userData.email,
-      company: userData.company,
-      website: userData.website,
-      mrr: mrrValue,
-      role: userData.role,
-      type: userData.type,
-      assignee: userData.assignee,
-      source: userData.source
-    });
-    setShowEditModal(true);
-  };
-
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditForm(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Handle form submission
-  const handleSaveProfile = (e) => {
-    e.preventDefault();
-    
-    // Format MRR with $ and comma
-    const formattedMrr = editForm.mrr 
-      ? `$${parseFloat(editForm.mrr).toLocaleString()}`
-      : userData.mrr;
-
-    // Update user data
-    setUserData({
-      ...userData,
-      name: editForm.name,
-      email: editForm.email,
-      company: editForm.company,
-      website: editForm.website,
-      mrr: formattedMrr,
-      role: editForm.role,
-      type: editForm.type,
-      assignee: editForm.assignee,
-      source: editForm.source
-    });
-
-    setShowEditModal(false);
-    alert("Profile updated successfully!");
-  };
+  // Sample posts/activities
+  const posts = [
+    {
+      id: 1,
+      title: "New Project Launch",
+      description: "Just launched my latest portfolio website",
+      time: "2h ago",
+      type: "project",
+    },
+    {
+      id: 2,
+      title: "Design Inspiration",
+      description: "Sharing some UI/UX design tips",
+      time: "5h ago",
+      type: "post",
+    },
+    {
+      id: 3,
+      title: "Workshop Completed",
+      description: "Finished the React workshop series",
+      time: "1d ago",
+      type: "achievement",
+    },
+    {
+      id: 4,
+      title: "New Collaboration",
+      description: "Working on an exciting new project",
+      time: "2d ago",
+      type: "project",
+    },
+    {
+      id: 5,
+      title: "Article Published",
+      description: "My latest article on design systems",
+      time: "3d ago",
+      type: "post",
+    },
+  ];
 
   return (
     <Layout>
-      {/* Edit Profile Modal */}
-      {showEditModal && (
-        <>
-          <div
-            className="modal fade show"
-            style={{ display: "block" }}
-            tabIndex="-1"
-          >
-            <div className="modal-dialog modal-dialog-centered modal-lg">
-              <div className="modal-content profile-edit-modal">
-                <div className="modal-header profile-modal-header">
-                  <div className="profile-modal-title-wrapper">
-                    <PencilSquare className="profile-modal-icon" />
-                    <h5 className="modal-title">Edit Profile Information</h5>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn-close profile-close-btn"
-                    onClick={() => setShowEditModal(false)}
-                  ></button>
-                </div>
-                <form onSubmit={handleSaveProfile}>
-                  <div className="modal-body">
-                    <div className="row">
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="name"
-                          value={editForm.name}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          name="email"
-                          value={editForm.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Company</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="company"
-                          value={editForm.company}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Website</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="website"
-                          value={editForm.website}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">MRR (Monthly Recurring Revenue)</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          name="mrr"
-                          value={editForm.mrr}
-                          onChange={handleInputChange}
-                          placeholder="12500"
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Role</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="role"
-                          value={editForm.role}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Type</label>
-                        <select
-                          className="form-select"
-                          name="type"
-                          value={editForm.type}
-                          onChange={handleInputChange}
-                          required
-                        >
-                          <option value="Enterprise">Enterprise</option>
-                          <option value="Professional">Professional</option>
-                          <option value="Basic">Basic</option>
-                          <option value="Free">Free</option>
-                        </select>
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label className="form-label">Assignee</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="assignee"
-                          value={editForm.assignee}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-12 mb-3">
-                        <label className="form-label">Source</label>
-                        <select
-                          className="form-select"
-                          name="source"
-                          value={editForm.source}
-                          onChange={handleInputChange}
-                          required
-                        >
-                          <option value="Website">Website</option>
-                          <option value="Referral">Referral</option>
-                          <option value="Social Media">Social Media</option>
-                          <option value="Advertisement">Advertisement</option>
-                          <option value="Other">Other</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="modal-footer profile-modal-footer">
-                    <button
-                      type="button"
-                      className="btn profile-cancel-btn"
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button type="submit" className="btn profile-save-btn">
-                      <CheckCircleFill style={{ marginRight: "8px" }} />
-                      Save Changes
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+      <div className="profile-page">
+      <div className="profile-header-section">
+        {/* Avatar */}
+        <div className="profile-avatar-container">
+          <div className="profile-avatar-circle">
+            {userData.avatar}
           </div>
-          <div className="modal-backdrop show" />
-        </>
-      )}
+        </div>
 
-      <div className="profile-container">
-        <div className="profile-card-wrapper">
-          {/* Header with Edit Button */}
-          <div className="profile-header-actions">
-            <h2 className="profile-page-title">Profile Overview</h2>
-            <button
-              className="profile-edit-btn"
-              onClick={handleEditClick}
-            >
-              <PencilSquare className="edit-icon" />
-              <span>Edit Profile</span>
-            </button>
+        {/* User Info */}
+        <div className="profile-user-info">
+          <h1 className="profile-user-name">{userData.name}</h1>
+          <p className="profile-user-handle">{userData.handle}</p>
+          <p className="profile-user-bio">{userData.bio}</p>
+        </div>
+
+        {/* Quick Action Buttons */}
+        <div className="profile-action-buttons">
+          <button className="profile-action-btn profile-action-btn-primary">
+            <i className="bi bi-pencil"></i>
+            Edit Profile
+          </button>
+          <button className="profile-action-btn profile-action-btn-secondary">
+            <i className="bi bi-share"></i>
+            Share
+          </button>
+          <button className="profile-action-btn profile-action-btn-secondary">
+            <i className="bi bi-chat-dots"></i>
+            Message
+          </button>
+        </div>
+
+        {/* Stats Section */}
+        <div className="profile-stats">
+          <div className="profile-stat-item">
+            <div className="profile-stat-number">{userData.stats.posts}</div>
+            <div className="profile-stat-label">Posts</div>
           </div>
-          {/* Profile Card Container */}
-          <div className="profile-card">
-            {/* Light Beige Header */}
-            <div className="profile-header">
-              {/* Circular Avatar */}
-              <div className="profile-avatar-wrapper">
-                <div className="profile-avatar">
-                  {userData.name.charAt(0).toUpperCase()}
-                </div>
-                {/* Verified Badge */}
-                <div className="profile-verified-badge">
-                  <CheckCircleFill className="verified-icon" />
-                </div>
-              </div>
-            </div>
-
-            {/* Profile Content */}
-            <div className="profile-content">
-              {/* User Name and Email */}
-              <div className="profile-user-info">
-                <div className="profile-name-wrapper">
-                  <h1 className="profile-name">{userData.name}</h1>
-                  <CheckCircleFill className="profile-verified-icon" />
-                </div>
-                <p className="profile-email">{userData.email}</p>
-              </div>
-
-              {/* Status Tags */}
-              <div className="profile-status-tags">
-                {userData.status.map((status, index) => (
-                  <span
-                    key={index}
-                    className={`profile-status-tag ${
-                      status === "Active" ? "status-active" : "status-paid"
-                    }`}
-                  >
-                    {status}
-                  </span>
-                ))}
-              </div>
-
-              {/* Two-Column Field List */}
-              <div className="profile-fields">
-                {/* Company */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Company</div>
-                  <div className="profile-field-value">
-                    <Building className="profile-field-icon" />
-                    <span>{userData.company}</span>
-                  </div>
-                </div>
-
-                {/* Website */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Website</div>
-                  <div className="profile-field-value">
-                    <Globe className="profile-field-icon" />
-                    <span className="profile-link">{userData.website}</span>
-                  </div>
-                </div>
-
-                {/* MRR */}
-                <div className="profile-field">
-                  <div className="profile-field-label">MRR</div>
-                  <div className="profile-field-value profile-field-bold">
-                    {userData.mrr}
-                  </div>
-                </div>
-
-                {/* Role */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Role</div>
-                  <div className="profile-field-value">{userData.role}</div>
-                </div>
-
-                {/* Type */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Type</div>
-                  <div className="profile-field-value">{userData.type}</div>
-                </div>
-
-                {/* Create Date */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Create Date</div>
-                  <div className="profile-field-value">
-                    <Calendar className="profile-field-icon" />
-                    <span>{userData.createDate}</span>
-                  </div>
-                </div>
-
-                {/* Assignee */}
-                <div className="profile-field">
-                  <div className="profile-field-label">Assignee</div>
-                  <div className="profile-field-value">
-                    <PersonCircle className="profile-field-icon" />
-                    <span>{userData.assignee}</span>
-                  </div>
-                </div>
-
-                {/* Source */}
-                <div className="profile-field profile-field-last">
-                  <div className="profile-field-label">Source</div>
-                  <div className="profile-field-value">
-                    <PencilSquare className="profile-field-icon" />
-                    <span>{userData.source}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="profile-stat-item">
+            <div className="profile-stat-number">{userData.stats.followers}</div>
+            <div className="profile-stat-label">Followers</div>
+          </div>
+          <div className="profile-stat-item">
+            <div className="profile-stat-number">{userData.stats.following}</div>
+            <div className="profile-stat-label">Following</div>
           </div>
         </div>
       </div>
+
+      {/* Posts/Activities Section */}
+      <div className="profile-content-section">
+        <h2 className="profile-section-title">Recent Activity</h2>
+        <div className="profile-posts-list">
+          {posts.map((post) => (
+            <div key={post.id} className="profile-post-card">
+              <div className="profile-post-icon">
+                {post.type === "project" && <i className="bi bi-folder"></i>}
+                {post.type === "post" && <i className="bi bi-file-text"></i>}
+                {post.type === "achievement" && <i className="bi bi-trophy"></i>}
+              </div>
+              <div className="profile-post-content">
+                <h3 className="profile-post-title">{post.title}</h3>
+                <p className="profile-post-description">{post.description}</p>
+                <span className="profile-post-time">{post.time}</span>
+              </div>
+              <div className="profile-post-arrow">
+                <i className="bi bi-chevron-right"></i>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
     </Layout>
   );
 };
 
 export default Profile;
+

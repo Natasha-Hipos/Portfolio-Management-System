@@ -63,6 +63,11 @@ const Sidebar = () => {
           <span className="icon-text">Experience</span>
         </Link>
 
+        <Link to="/profile" className="icon-container" onClick={handleLinkClick}>
+          <i className="bi bi-person"></i>
+          <span className="icon-text">Profile</span>
+        </Link>
+
         <Link to="/setting" className="icon-container" onClick={handleLinkClick}>
           <i className="bi bi-gear"></i>
           <span className="icon-text">Settings</span>

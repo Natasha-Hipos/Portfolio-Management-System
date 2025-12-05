@@ -26,10 +26,10 @@ const Navbar = () => {
         {/* Dropdown Menu */}
         {dropdownOpen && (
           <div className="admin-dropdown">
-            <ul>
+            <ul>              
               <li onClick={() => {
                 setDropdownOpen(false);
-                navigate("/setting");
+                navigate("/profile");
               }}>Profile</li>
               <li onClick={() => {
                 setDropdownOpen(false);
