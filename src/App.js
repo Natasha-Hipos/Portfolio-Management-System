@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Project from "./pages/Project";
@@ -14,22 +15,24 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Login Page */}
-        <Route path="/" element={<Login />} />
+    <NotificationProvider>
+      <Router>
+        <Routes>
+          {/* Login Page */}
+          <Route path="/" element={<Login />} />
 
-        {/* Protected Pages */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="/skills" element={<Skills />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/setting" element={<Setting />} />
-        {/* Redirect any unknown routes */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+          {/* Protected Pages */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/project" element={<Project />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/setting" element={<Setting />} />
+          {/* Redirect any unknown routes */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
+    </NotificationProvider>
   );
 };
 

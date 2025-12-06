@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Layout from "../components/Layout";
 import "../styles/project.css";
+import { useNotification } from "../contexts/NotificationContext";
 
 // modal components (located in src/components)
 import AddProjectModal from "../components/AddProjectModal";
@@ -12,6 +13,8 @@ import DeleteModal from "../components/DeleteModal";
 const rowsPerPage = 5;
 
 const Project = () => {
+  const { showNotification } = useNotification();
+
   // Safe loader to avoid corrupted localStorage or invalid types
   const loadProjects = () => {
     try {
@@ -95,6 +98,7 @@ const Project = () => {
       setCurrentPage(pages);
       return next;
     });
+    showNotification("Project added successfully", "success");
   };
 
   // ---------- View ----------
@@ -115,6 +119,7 @@ const Project = () => {
         p.id === updatedProject.id ? { ...p, ...updatedProject } : p
       )
     );
+    showNotification("Project updated successfully", "success");
   };
 
   // ---------- Delete ----------
@@ -130,6 +135,7 @@ const Project = () => {
     );
     setShowDelete(false);
     setSelectedProject(null);
+    showNotification("Project deleted successfully", "success");
   };
 
   // Helpers for rendering
@@ -255,7 +261,7 @@ const Project = () => {
 
         {/* Project Table */}
         <div className="table-responsive mt-4">
-          <table className="table table-hover align-middle">
+          <table className="table align-middle">
             <thead className="table-light">
               <tr>
                 <th>ID</th>
