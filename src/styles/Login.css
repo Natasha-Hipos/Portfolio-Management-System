@@ -131,7 +131,7 @@ footer {
   border: 6px solid #e5e7eb;
   border-top-color: #1e3a8a;
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  animation: spin 0.5s linear infinite;
 }
 
 @keyframes spin {

@@ -9,7 +9,7 @@
 .dashboard h2 {
   color: #0c093d;
   font-weight: bold;
-}
+}              
 
 .dashboard p.text-muted {
   font-style: italic;
@@ -23,6 +23,12 @@
   transition: all 0.3s ease;
 }
 
+.card.stat-card {
+  width: 336px;
+  height: 100px;
+}
+
+
 /* Stat Cards */
 .stat-card {
   width: 336px;
@@ -32,6 +38,7 @@
   border-radius: 30px;
   border: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
 .stat-card:hover {

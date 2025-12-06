@@ -405,10 +405,6 @@ button.btn:hover {
   transition: all 0.2s ease-in-out;
 }
 
-.table tbody tr:hover {
-  transform: scale(1.01);
-}
-
 .table tbody td {
   text-align: left;
   vertical-align: middle;
