@@ -5,10 +5,10 @@ import "../styles/Profile.css";
 const Profile = () => {
   // Sample user data
   const userData = {
-    name: "Christian Macaranas",
-    handle: "GalaxyDestroyer@gmail.com",
-    bio: "designer & developer.",
-    nickname: "Chan",
+    name: "Admin",
+    handle: "Admin@gmail.com",
+    bio: "Designer & Developer.",
+    nickname: "Admin",
     stats: {
       posts: 128,
       followers: "1m",
