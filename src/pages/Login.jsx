@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/Login.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useNotification } from "../contexts/NotificationContext";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
 
   const togglePassword = () => setShowPassword(!showPassword);
@@ -19,24 +19,8 @@ function Login() {
     // Start loading
     setLoading(true);
 
-    //  Show toast
-    toast.success("logged in successfully", {
-      position: "top-center",
-      autoClose: 1200,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        borderRadius: "20px",
-        background: "#fff",
-        color: "#000",
-        fontSize: "16px",
-        fontWeight: "500",
-        padding: "10px 20px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
-      },
-    });
+    // Show notification
+    showNotification("Logged in successfully", "success");
 
     // Redirect after loading
     setTimeout(() => {
@@ -105,9 +89,6 @@ function Login() {
           </button>
         </form>
       </div>
-
-      {/* Toast Container */}
-      <ToastContainer />
 
       <footer className="mt-5 text-muted small">
         © 2025 Portfolio Management System. All rights reserved.

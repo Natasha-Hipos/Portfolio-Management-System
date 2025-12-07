@@ -53,20 +53,21 @@ function SkillFormModal({ show, mode = "add", initial = {}, onClose, onSave }) {
 
   return (
     <>
-      {/* Overlay */}
       <div className="custom-modal-overlay">
         <div className="custom-modal-container">
-
-          {/* Header */}
           <div className="custom-modal-header">
             <h5>{title}</h5>
-            <button className="close-btn" onClick={onClose}>×</button>
+            <button
+              className="close-btn"
+              onClick={onClose}
+              style={{ pointerEvents: "none" }}
+            >
+              ×
+            </button>
           </div>
 
-          {/* Body */}
           <div className="custom-modal-body">
             <form onSubmit={handleSubmit}>
-
               <div className="form-group">
                 <label>Skill Name</label>
                 <input
@@ -107,16 +108,23 @@ function SkillFormModal({ show, mode = "add", initial = {}, onClose, onSave }) {
                 </select>
               </div>
 
-              {/* Footer */}
               <div className="modal-footer">
-                <button type="button" className="cancel-btn" onClick={onClose}>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={onClose}
+                  style={{ pointerEvents: "none" }}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="add-btn">
+                <button
+                  type="submit"
+                  className="add-btn"
+                  style={{ pointerEvents: "none" }}
+                >
                   {saveText}
                 </button>
               </div>
-
             </form>
           </div>
         </div>
@@ -129,41 +137,18 @@ function SkillFormModal({ show, mode = "add", initial = {}, onClose, onSave }) {
    MAIN SKILLS PAGE
    ================== */
 export default function Skills() {
-  const loadSkills = () => {
-    try {
-      const raw = localStorage.getItem("skills");
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  };
+  const staticSkills = [
+    { id: 1, name: "React", level: "Advanced", experience: "2 years", visibility: "Show" },
+    { id: 2, name: "JavaScript", level: "Advanced", experience: "3 years", visibility: "Show" },
+    { id: 3, name: "CSS", level: "Intermediate", experience: "2 years", visibility: "Show" },
+    { id: 4, name: "Node.js", level: "Intermediate", experience: "1 year", visibility: "Show" },
+    { id: 5, name: "Python", level: "Beginner", experience: "6 months", visibility: "Show" },
+    { id: 6, name: "SQL", level: "Advanced", experience: "2 years", visibility: "Show" },
+  ];
 
-  const [skills, setSkills] = useState(loadSkills());
+  const [skills] = useState(staticSkills);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [showForm, setShowForm] = useState(false);
-  const [formMode, setFormMode] = useState("add");
-  const [selectedSkill, setSelectedSkill] = useState(null);
-
-  const [showDelete, setShowDelete] = useState(false);
-
-  useEffect(() => {
-    const stored = loadSkills();
-    const normalized = stored.map((s, i) =>
-      s && s.id ? s : { ...s, id: Date.now() + i }
-    );
-    localStorage.setItem("skills", JSON.stringify(normalized));
-    setSkills(normalized);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("skills", JSON.stringify(skills || []));
-    const totalPages = Math.max(1, Math.ceil(skills.length / rowsPerPage));
-    if (currentPage > totalPages) setCurrentPage(totalPages);
-  }, [skills, currentPage]);
+  const [currentPage] = useState(1);
 
   const filtered = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -175,12 +160,7 @@ export default function Skills() {
     );
   }, [skills, searchTerm]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / rowsPerPage));
-
-  const paginated = useMemo(() => {
-    const start = (currentPage - 1) * rowsPerPage;
-    return filtered.slice(start, start + rowsPerPage);
-  }, [filtered, currentPage]);
+  const paginated = filtered.slice(0, rowsPerPage);
 
   const totalSkills = skills.length;
   const expertCount = skills.filter(
@@ -200,74 +180,13 @@ export default function Skills() {
     return Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
   })();
 
-  const openAdd = () => {
-    setFormMode("add");
-    setSelectedSkill(null);
-    setShowForm(true);
-  };
-
-  const handleSaveNew = (skill) => {
-    setSkills((prev) => [...prev, skill]);
-  };
-
-  const openEdit = (skill) => {
-    setFormMode("edit");
-    setSelectedSkill(skill);
-    setShowForm(true);
-  };
-
-  const handleUpdate = (updated) => {
-    setSkills((prev) =>
-      prev.map((s) => (s.id === updated.id ? updated : s))
-    );
-  };
-
-  const openDelete = (skill) => {
-    setSelectedSkill(skill);
-    setShowDelete(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (!selectedSkill) return;
-    setSkills((prev) => prev.filter((s) => s.id !== selectedSkill.id));
-    setSelectedSkill(null);
-  };
-
-  const goPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
-  const goNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
-
   return (
     <Layout>
-      {/* Custom modal */}
-      <SkillFormModal
-        show={showForm}
-        mode={formMode}
-        initial={selectedSkill || {}}
-        onClose={() => {
-          setShowForm(false);
-          setSelectedSkill(null);
-        }}
-        onSave={(skill) => {
-          if (formMode === "edit") handleUpdate(skill);
-          else handleSaveNew(skill);
-        }}
-      />
-
-      {/* Delete modal */}
-      <DeleteModal
-        show={showDelete}
-        onClose={() => setShowDelete(false)}
-        onConfirm={handleConfirmDelete}
-        itemName="skill"
-      />
-
-      {/* Page Content */}
       <section className="skills px-4 py-4">
-
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
             <h2 className="fw-bold mb-0">Skills</h2>
-            <p className="text-muted">Manage your professional skills</p>
+            <p className="text-muted">Professional skills overview</p>
           </div>
         </div>
 
@@ -300,7 +219,12 @@ export default function Skills() {
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h3 className="fw-bold project-title">Skill Management</h3>
-            <button className="btn btn-primary rounded-pill px-4" onClick={openAdd}>
+
+            {/* STATIC ADD BUTTON */}
+            <button
+              className="btn btn-primary rounded-pill px-4"
+              style={{ pointerEvents: "none" }}
+            >
               <i className="fa-solid fa-plus me-2"></i>Add Skill
             </button>
           </div>
@@ -313,16 +237,13 @@ export default function Skills() {
               className="form-control"
               placeholder="Search skills..."
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1);
-              }}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
           {/* Table */}
           <div className="table-container">
-            <table className="table table-hover align-middle">
+            <table className="table align-middle">
               <thead className="table-light">
                 <tr>
                   <th>ID</th>
@@ -344,8 +265,7 @@ export default function Skills() {
                 ) : (
                   paginated.map((skill, idx) => (
                     <tr key={skill.id}>
-                      <td>{(currentPage - 1) * rowsPerPage + idx + 1}</td>
-
+                      <td>{idx + 1}</td>
                       <td>{skill.name}</td>
 
                       <td>
@@ -364,10 +284,20 @@ export default function Skills() {
 
                       <td>
                         <div className="d-flex gap-2">
-                          <button className="action-btn edit-btn" onClick={() => openEdit(skill)}>
+
+                          {/* STATIC EDIT BUTTON */}
+                          <button
+                            className="action-btn edit-btn"
+                            style={{ pointerEvents: "none" }}
+                          >
                             <i className="bi bi-pencil"></i>
                           </button>
-                          <button className="action-btn delete-btn" onClick={() => openDelete(skill)}>
+
+                          {/* STATIC DELETE BUTTON */}
+                          <button
+                            className="action-btn delete-btn"
+                            style={{ pointerEvents: "none" }}
+                          >
                             <i className="bi bi-trash"></i>
                           </button>
                         </div>
@@ -381,11 +311,19 @@ export default function Skills() {
 
           {/* Pagination */}
           <div className="table-pagination">
-            <button className="page-btn" onClick={goPrev} disabled={currentPage <= 1}>
+            <button
+              className="page-btn"
+              style={{ pointerEvents: "none" }}
+            >
               &lt;
             </button>
-            <span className="current-page">{currentPage}</span>
-            <button className="page-btn" onClick={goNext} disabled={currentPage >= totalPages}>
+
+            <span className="current-page">1</span>
+
+            <button
+              className="page-btn"
+              style={{ pointerEvents: "none" }}
+            >
               &gt;
             </button>
           </div>

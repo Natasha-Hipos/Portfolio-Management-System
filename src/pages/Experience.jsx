@@ -92,7 +92,6 @@ function ExperienceFormModal({ show, mode = "add", initial = {}, onClose, onSave
               </select>
             </div>
 
-
             <div className="form-group">
               <label>Duration</label>
               <input
@@ -122,28 +121,17 @@ function ExperienceFormModal({ show, mode = "add", initial = {}, onClose, onSave
    MAIN EXPERIENCE PAGE
 ================================================= */
 export default function Experience() {
-
-  //  Only ONE typeClass
   const typeClass = (type) =>
     `type-badge type-${type.toLowerCase().replace(/\s+/g, "")}`;
 
-  const loadExperiences = () => {
-    try {
-      const raw = localStorage.getItem("experiences");
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  };
+  const staticExperiences = [
+    { id: 1, role: "Frontend Developer", company: "Tech Corp Inc.", type: "Professional", duration: "Jan 2023 - Present" },
+    { id: 2, role: "Junior Developer", company: "Web Solutions Ltd.", type: "Professional", duration: "Jun 2022 - Dec 2022" },
+    { id: 3, role: "Intern Developer", company: "StartUp XYZ", type: "Internship", duration: "Jan 2022 - May 2022" },
+    { id: 4, role: "Freelance Developer", company: "Self-Employed", type: "Freelance", duration: "Aug 2021 - Dec 2021" },
+  ];
 
-  const [experiences, setExperiences] = useState(() => {
-    const stored = loadExperiences();
-    const normalized = (stored || []).map((e, i) => ({ ...e, id: i + 1 }));
-    localStorage.setItem("experiences", JSON.stringify(normalized));
-    return normalized;
-  });
+  const [experiences, setExperiences] = useState(staticExperiences);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -156,7 +144,6 @@ export default function Experience() {
   const [selectedToDelete, setSelectedToDelete] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("experiences", JSON.stringify(experiences));
     const pages = Math.max(1, Math.ceil(experiences.length / rowsPerPage));
     if (currentPage > pages) setCurrentPage(pages);
   }, [experiences, currentPage]);
@@ -207,55 +194,14 @@ export default function Experience() {
     return Math.round((totalMonths / 12) * 10) / 10;
   }, [experiences]);
 
-  const openAdd = () => {
-    setSearchTerm("");
-    setFormMode("add");
-    setSelectedExp(null);
-    setShowForm(true);
-  };
+  /* Disable adding/editing/deleting */
+  const openAdd = () => {};
+  const openEdit = () => {};
+  const openDelete = () => {};
+  const handleSave = () => {};
 
-  const openEdit = (exp) => {
-    setFormMode("edit");
-    setSelectedExp(exp);
-    setShowForm(true);
-  };
-
-  const handleSave = (payload) => {
-    if (formMode === "add") {
-      setExperiences((prev) => {
-        const nextId = prev.length > 0 ? Math.max(...prev.map((p) => p.id)) + 1 : 1;
-        const newItem = { ...payload, id: nextId };
-        const updated = [...prev, newItem];
-        setCurrentPage(Math.ceil(updated.length / rowsPerPage));
-        return updated;
-      });
-    } else {
-      setExperiences((prev) =>
-        prev.map((p) => (p.id === payload.id ? { ...p, ...payload } : p))
-      );
-    }
-  };
-
-  const openDelete = (exp) => {
-    setSelectedToDelete(exp);
-    setShowDelete(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (!selectedToDelete) return;
-    setExperiences((prev) => {
-      const next = prev.filter((p) => p.id !== selectedToDelete.id);
-      const resequenced = next.map((item, idx) => ({ ...item, id: idx + 1 }));
-      const pages = Math.ceil(resequenced.length / rowsPerPage);
-      setCurrentPage((cur) => Math.min(cur, pages));
-      return resequenced;
-    });
-    setSelectedToDelete(null);
-    setShowDelete(false);
-  };
-
-  const goPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
-  const goNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
+  const goPrev = () => {};
+  const goNext = () => {};
 
   return (
     <Layout>
@@ -276,7 +222,7 @@ export default function Experience() {
           setShowDelete(false);
           setSelectedToDelete(null);
         }}
-        onConfirm={handleConfirmDelete}
+        onConfirm={() => {}}
         itemName="experience"
       />
 
@@ -308,7 +254,12 @@ export default function Experience() {
         <section className="experience-management px-4 py-4">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h3 className="fw-bold">Experience Management</h3>
-            <button className="btn btn-primary rounded-pill px-4" onClick={openAdd}>
+
+            {/* STATIC ADD BUTTON */}
+            <button
+              className="btn btn-primary rounded-pill px-4"
+              style={{ pointerEvents: "none" }}
+            >
               <i className="fa-solid fa-plus me-2"></i>Add Experience
             </button>
           </div>
@@ -328,7 +279,7 @@ export default function Experience() {
           </div>
 
           <div className="table-responsive mt-4">
-            <table className="table table-hover align-middle">
+            <table className="table align-middle">
               <thead className="table-light">
                 <tr>
                   <th>ID</th>
@@ -361,20 +312,25 @@ export default function Experience() {
                       <td>{exp.duration}</td>
                       <td>
                         <div className="d-flex gap-2">
+
+                          {/* STATIC EDIT BUTTON */}
                           <button
                             className="action-btn"
                             title="Edit"
-                            onClick={() => openEdit(exp)}
+                            style={{ pointerEvents: "none" }}
                           >
                             <i className="bi bi-pencil"></i>
                           </button>
+
+                          {/* STATIC DELETE BUTTON */}
                           <button
                             className="action-btn"
                             title="Delete"
-                            onClick={() => openDelete(exp)}
+                            style={{ pointerEvents: "none" }}
                           >
                             <i className="bi bi-trash"></i>
                           </button>
+
                         </div>
                       </td>
                     </tr>
@@ -385,19 +341,15 @@ export default function Experience() {
           </div>
 
           <div className="table-pagination">
-            <button
-              className="page-btn"
-              onClick={goPrev}
-              disabled={currentPage <= 1}
-            >
+
+            {/* STATIC PAGINATION BUTTONS */}
+            <button className="page-btn" style={{ pointerEvents: "none" }}>
               &lt;
             </button>
+
             <span className="current-page">{currentPage}</span>
-            <button
-              className="page-btn"
-              onClick={goNext}
-              disabled={currentPage >= totalPages}
-            >
+
+            <button className="page-btn" style={{ pointerEvents: "none" }}>
               &gt;
             </button>
           </div>

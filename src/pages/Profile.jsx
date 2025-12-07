@@ -5,10 +5,15 @@ import "../styles/Profile.css";
 const Profile = () => {
   // Sample user data
   const userData = {
-    name: "imissyou",
+    name: "Christian Macaranas",
     handle: "GalaxyDestroyer@gmail.com",
     bio: "designer & developer.",
     nickname: "Chan",
+    stats: {
+      posts: 128,
+      followers: "1m",
+      following: 1,
+    },
   };
 
   // Get initials for avatar

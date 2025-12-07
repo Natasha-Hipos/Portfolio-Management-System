@@ -1,0 +1,64 @@
+.notification-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+.notification-content {
+  width: 300px;
+  height: 64px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.notification-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.notification-icon.success {
+  color: #28a745;
+}
+
+.notification-icon.error {
+  color: #dc3545;
+}
+
+.notification-message {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Entrance animation */
+@keyframes slideDownFadeIn {
+  0% {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.notification-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+
+  /* Add entrance animation */
+  animation: slideDownFadeIn 0.5s ease forwards;
+}
