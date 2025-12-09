@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutModal from "../components/LogoutModal";
+import { useNotification } from "../contexts/NotificationContext";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
   const [showLogout, setShowLogout] = useState(false);
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
@@ -63,6 +65,16 @@ const Sidebar = () => {
           <span className="icon-text">Experience</span>
         </Link>
 
+        <Link to="/profile" className="icon-container" onClick={handleLinkClick}>
+          <i className="bi bi-person"></i>
+          <span className="icon-text">Profile</span>
+        </Link>
+
+        <Link to="/setting" className="icon-container" onClick={handleLinkClick}>
+          <i className="bi bi-gear"></i>
+          <span className="icon-text">Settings</span>
+        </Link>
+
         <hr className="sidebar-divider mt-auto" />
 
         <button
@@ -79,7 +91,10 @@ const Sidebar = () => {
         onClose={() => setShowLogout(false)}
         onConfirm={() => {
           setShowLogout(false);
-          navigate("/");
+          showNotification("Logged out successfully", "success");
+          setTimeout(() => {
+            navigate("/");
+          }, 500);
         }}
       />
     </>

@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/Login.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useNotification } from "../contexts/NotificationContext";
 
 function Login() {
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -16,24 +16,8 @@ function Login() {
     // Start loading
     setLoading(true);
 
-    //  Show toast
-    toast.success("logged in successfully", {
-      position: "top-center",
-      autoClose: 1200,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        borderRadius: "20px",
-        background: "#fff",
-        color: "#000",
-        fontSize: "16px",
-        fontWeight: "500",
-        padding: "10px 20px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
-      },
-    });
+    // Show notification
+    showNotification("Logged in successfully", "success");
 
     // Redirect after loading
     setTimeout(() => {
@@ -53,13 +37,15 @@ function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-box text-center shadow-lg">
-        <h2 className="fw-bold mb-2">Login</h2>
-        <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        <div className="login-header">
+          <h2 className="fw-bold mb-2">Login</h2>
+          <p className="text-muted mb-4">Portfolio Admin Dashboard</p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3 text-start">
-            <label htmlFor="username" className="form-label fw-semibold">
-              Username
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
             </label>
             <div className="input-group">
               <span className="input-group-text bg-white">
@@ -68,7 +54,7 @@ function Login() {
               <input
                 type="email"
                 className="form-control"
-                id="username"
+                id="email"
                 placeholder="Enter Email"
                 required
               />
@@ -98,9 +84,6 @@ function Login() {
           </button>
         </form>
       </div>
-
-      {/* Toast Container */}
-      <ToastContainer />
 
       <footer className="mt-5 text-muted small">
         © 2025 Portfolio Management System. All rights reserved.

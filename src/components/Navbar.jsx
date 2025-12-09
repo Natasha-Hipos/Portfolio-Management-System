@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar-section d-flex justify-content-between align-items-center px-4 py-3">
+      
+      {/* Search Box */}
       <div className="search-box">
+        <i className="fa-solid fa-magnifying-glass search-icon"></i>
         <input type="text" className="form-control" placeholder="Search" />
-        <i className="fa-solid fa-magnifying-glass"></i>
       </div>
-      <div className="admin-info d-flex align-items-center">
+
+      {/* Admin Info */}
+      <div
+        className={`admin-info d-flex align-items-center ${dropdownOpen ? "active" : ""}`}
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+      >
         <span className="fw-bold me-2">Admin</span>
         <i className="fa-solid fa-user-circle fa-2x"></i>
+
+        {/* Dropdown Menu */}
+        {dropdownOpen && (
+          <div className="admin-dropdown">
+            <ul>              
+              <li onClick={() => {
+                setDropdownOpen(false);
+                navigate("/profile");
+              }}>Profile</li>
+              <li onClick={() => {
+                setDropdownOpen(false);
+                navigate("/setting");
+              }}>Settings</li>
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );

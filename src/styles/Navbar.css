@@ -1,6 +1,4 @@
-/* =====================================================
-   NAVBAR
-===================================================== */
+/* NAVBAR */
 .navbar-section {
   background-color: #0c093d;
   color: white;
@@ -14,6 +12,11 @@
   right: 0;
   z-index: 3000 !important; /* HIGHER THAN SIDEBAR */
   height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 body.sidebar-expanded .navbar-section {
@@ -21,7 +24,7 @@ body.sidebar-expanded .navbar-section {
   width: calc(100% - 220px) !important;
 }
 
-/* Search Box */
+/* SEARCH BOX */
 .search-box {
   position: relative;
   display: inline-block;
@@ -30,8 +33,14 @@ body.sidebar-expanded .navbar-section {
 .search-box input {
   border-radius: 25px;
   border: none;
-  padding: 6px 12px 6px 40px;
+  padding: 8px 16px 8px 40px;
   max-width: 250px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search-box input:focus {
+  box-shadow: 0 0 8px rgba(255,255,255,0.3);
 }
 
 .search-box i {
@@ -41,33 +50,71 @@ body.sidebar-expanded .navbar-section {
   transform: translateY(-50%);
   color: #6c757d;
   pointer-events: none;
+  transition: color 0.2s ease;
 }
 
-/* Admin Info */
-.admin-info span {
-  font-weight: bold;
-}
-
-.admin-info i {
+.search-box input:focus + i {
   color: white;
 }
 
-/* When sidebar is hovered, adjust navbar position and width */
+/* ADMIN INFO */
+.admin-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-info:hover i {
+  transform: scale(1.1);
+}
+
+.admin-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  background-color: #0c093d;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+}
+
+.admin-info.active .admin-dropdown {
+  display: block;
+}
+
+.admin-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-dropdown li {
+  padding: 10px 16px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-dropdown li:hover {
+  background-color: #1a1570;
+}
+
+/* SIDEBAR HOVER INTERACTION */
 .sidebar:hover ~ .navbar-section {
   margin-left: 210px;
   width: calc(100% - 230px);
-  transition: all 0.3s ease;
 }
 
-/* Smooth transition for both sidebar and navbar */
 .sidebar,
 .navbar-section {
   transition: all 0.3s ease;
 }
 
-/* =====================================================
-   RESPONSIVE DESIGN (Sidebar + Navbar)
-===================================================== */
+/* RESPONSIVE */
 @media (max-width: 480px) {
   .sidebar {
     display: none;
@@ -76,6 +123,15 @@ body.sidebar-expanded .navbar-section {
     height: 56px;
     padding: 6px 8px;
     border-radius: 0;
+<<<<<<< HEAD
+=======
+    padding: 10px;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .search-box input {
+    max-width: 120px;
+>>>>>>> 7cdbf6f3a81be285ea390f3bfc02faf0cf7884e4
   }
 }
 
@@ -89,6 +145,7 @@ body.sidebar-expanded .navbar-section {
   }
 }
 
+<<<<<<< HEAD
 @media (max-width: 768px) {
   .icon-container {
     justify-content: center !important;
@@ -131,6 +188,8 @@ body.sidebar-expanded .navbar-section {
   }
 }
 
+=======
+>>>>>>> 7cdbf6f3a81be285ea390f3bfc02faf0cf7884e4
 @media (min-width: 769px) and (max-width: 1200px) {
   .sidebar {
     width: 80px;
