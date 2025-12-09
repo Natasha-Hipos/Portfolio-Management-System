@@ -7,11 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
-
-  const togglePassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,14 +84,12 @@ function Login() {
                 <i className="bi bi-lock"></i>
               </span>
               <input
+                type="password"
                 className="form-control"
                 id="password"
                 placeholder="Enter Password"
                 required
               />
-              <span className="input-group-text bg-white" onClick={togglePassword} style={{ cursor: "pointer" }}>
-                <i className={`bi ${showPassword ? "bi-eye": "bi-eye-slash"}`}></i>
-              </span>
             </div>
           </div>
 

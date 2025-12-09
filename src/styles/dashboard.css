@@ -4,6 +4,7 @@
 .dashboard {
   margin-left: 20px; /* smaller internal spacing */
   transition: margin-left 0.3s ease;
+  padding-top: 90px; /* space for navbar height */
 }
 
 .dashboard h2 {
@@ -307,4 +308,61 @@ button.btn:hover {
 
 .recent-activity ul li:last-child {
   border-bottom: none;
+}
+
+/* When sidebar is expanded (desktop) push content over */
+body.sidebar-expanded .dashboard {
+  margin-left: 220px;
+}
+
+/* Responsive stacking and spacing for smaller screens */
+@media (max-width: 768px) {
+  .dashboard {
+    margin-left: 0;
+    padding-top: 110px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* stack project/deadline cards and analytics vertically */
+  .d-flex.flex-wrap.gap-3 {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .project-card,
+  .deadline-card,
+  .analytics-card,
+  .stat-card {
+    flex: 1 1 100%;
+    min-width: unset;
+    width: 100%;
+    height: auto;
+  }
+
+  .static-bar-chart {
+    height: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .circular-chart {
+    margin: 0 auto 18px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .dashboard {
+    padding-top: 100px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  button.btn {
+    width: 100%;
+    padding: 10px;
+  }
 }

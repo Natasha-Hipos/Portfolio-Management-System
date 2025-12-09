@@ -265,3 +265,66 @@
 .navbar-section {
   transition: all 0.3s ease;
 }
+
+/* Responsive adjustments: convert sidebar to bottom bar on small screens,
+   hide long text and disable hover-expansion behavior for touch devices. */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: 68px;
+    width: 100%;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+    padding: 6px 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 5000;
+  }
+
+  /* Disable wide hover expansion on touch; keep simple tap-friendly icons */
+  .sidebar:hover {
+    width: 100%;
+  }
+
+  /* hide long titles and helper text to conserve space */
+  .portfolio-admin,
+  .icon-text,
+  .sidebar-divider,
+  .logout-btn {
+    display: none !important;
+  }
+
+  .icon-container {
+    height: 48px;
+    padding: 0;
+    margin: 0 6px;
+    justify-content: center !important;
+  }
+
+  .icon-container i {
+    font-size: 20px;
+  }
+
+  /* make sure navbar doesn't shift when sidebar changes on small screens */
+  .sidebar:hover ~ .navbar-section,
+  .sidebar ~ .navbar-section {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Extra small devices tweaks */
+@media (max-width: 480px) {
+  .sidebar {
+    height: 60px;
+    padding: 6px 6px;
+  }
+  .icon-container i {
+    font-size: 18px;
+  }
+}

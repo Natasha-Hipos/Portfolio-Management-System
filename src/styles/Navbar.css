@@ -73,8 +73,9 @@ body.sidebar-expanded .navbar-section {
     display: none;
   }
   .navbar-section {
+    height: 56px;
+    padding: 6px 8px;
     border-radius: 0;
-    padding: 10px;
   }
 }
 
@@ -92,6 +93,41 @@ body.sidebar-expanded .navbar-section {
   .icon-container {
     justify-content: center !important;
     padding-left: 20px !important;
+  }
+
+  .navbar-section {
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    height: 64px;
+    padding: 8px 10px;
+  }
+
+  /* reduce search input width and reposition icons */
+  .search-box input {
+    max-width: 160px;
+    padding-left: 36px;
+  }
+
+  .search-box i {
+    left: 10px;
+  }
+
+  /* compact admin area: hide text label, keep avatar/icon */
+  .admin-info span {
+    display: none;
+  }
+
+  .admin-info {
+    gap: 8px;
+  }
+
+  /* ensure navbar doesn't get offset when sidebar becomes bottom bar */
+  .sidebar:hover ~ .navbar-section,
+  .sidebar ~ .navbar-section {
+    margin-left: 0;
+    width: 100%;
   }
 }
 

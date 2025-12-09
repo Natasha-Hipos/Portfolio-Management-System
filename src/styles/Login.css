@@ -86,6 +86,11 @@
   color: #6c757d;
 }
 
+/* Remove extra spacing so no hidden icon appears */
+#password {
+  padding-right: 15px !important;
+}
+
 footer {
   position: absolute;
   bottom: 15px;
