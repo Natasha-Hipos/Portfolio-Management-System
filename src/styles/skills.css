@@ -4,19 +4,9 @@
 
 .skills {
   margin: 0 auto;
-  max-width: 1100px;
   padding-left: 12px;
-  transition: margin-left 0.3s ease;
+  width: min(1400px, calc(100% - 48px)); /* fluid up to 1400px */
 }
-
-.skills {
-  margin: 0 auto;
-  max-width: 1100px;
-  padding: 20px 25px; /* adds a little breathing room under navbar */
-  padding-left: 12px;
-  transition: margin-left 0.3s ease;
-}
-
 
 
 body.sidebar-collapsed .skills {
