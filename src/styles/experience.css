@@ -2,9 +2,13 @@
    EXPERIENCE
 ================= */
 .experience {
-  margin-left: 20px; /* smaller internal spacing */
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 20px 25px; /* adds a little breathing room under navbar */
+  padding-left: 12px;
   transition: margin-left 0.3s ease;
 }
+
 
 .experience h2 {
   color: #0c093d;
@@ -396,6 +400,28 @@ button.btn:hover {
   padding: 14px 8px;
   border: none;
   vertical-align: middle;
+}
+
+/* Mobile-only: allow horizontal swipe on Experience table without page overflow */
+@media (max-width: 768px) {
+  .table-mobile-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  .table-mobile-scroll table {
+    width: max-content; /* let table be as wide as needed so columns are swipeable */
+    table-layout: auto; /* allow natural column sizing */
+  }
+
+  .table-mobile-scroll th,
+  .table-mobile-scroll td {
+    white-space: normal; /* allow wrap */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 280px; /* prevent extremely long single-line cells */
+  }
 }
 
 .table tbody tr {

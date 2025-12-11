@@ -2,7 +2,9 @@
    DASHBOARD
 ===================================================== */
 .dashboard {
-  margin-left: 20px; /* smaller internal spacing */
+  margin: 0 auto;
+  max-width: 1100px;
+  padding-left: 12px;
   transition: margin-left 0.3s ease;
 }
 
@@ -297,6 +299,24 @@ button.btn:hover {
   }
 }
 
+/* Scale card text and icons down progressively on smaller screens */
+@media (max-width: 768px) {
+  .stat-card p { font-size: 0.95rem; }
+  .stat-card h3 { font-size: 1.25rem; }
+  .stat-card i { font-size: 1.25rem; }
+
+  .project-card h5, .analytics-card h5 { font-size: 1.05rem; }
+  .project-card p.small, .project-card .text-light.small { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .stat-card p { font-size: 0.85rem; }
+  .stat-card h3 { font-size: 1.05rem; }
+  .stat-card i { font-size: 1rem; }
+
+  .project-card h5, .analytics-card h5 { font-size: 0.95rem; }
+  .project-card p.small, .project-card .text-light.small { font-size: 0.85rem; }
+}
 
 /* Recent Activity */
 .recent-activity {
@@ -314,4 +334,26 @@ button.btn:hover {
 
 .recent-activity ul li:last-child {
   border-bottom: none;
+}
+
+/* Prevent card text overflow and clipping inside flex containers */
+.project-card,
+.deadline-card,
+.analytics-card,
+.stat-card,
+.recent-activity {
+  min-width: 0; /* allow flex items to shrink properly */
+}
+
+.project-card h5,
+.project-card h4,
+.project-card p,
+.deadline-card p,
+.analytics-card p,
+.stat-card p,
+.recent-activity p,
+.stat-card h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal; /* allow wrapping instead of clipping */
 }

@@ -16,11 +16,21 @@ body {
   z-index: 999;
 }
 
+/* Prevent page-level horizontal scrolling while allowing inner containers to scroll */
+html,
+body {
+  overflow-x: hidden;
+}
+
+main {
+  overflow-x: hidden; /* ensure main doesn't create horizontal scroll */
+}
+
 /* CSS variables for sidebar widths so main adjusts automatically */
 :root {
   --sidebar-collapsed: 91px;
   --sidebar-expanded: 200px;
-  --sidebar-gap: 20px; /* space between sidebar and content */
+  --sidebar-gap: 12px; /* space between sidebar and content (reduced) */
   --sidebar-width: var(--sidebar-collapsed);
 }
 
@@ -34,6 +44,21 @@ main {
   padding-left: calc(var(--sidebar-width) + var(--sidebar-gap));
   transition: padding-left 0.3s ease, all 0.3s ease;
   min-height: 100vh;
+}
+
+/* Keep scrollable table containers constrained to viewport width */
+.table-responsive,
+.table-container {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make elements respect container width to avoid accidental overflow */
+img,
+svg,
+iframe {
+  max-width: 100%;
+  height: auto;
 }
 
 

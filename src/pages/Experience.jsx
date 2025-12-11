@@ -60,7 +60,6 @@ function ExperienceFormModal({ show, mode = "add", initial = {}, onClose, onSave
 
         <form onSubmit={handleSubmit}>
           <div className="custom-modal-body">
-
             <div className="form-group">
               <label>Role / Position</label>
               <input
@@ -83,7 +82,6 @@ function ExperienceFormModal({ show, mode = "add", initial = {}, onClose, onSave
 
             <div className="form-group">
               <label>Type</label>
-
               <select value={type} onChange={(e) => setType(e.target.value)}>
                 <option>Professional</option>
                 <option>Academic</option>
@@ -128,18 +126,15 @@ export default function Experience() {
     { id: 1, role: "Frontend Developer", company: "Tech Corp Inc.", type: "Professional", duration: "Jan 2023 - Present" },
     { id: 2, role: "Junior Developer", company: "Web Solutions Ltd.", type: "Professional", duration: "Jun 2022 - Dec 2022" },
     { id: 3, role: "Intern Developer", company: "StartUp XYZ", type: "Internship", duration: "Jan 2022 - May 2022" },
-    { id: 4, role: "Freelance Developer", company: "Self-Employed", type: "Freelance", duration: "Aug 2021 - Dec 2021" },
+    { id: 4, role: "Designer", company: "Self-Employed", type: "Freelance", duration: "Aug 2021 - Dec 2021" },
   ];
 
   const [experiences, setExperiences] = useState(staticExperiences);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
   const [showForm, setShowForm] = useState(false);
   const [formMode, setFormMode] = useState("add");
   const [selectedExp, setSelectedExp] = useState(null);
-
   const [showDelete, setShowDelete] = useState(false);
   const [selectedToDelete, setSelectedToDelete] = useState(null);
 
@@ -170,7 +165,6 @@ export default function Experience() {
 
   const yearsExperience = useMemo(() => {
     if (!experiences.length) return 0;
-
     const parse = (str) => {
       if (!str) return null;
       const [m, y] = str.split(" ");
@@ -179,9 +173,7 @@ export default function Experience() {
       if (idx === -1 || isNaN(Number(y))) return null;
       return new Date(Number(y), idx, 1);
     };
-
     let totalMonths = 0;
-
     experiences.forEach((exp) => {
       const [startStr, endStr] = (exp.duration || "").split(" - ");
       const start = parse(startStr);
@@ -190,7 +182,6 @@ export default function Experience() {
         totalMonths += (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
       }
     });
-
     return Math.round((totalMonths / 12) * 10) / 10;
   }, [experiences]);
 
@@ -199,9 +190,9 @@ export default function Experience() {
   const openEdit = () => {};
   const openDelete = () => {};
   const handleSave = () => {};
-
-  const goPrev = () => {};
-  const goNext = () => {};
+  const goPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
+  const goNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
+  const goToPage = (n) => setCurrentPage(Math.max(1, Math.min(totalPages, n)));
 
   return (
     <Layout>
@@ -246,7 +237,7 @@ export default function Experience() {
           </div>
 
           <div className="card stat-card text-center">
-            <p>Years of Experience</p>
+            <p>Years of Exp</p>
             <h3><i className="bi bi-clock-history"></i> {yearsExperience} Years</h3>
           </div>
         </div>
@@ -278,6 +269,7 @@ export default function Experience() {
             />
           </div>
 
+          {/* TABLE */}
           <div className="table-responsive mt-4">
             <table className="table align-middle">
               <thead className="table-light">
@@ -312,7 +304,6 @@ export default function Experience() {
                       <td>{exp.duration}</td>
                       <td>
                         <div className="d-flex gap-2">
-
                           {/* STATIC EDIT BUTTON */}
                           <button
                             className="action-btn"
@@ -330,7 +321,6 @@ export default function Experience() {
                           >
                             <i className="bi bi-trash"></i>
                           </button>
-
                         </div>
                       </td>
                     </tr>
@@ -341,17 +331,9 @@ export default function Experience() {
           </div>
 
           <div className="table-pagination">
-
-            {/* STATIC PAGINATION BUTTONS */}
-            <button className="page-btn" style={{ pointerEvents: "none" }}>
-              &lt;
-            </button>
-
-            <span className="current-page">{currentPage}</span>
-
-            <button className="page-btn" style={{ pointerEvents: "none" }}>
-              &gt;
-            </button>
+            <button className="page-btn" onClick={goPrev}>&lt;</button>
+            <span className="current-page" onClick={() => goToPage(1)}>{currentPage}</span>
+            <button className="page-btn" onClick={goNext}>&gt;</button>
           </div>
         </section>
       </section>

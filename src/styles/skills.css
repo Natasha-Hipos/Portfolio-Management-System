@@ -1,11 +1,23 @@
 /* =====================================================
    SKILLS PAGE CONTENT STYLES ONLY
 ===================================================== */
+
 .skills {
-  margin-left: 20px;
-  padding: 20px 25px; /* adds a little breathing room under navbar */
+  margin: 0 auto;
+  max-width: 1100px;
+  padding-left: 12px;
   transition: margin-left 0.3s ease;
 }
+
+.skills {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 20px 25px; /* adds a little breathing room under navbar */
+  padding-left: 12px;
+  transition: margin-left 0.3s ease;
+}
+
+
 
 body.sidebar-collapsed .skills {
   margin-left: 20px; /* keep consistent */
@@ -618,4 +630,42 @@ body.sidebar-collapsed .skills {
   .skills {
     padding: 30px;
   }
+}
+
+/* Scale card text and icons down progressively on smaller screens */
+@media (max-width: 768px) {
+  .stat-card p { font-size: 0.95rem; }
+  .stat-card h3 { font-size: 1.25rem; }
+  .stat-card i { font-size: 1.25rem; }
+
+  .project-card h5 { font-size: 1.05rem; }
+  .project-card p.small { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .stat-card p { font-size: 0.85rem; }
+  .stat-card h3 { font-size: 1.05rem; }
+  .stat-card i { font-size: 1rem; }
+
+  .project-card h5 { font-size: 0.95rem; }
+  .project-card p.small { font-size: 0.85rem; }
+}
+
+/* Prevent card text overflow and clipping inside flex containers */
+.project-card,
+.deadline-card,
+.analytics-card,
+.stat-card {
+  min-width: 0; /* allow flex items to shrink properly */
+}
+
+.project-card h5,
+.project-card p,
+.deadline-card p,
+.analytics-card p,
+.stat-card p,
+.stat-card h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal; /* allow wrapping instead of clipping */
 }
