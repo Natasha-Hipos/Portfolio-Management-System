@@ -16,18 +16,24 @@ body {
   z-index: 999;
 }
 
+/* CSS variables for sidebar widths so main adjusts automatically */
+:root {
+  --sidebar-collapsed: 91px;
+  --sidebar-expanded: 200px;
+  --sidebar-gap: 20px; /* space between sidebar and content */
+  --sidebar-width: var(--sidebar-collapsed);
+}
+
+body.sidebar-expanded {
+  --sidebar-width: var(--sidebar-expanded);
+}
 
 /* Main content position relative to navbar + sidebar */
 main {
-  padding-top: 70px;  /* space below navbar */
-  padding-left: 190px; /* sidebar collapsed width */
-  transition: all 0.3s ease;
+  padding-top: 70px; /* space below navbar */
+  padding-left: calc(var(--sidebar-width) + var(--sidebar-gap));
+  transition: padding-left 0.3s ease, all 0.3s ease;
   min-height: 100vh;
-}
-
-/* When sidebar expands */
-body.sidebar-expanded main {
-  padding-left: 190px; /* sidebar expanded width */
 }
 
 

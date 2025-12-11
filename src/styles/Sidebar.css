@@ -5,7 +5,7 @@
   background-color: #0c093d;
   color: white;
   height: 98vh;
-  width: 91px;
+  width: var(--sidebar-collapsed);
   margin: 10px 5px 10px 10px;
   border-radius: 15px;
   padding: 10px;
@@ -20,7 +20,7 @@
 }
 
 .sidebar:hover {
-  width: 200px;
+  width: var(--sidebar-expanded);
 }
 
 /* TOP TITLE */
@@ -255,8 +255,8 @@
 
 /* When sidebar is hovered, adjust navbar position and width */
 .sidebar:hover ~ .navbar-section {
-  margin-left: 210px;
-  width: calc(100% - 230px);
+  margin-left: calc(var(--sidebar-expanded) + 10px);
+  width: calc(100% - (var(--sidebar-expanded) + 30px));
   transition: all 0.3s ease;
 }
 
