@@ -5,8 +5,7 @@
   margin: 0 auto;
   width: min(1400px, calc(100% - 48px)); /* fluid up to 1400px */
   padding-left: 12px;
-  transition: margin-left 0.3s ease;
-  padding-top: 90px; /* space for navbar height */
+
 }
 
 .dashboard h2 {
@@ -337,58 +336,24 @@ button.btn:hover {
   border-bottom: none;
 }
 
-/* When sidebar is expanded (desktop) push content over */
-body.sidebar-expanded .dashboard {
-  margin-left: 20px;
-}
-/* Responsive stacking and spacing for smaller screens */
-@media (max-width: 768px) {
-  .dashboard {
-    margin-left: 0;
-    padding-top: 110px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  /* stack project/deadline cards and analytics vertically */
-  .d-flex.flex-wrap.gap-3 {
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .project-card,
-  .deadline-card,
-  .analytics-card,
-  .stat-card {
-    flex: 1 1 100%;
-    min-width: unset;
-    width: 100%;
-    height: auto;
-  }
-
-  .static-bar-chart {
-    height: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .circular-chart {
-    margin: 0 auto 18px;
-  }
+/* Prevent card text overflow and clipping inside flex containers */
+.project-card,
+.deadline-card,
+.analytics-card,
+.stat-card,
+.recent-activity {
+  min-width: 0; /* allow flex items to shrink properly */
 }
 
-/* Small phones */
-@media (max-width: 480px) {
-  .dashboard {
-    padding-top: 100px;
-  }
-
-  .stat-card {
-    padding: 12px;
-  }
-
-  button.btn {
-    width: 100%;
-    padding: 10px;
-  }
+.project-card h5,
+.project-card h4,
+.project-card p,
+.deadline-card p,
+.analytics-card p,
+.stat-card p,
+.recent-activity p,
+.stat-card h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal; /* allow wrapping instead of clipping */
 }

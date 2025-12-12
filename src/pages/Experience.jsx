@@ -128,7 +128,7 @@ export default function Experience() {
     { id: 1, role: "Frontend Developer", company: "Tech Corp Inc.", type: "Professional", duration: "Jan 2023 - Present" },
     { id: 2, role: "Junior Developer", company: "Web Solutions Ltd.", type: "Professional", duration: "Jun 2022 - Dec 2022" },
     { id: 3, role: "Intern Developer", company: "StartUp XYZ", type: "Internship", duration: "Jan 2022 - May 2022" },
-    { id: 4, role: "Freelance Developer", company: "Self-Employed", type: "Freelance", duration: "Aug 2021 - Dec 2021" },
+    { id: 4, role: "Designer", company: "Self-Employed", type: "Freelance", duration: "Aug 2021 - Dec 2021" },
   ];
 
   const [experiences, ] = useState(staticExperiences);
@@ -236,7 +236,7 @@ export default function Experience() {
           </div>
 
           <div className="card stat-card text-center">
-            <p>Years of Experience</p>
+            <p>Years of Exp</p>
             <h3><i className="bi bi-clock-history"></i> {yearsExperience} Years</h3>
           </div>
         </div>
