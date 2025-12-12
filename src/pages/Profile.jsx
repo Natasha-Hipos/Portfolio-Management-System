@@ -5,9 +5,9 @@ import "../styles/Profile.css";
 const Profile = () => {
   // Sample user data
   const userData = {
-    name: "Mr. Admin",
-    handle: "GalaxyDestroyer@gmail.com",
-    bio: "designer & developer.",
+    name: "Admin",
+    handle: "Admin123@gmail.com",
+    bio: "Portfolio Admin.",
     nickname: "Admin",
     stats: {
       posts: 128,
@@ -48,21 +48,6 @@ const Profile = () => {
           <p className="profile-user-bio">{userData.bio}</p>
         </div>
 
-        {/* Quick Action Buttons */}
-        <div className="profile-action-buttons">
-          <button className="profile-action-btn profile-action-btn-primary">
-            <i className="bi bi-pencil"></i>
-            Edit Profile
-          </button>
-          <button className="profile-action-btn profile-action-btn-secondary">
-            <i className="bi bi-share"></i>
-            Share
-          </button>
-          <button className="profile-action-btn profile-action-btn-secondary">
-            <i className="bi bi-chat-dots"></i>
-            Message
-          </button>
-        </div>
       </div>
     </div>
     </Layout>
