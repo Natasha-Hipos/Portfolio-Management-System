@@ -1,135 +1,13 @@
 // src/pages/Skills.jsx
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import Layout from "../components/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import DeleteModal from "../components/DeleteModal";
 import "../styles/skills.css";
 
 const rowsPerPage = 5;
 
-/* ============================================================
-   CUSTOM MODAL (Same Style as Add Project Modal)
-============================================================ */
-function SkillFormModal({ show, mode = "add", initial = {}, onClose, onSave }) {
-  const [name, setName] = useState(initial.name || "");
-  const [level, setLevel] = useState(initial.level || "Beginner");
-  const [experience, setExperience] = useState(initial.experience || "");
-  const [visibility, setVisibility] = useState(initial.visibility || "Show");
-
-  useEffect(() => {
-    if (show) {
-      setName(initial.name || "");
-      setLevel(initial.level || "Beginner");
-      setExperience(initial.experience || "");
-      setVisibility(initial.visibility || "Show");
-    }
-  }, [show, initial]);
-
-  if (!show) return null;
-
-  const title = mode === "edit" ? "Edit Skill" : "Add Skill";
-  const saveText = mode === "edit" ? "Update" : "Add Skill";
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!name.trim() || !experience.trim()) {
-      alert("⚠ Please fill all required fields.");
-      return;
-    }
-
-    onSave({
-      id: initial.id || Date.now(),
-      name: name.trim(),
-      level,
-      experience: experience.trim(),
-      visibility,
-    });
-
-    onClose();
-  };
-
-  return (
-    <div className="custom-modal-overlay">
-      <div className="custom-modal-container">
-        <div className="custom-modal-header">
-          <h5>{title}</h5>
-          <button
-            className="close-btn"
-            onClick={onClose}
-            style={{ pointerEvents: "none" }}
-          >
-            ×
-          </button>
-        </div>
-
-        <div className="custom-modal-body">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Skill Name</label>
-              <input
-                type="text"
-                value={name}
-                placeholder="e.g. JavaScript"
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Level</label>
-              <select value={level} onChange={(e) => setLevel(e.target.value)} required>
-                <option>Beginner</option>
-                <option>Intermediate</option>
-                <option>Advanced</option>
-                <option>Expert</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Experience</label>
-              <input
-                type="text"
-                value={experience}
-                placeholder="e.g. 2 years / 6 months"
-                onChange={(e) => setExperience(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Visibility</label>
-              <select value={visibility} onChange={(e) => setVisibility(e.target.value)} required>
-                <option>Show</option>
-                <option>Hide</option>
-              </select>
-            </div>
-
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={onClose}
-                style={{ pointerEvents: "none" }}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="add-btn"
-                style={{ pointerEvents: "none" }}
-              >
-                {saveText}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ==================
    MAIN SKILLS PAGE
@@ -146,7 +24,6 @@ export default function Skills() {
 
   const [skills] = useState(staticSkills);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage] = useState(1);
 
   const filtered = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();

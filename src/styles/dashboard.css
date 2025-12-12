@@ -337,12 +337,10 @@ button.btn:hover {
   border-bottom: none;
 }
 
-<<<<<<< HEAD
 /* When sidebar is expanded (desktop) push content over */
 body.sidebar-expanded .dashboard {
-  margin-left: 220px;
+  margin-left: 20px;
 }
-
 /* Responsive stacking and spacing for smaller screens */
 @media (max-width: 768px) {
   .dashboard {
@@ -393,26 +391,4 @@ body.sidebar-expanded .dashboard {
     width: 100%;
     padding: 10px;
   }
-=======
-/* Prevent card text overflow and clipping inside flex containers */
-.project-card,
-.deadline-card,
-.analytics-card,
-.stat-card,
-.recent-activity {
-  min-width: 0; /* allow flex items to shrink properly */
-}
-
-.project-card h5,
-.project-card h4,
-.project-card p,
-.deadline-card p,
-.analytics-card p,
-.stat-card p,
-.recent-activity p,
-.stat-card h3 {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal; /* allow wrapping instead of clipping */
->>>>>>> 3eb70b3c48434b5fd7db8a61a489dd0fa0806fda
 }
