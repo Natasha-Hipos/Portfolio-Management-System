@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 import Notification from "../components/Notification";
 
+// Create a Context
 const NotificationContext = createContext();
 
+// Hook to use notifications easily
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
@@ -11,13 +13,16 @@ export const useNotification = () => {
   return context;
 };
 
+// Provider component
 export const NotificationProvider = ({ children }) => {
   const [notification, setNotification] = useState(null);
 
+  // Show a notification
   const showNotification = (message, type = "success", duration = 3000) => {
     setNotification({ message, type, duration });
   };
 
+  // Hide the notification
   const hideNotification = () => {
     setNotification(null);
   };
@@ -36,4 +41,3 @@ export const NotificationProvider = ({ children }) => {
     </NotificationContext.Provider>
   );
 };
-

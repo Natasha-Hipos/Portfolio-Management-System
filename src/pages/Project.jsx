@@ -4,7 +4,10 @@ import Layout from "../components/Layout";
 import "../styles/project.css";
 import { useNotification } from "../contexts/NotificationContext";
 
-// modal components (located in src/components)
+// API instance
+import API from "../api/axios";
+
+// modal components
 import AddProjectModal from "../components/AddProjectModal";
 import ViewProjectModal from "../components/ViewProjectModal";
 import EditProjectModal from "../components/EditProjectModal";
@@ -15,20 +18,8 @@ const rowsPerPage = 5;
 const Project = () => {
   const { showNotification } = useNotification();
 
-  // Safe loader to avoid corrupted localStorage or invalid types
-  const loadProjects = () => {
-    try {
-      const raw = localStorage.getItem("projects");
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  };
-
-  // Project state
-  const [projects, setProjects] = useState(() => loadProjects());
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   // UI state for modals
   const [showAdd, setShowAdd] = useState(false);
@@ -36,163 +27,122 @@ const Project = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  // selected project for view/edit/delete
-  const [selectedProject, setSelectedProject] = useState(null);
-
-  // search + pagination
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  //  Fixed loading logic — always loads SAFE array
+  // ---------- Load projects from API ----------
+  const fetchProjects = async () => {
+  try {
+    const res = await API.get("/projects"); // GET /api/projects
+    setProjects(res.data.data || []); // <-- use res.data.data
+  } catch (error) {
+    console.error("Fetch projects error:", error.response || error);
+    showNotification("Failed to load projects", "error");
+  }
+};
+
+
   useEffect(() => {
-    const stored = loadProjects();
-
-    const normalized = stored
-      .map((p, idx) => {
-        if (!p || typeof p !== "object") return null;
-        return p.id ? p : { ...p, id: Date.now() + idx };
-      })
-      .filter(Boolean);
-
-    // resave normalized data (keeps IDs permanent)
-    localStorage.setItem("projects", JSON.stringify(normalized));
-
-    setProjects(normalized);
+    fetchProjects();
   }, []);
 
-  // persist projects whenever they change
-  useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects || []));
-    const totalPages = Math.max(1, Math.ceil(projects.length / rowsPerPage));
-    if (currentPage > totalPages) setCurrentPage(totalPages);
-  }, [projects, currentPage]);
-
-  // Derived / memoized filtered projects
+  // ---------- Derived data ----------
   const filteredProjects = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
     if (!q) return projects;
     return projects.filter((p) => {
-      const title = (p.title || "").toString().toLowerCase();
-      const status = (p.status || "").toString().toLowerCase();
-      const desc = (p.description || "").toString().toLowerCase();
+      const title = (p.title || "").toLowerCase();
+      const status = (p.status || "").toLowerCase();
+      const desc = (p.description || "").toLowerCase();
       return title.includes(q) || status.includes(q) || desc.includes(q);
     });
   }, [projects, searchTerm]);
 
   const totalPages = Math.max(1, Math.ceil(filteredProjects.length / rowsPerPage));
-
-  // Paginated slice for current page
   const paginatedProjects = useMemo(() => {
     const start = (currentPage - 1) * rowsPerPage;
     return filteredProjects.slice(start, start + rowsPerPage);
   }, [filteredProjects, currentPage]);
 
-  // ---------- Add ----------
-  const handleOpenAdd = () => setShowAdd(true);
-
+  // ---------- Handlers ----------
+  // Add
   const handleAddSave = (newProject) => {
-    const projectWithId = { ...newProject, id: newProject.id || Date.now() };
     setProjects((prev) => {
-      const next = [...prev, projectWithId];
-      const pages = Math.max(1, Math.ceil(next.length / rowsPerPage));
-      setCurrentPage(pages);
-      return next;
+      const updated = [...prev, newProject];
+      setCurrentPage(Math.ceil(updated.length / rowsPerPage));
+      return updated;
     });
     showNotification("Project added successfully", "success");
   };
 
-  // ---------- View ----------
+  // View
   const handleView = (project) => {
     setSelectedProject(project);
     setShowView(true);
   };
 
-  // ---------- Edit ----------
-  const handleOpenEdit = (project) => {
-    setSelectedProject(project);
-    setShowEdit(true);
-  };
-
+  // Edit
   const handleUpdate = (updatedProject) => {
     setProjects((prev) =>
-      prev.map((p) =>
-        p.id === updatedProject.id ? { ...p, ...updatedProject } : p
-      )
+      prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
     );
     showNotification("Project updated successfully", "success");
   };
 
-  // ---------- Delete ----------
-  const handleOpenDelete = (project) => {
-    setSelectedProject(project);
-    setShowDelete(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (!selectedProject) return;
-    setProjects((prev) =>
-      prev.filter((p) => p.id !== selectedProject.id)
-    );
-    setShowDelete(false);
+  // Delete
+  const handleDeleted = (deletedId) => {
+    setProjects((prev) => prev.filter((p) => p.id !== deletedId));
     setSelectedProject(null);
     showNotification("Project deleted successfully", "success");
+    setCurrentPage((prev) => Math.min(prev, Math.ceil((projects.length - 1) / rowsPerPage)));
   };
 
-  // Helpers for rendering
+  // Helpers
   const statusClass = (status) =>
     `status-badge status-${(status || "").toLowerCase().replace(/\s+/g, "")}`;
 
-  // Pagination controls
   const goPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
   const goNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
   const goToPage = (n) => setCurrentPage(Math.max(1, Math.min(totalPages, n)));
 
   return (
     <Layout>
-      {/* ======== MODALS ======== */}
+      {/* ===== MODALS ===== */}
       {showAdd && (
         <AddProjectModal
           onClose={() => setShowAdd(false)}
-          onSave={(proj) => {
-            handleAddSave(proj);
-            setShowAdd(false);
-          }}
+          onSave={handleAddSave}
         />
       )}
 
-      <ViewProjectModal
-        show={showView}
-        onClose={() => {
-          setShowView(false);
-          setSelectedProject(null);
-        }}
-        project={selectedProject}
-      />
+      {showView && selectedProject && (
+        <ViewProjectModal
+          show={showView}
+          onClose={() => setShowView(false)}
+          projectId={selectedProject.id}
+        />
+      )}
 
-      <EditProjectModal
-        show={showEdit}
-        onClose={() => {
-          setShowEdit(false);
-          setSelectedProject(null);
-        }}
-        onUpdate={(updated) => handleUpdate(updated)}
-        project={selectedProject}
-      />
+      {showEdit && selectedProject && (
+        <EditProjectModal
+          show={showEdit}
+          onClose={() => setShowEdit(false)}
+          project={selectedProject}
+          onUpdated={handleUpdate}
+        />
+      )}
 
-     <DeleteModal
-        show={showDelete}
-        onClose={() => {
-          setShowDelete(false);
-          setSelectedProject(null);
-        }}
-        onConfirm={handleConfirmDelete}
-        itemName={selectedProject?.title || "this project"}
-      />
+      {showDelete && selectedProject && (
+        <DeleteModal
+          show={showDelete}
+          onClose={() => setShowDelete(false)}
+          projectId={selectedProject.id}
+          onDeleted={handleDeleted}
+        />
+      )}
 
-
-      {/* ======== PAGE CONTENT ======== */}
+      {/* ===== PAGE CONTENT ===== */}
       <section className="project px-4 py-4">
-        {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
             <h2 className="fw-bold mb-0">Project</h2>
@@ -200,7 +150,6 @@ const Project = () => {
           </div>
         </div>
 
-        {/* Project Summary Cards */}
         <div className="d-flex gap-3 flex-wrap mb-4" id="projectSummary">
           <div className="card stat-card text-center">
             <p>Total Projects</p>
@@ -231,13 +180,13 @@ const Project = () => {
           </div>
         </div>
 
-        {/* Project Management Section */}
+        {/* Project Management */}
         <section className="project-management px-4 py-4">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h3 className="fw-bold project-title">Project Management</h3>
             <button
               className="btn btn-primary rounded-pill px-4"
-              onClick={handleOpenAdd}
+              onClick={() => setShowAdd(true)}
             >
               <i className="fa-solid fa-plus me-2"></i>Add Project
             </button>
@@ -271,7 +220,7 @@ const Project = () => {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="projectTableBody">
+            <tbody>
               {paginatedProjects.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="text-center text-muted">
@@ -302,7 +251,10 @@ const Project = () => {
                         <button
                           className="action-btn"
                           title="Edit"
-                          onClick={() => handleOpenEdit(project)}
+                          onClick={() => {
+                            setSelectedProject(project);
+                            setShowEdit(true);
+                          }}
                         >
                           <i className="bi bi-pencil-square"></i>
                         </button>
@@ -310,7 +262,10 @@ const Project = () => {
                         <button
                           className="action-btn"
                           title="Delete"
-                          onClick={() => handleOpenDelete(project)}
+                          onClick={() => {
+                            setSelectedProject(project);
+                            setShowDelete(true);
+                          }}
                         >
                           <i className="bi bi-trash"></i>
                         </button>
@@ -325,11 +280,15 @@ const Project = () => {
 
         {/* Pagination */}
         <div className="table-pagination">
-          <button className="page-btn" onClick={goPrev}>&lt;</button>
+          <button className="page-btn" onClick={goPrev}>
+            &lt;
+          </button>
           <span className="current-page" onClick={() => goToPage(1)}>
             {currentPage}
           </span>
-          <button className="page-btn" onClick={goNext}>&gt;</button>
+          <button className="page-btn" onClick={goNext}>
+            &gt;
+          </button>
         </div>
       </section>
     </Layout>

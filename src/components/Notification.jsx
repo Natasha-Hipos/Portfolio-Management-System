@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Notification.css";
 
-const Notification = ({ message, type = "success", onClose, duration = 10 }) => {
+const Notification = ({ message, type = "success", onClose, duration = 3000 }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Trigger entrance animation
     setVisible(true);
-
-    // Auto close timer
     const timer = setTimeout(() => {
-      setVisible(false); // start exit animation
-      setTimeout(() => onClose(), 0); // wait 1.5s for exit animation
+      setVisible(false);
+      const cleanup = setTimeout(() => onClose(), 500);
+      return () => clearTimeout(cleanup);
     }, duration);
-
     return () => clearTimeout(timer);
   }, [duration, onClose]);
 
-  const isSuccess = type === "success";
-  const iconClass = isSuccess ? "bi-check-circle-fill" : "bi-x-circle-fill";
-  const iconStyleClass = isSuccess ? "notification-icon success" : "notification-icon error";
+  const iconClass = type === "success" ? "bi-check-circle-fill" : "bi-x-circle-fill";
+  const iconStyleClass = type === "success" ? "notification-icon success" : "notification-icon error";
 
   return (
     <div className={`notification-container ${visible ? "slide-in" : "slide-out"}`}>
