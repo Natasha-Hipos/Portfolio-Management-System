@@ -19,23 +19,23 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
   if (!show) return null;
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      if (!project) return;
+  if (!project) return;
 
-      if (!title.trim() || !description.trim() || !status) {
-        alert("⚠️ Please fill in all fields.");
-        return;
-      }
+  if (!title.trim() || !description.trim() || !status) {
+    alert("⚠️ Please fill in all fields.");
+    return;
+  }
 
     setLoading(true);
     try {
       const response = await API.put(`/projects/${project.id}`, {
         title,
-        status,
         description,
+        status,
       });
-      onUpdated(response.data); // ✅ fixed
+      onUpdated(response.data);
       onClose();
     } catch (error) {
       console.error(error);
@@ -44,6 +44,7 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
       setLoading(false);
     }
   };
+
 
 
   return (
