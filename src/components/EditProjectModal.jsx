@@ -28,22 +28,22 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
         return;
       }
 
-      setLoading(true);
-      try {
-        const response = await API.put(`/projects/${project.id}`, {
-          title,
-          description,
-          status,
-        });
-        onUpdated(response.data);
-        onClose();
-      } catch (error) {
-        console.error(error);
-        alert(error.response?.data?.message || "Failed to update project.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    try {
+      const response = await API.put(`/projects/${project.id}`, {
+        title,
+        status,
+        description,
+      });
+      onUpdated(response.data); // ✅ fixed
+      onClose();
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to update project.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
