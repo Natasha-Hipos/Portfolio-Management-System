@@ -3,11 +3,13 @@ import API from "../api/axios";
 import "../styles/AddProjectModal.css";
 
 export default function EditProjectModal({ show, onClose, project, onUpdated }) {
+  // State initialization with safe defaults
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("ongoing");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Update state when project changes
   useEffect(() => {
     if (project) {
       setTitle(project.title || "");
@@ -16,17 +18,17 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
     }
   }, [project]);
 
-  if (!show) return null;
+  // Do not render modal if not shown or project not loaded
+  if (!show || !project) return null;
 
-    const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!project) return;
-
-  if (!title.trim() || !description.trim() || !status) {
-    alert("⚠️ Please fill in all fields.");
-    return;
-  }
+    // Validate fields
+    if (!title.trim() || !description.trim() || !status) {
+      alert("⚠️ Please fill in all fields.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -45,8 +47,6 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
     }
   };
 
-
-
   return (
     <div className="custom-modal-overlay">
       <div className="custom-modal-container">
@@ -58,23 +58,44 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Project Title</label>
-              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} disabled={loading}/>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                disabled={loading}
+              />
             </div>
+
             <div className="form-group">
               <label>Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value)} disabled={loading}>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                disabled={loading} // only disabled while submitting
+              >
                 <option value="ongoing">Ongoing</option>
                 <option value="completed">Completed</option>
                 <option value="archived">Archived</option>
               </select>
             </div>
+
             <div className="form-group">
               <label>Description</label>
-              <textarea rows="3" value={description} onChange={(e) => setDescription(e.target.value)} disabled={loading}></textarea>
+              <textarea
+                rows="3"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                disabled={loading}
+              ></textarea>
             </div>
+
             <div className="modal-footer">
-              <button type="button" className="cancel-btn" onClick={onClose} disabled={loading}>Cancel</button>
-              <button type="submit" className="add-btn" disabled={loading}>{loading ? "Updating..." : "Update Project"}</button>
+              <button type="button" className="cancel-btn" onClick={onClose} disabled={loading}>
+                Cancel
+              </button>
+              <button type="submit" className="add-btn" disabled={loading}>
+                {loading ? "Updating..." : "Update Project"}
+              </button>
             </div>
           </form>
         </div>
@@ -82,3 +103,8 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
     </div>
   );
 }
+
+// Default props to prevent empty project issues
+EditProjectModal.defaultProps = {
+  project: { title: "", description: "", status: "ongoing" },
+};
