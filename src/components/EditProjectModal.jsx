@@ -27,7 +27,7 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
 
     setLoading(true);
     try {
-      const response = await API.put(`/api/projects/${project.id}`, {
+      const response = await API.put(`/projects/${project.id}`, {
         title,
         status,
         description,

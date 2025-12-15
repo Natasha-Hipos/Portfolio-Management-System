@@ -164,7 +164,7 @@ const Project = () => {
             <h3>
               <i className="bi bi-clipboard2"></i>{" "}
               <span id="ongoingProjects">
-                {projects.filter((p) => p.status === "Ongoing").length}
+                {projects.filter((p) => p.status === "ongoing").length}
               </span>
             </h3>
           </div>
@@ -174,7 +174,7 @@ const Project = () => {
             <h3>
               <i className="bi bi-clipboard-check"></i>{" "}
               <span id="completedProjects">
-                {projects.filter((p) => p.status === "Completed").length}
+                {projects.filter((p) => p.status === "completed").length}
               </span>
             </h3>
           </div>

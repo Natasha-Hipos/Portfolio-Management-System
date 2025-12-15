@@ -4,7 +4,7 @@ import "../styles/AddProjectModal.css";
 
 export default function AddProjectModal({ onClose, onSave }) {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("Ongoing");
+  const [status, setStatus] = useState("ongoing");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,12 +17,13 @@ export default function AddProjectModal({ onClose, onSave }) {
 
     setLoading(true);
     try {
-      const response = await API.post("/api/projects", {
-        title,
-        status: status.toLowerCase(),
-        description,
-      });
-      onSave(response.data); // ✅ fixed
+        const response = await API.post("/projects", {
+          title,
+          status: status.toLowerCase(),
+          description,
+        });
+
+      onSave(response.data);
       onClose();
     } catch (error) {
       console.error(error);
@@ -54,9 +55,9 @@ export default function AddProjectModal({ onClose, onSave }) {
             <div className="form-group">
               <label>Status</label>
               <select value={status} onChange={(e) => setStatus(e.target.value)} disabled={loading}>
-                <option value="Ongoing">Ongoing</option>
-                <option value="Completed">Completed</option>
-                <option value="Archived">Archived</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
             <div className="form-group">

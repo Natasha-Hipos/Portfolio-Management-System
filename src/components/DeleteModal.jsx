@@ -10,7 +10,7 @@ export default function DeleteModal({ show, onClose, projectId, onDeleted }) {
     if (!projectId) return;
     setLoading(true);
     try {
-      await API.delete(`/api/projects/${projectId}`);
+      await API.delete(`/projects/${projectId}`);
       onDeleted(projectId);
       onClose();
     } catch (error) {
