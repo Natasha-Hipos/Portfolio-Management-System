@@ -10,7 +10,7 @@ export default function ViewProjectModal({ show, onClose, projectId }) {
     if (show && projectId) {
       setLoading(true);
       API.get(`/projects/${projectId}`)
-        .then((res) => setProject(res.data)) // ✅ fixed
+        .then((res) => setProject(res.data)) 
         .catch((err) => {
           console.error(err);
           alert("Failed to load project data.");

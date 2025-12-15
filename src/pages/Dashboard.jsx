@@ -8,10 +8,10 @@ const Dashboard = () => {
   const [projects, setProjects] = useState(() => {
     return (
       JSON.parse(localStorage.getItem("projects")) || [
-        { title: "Portfolio Website", status: "Completed", category: "Web" },
-        { title: "Mobile App", status: "Ongoing", category: "Mobile" },
-        { title: "Blog CMS", status: "Completed", category: "Web" },
-        { title: "Marketing Campaign", status: "Ongoing", category: "Marketing" },
+        { title: "Portfolio Website", status: "completed", category: "Web" },
+        { title: "Mobile App", status: "ongoing", category: "Mobile" },
+        { title: "Blog CMS", status: "completed", category: "Web" },
+        { title: "Marketing Campaign", status: "ongoing", category: "Marketing" },
       ]
     );
   });
@@ -60,8 +60,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const total = projects.length;
-    const ongoing = projects.filter((p) => p.status === "Ongoing").length;
-    const completed = projects.filter((p) => p.status === "Completed").length;
+    const ongoing = projects.filter((p) => p.status === "ongoing").length;
+    const completed = projects.filter((p) => p.status === "completed").length;
 
     setStats({ total, ongoing, completed });
 

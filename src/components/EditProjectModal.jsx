@@ -4,43 +4,47 @@ import "../styles/AddProjectModal.css";
 
 export default function EditProjectModal({ show, onClose, project, onUpdated }) {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("Ongoing");
+  const [status, setStatus] = useState("ongoing");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (project) {
       setTitle(project.title || "");
-      setStatus(project.status || "Ongoing");
+      setStatus(project.status || "ongoing");
       setDescription(project.description || "");
     }
   }, [project]);
 
   if (!show) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      alert("⚠️ Please fill in all fields.");
-      return;
-    }
+    const handleSubmit = async (e) => {
+      e.preventDefault();
 
-    setLoading(true);
-    try {
-      const response = await API.put(`/projects/${project.id}`, {
-        title,
-        status,
-        description,
-      });
-      onUpdated(response.data); // ✅ fixed
-      onClose();
-    } catch (error) {
-      console.error(error);
-      alert(error.response?.data?.message || "Failed to update project.");
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (!project) return;
+
+      if (!title.trim() || !description.trim() || !status) {
+        alert("⚠️ Please fill in all fields.");
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const response = await API.put(`/projects/${project.id}`, {
+          title,
+          description,
+          status,
+        });
+        onUpdated(response.data);
+        onClose();
+      } catch (error) {
+        console.error(error);
+        alert(error.response?.data?.message || "Failed to update project.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
     <div className="custom-modal-overlay">
@@ -58,9 +62,9 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
             <div className="form-group">
               <label>Status</label>
               <select value={status} onChange={(e) => setStatus(e.target.value)} disabled={loading}>
-                <option value="Ongoing">Ongoing</option>
-                <option value="Completed">Completed</option>
-                <option value="Archived">Archived</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
             <div className="form-group">
