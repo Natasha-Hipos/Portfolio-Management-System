@@ -32,7 +32,7 @@ export default function EditProjectModal({ show, onClose, project, onUpdated }) 
         status,
         description,
       });
-      onUpdated(response.data); // ✅ fixed
+      onUpdated(response.data); 
       onClose();
     } catch (error) {
       console.error(error);
