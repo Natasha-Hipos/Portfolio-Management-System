@@ -10,7 +10,7 @@ export default function ViewProjectModal({ show, onClose, projectId }) {
     if (show && projectId) {
       setLoading(true);
       API.get(`/projects/${projectId}`)
-        .then((res) => setProject(res.data)) 
+        .then((res) => setProject(res.data.data)) // unwrap data from backend
         .catch((err) => {
           console.error(err);
           alert("Failed to load project data.");
@@ -26,30 +26,44 @@ export default function ViewProjectModal({ show, onClose, projectId }) {
       <div className="modal fade show" style={{ display: "block" }}>
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content custom-view-modal p-4">
-            <button type="button" className="btn-close ms-auto" onClick={onClose} disabled={loading}></button>
+            <button
+              type="button"
+              className="btn-close ms-auto"
+              onClick={onClose}
+              disabled={loading}
+            ></button>
             <h4 className="fw-bold mb-4 text-darkblue">View Project</h4>
+
             {loading ? (
               <p>Loading project details...</p>
-            ) : (
+            ) : project ? (
               <>
                 <div className="mb-3">
                   <h6 className="fw-semibold mb-1">Title</h6>
-                  <p>{project?.title || "—"}</p>
+                  <p>{project.title || "—"}</p>
                 </div>
                 <div className="mb-3">
                   <h6 className="fw-semibold mb-1">Status</h6>
-                  <p>{project?.status || "—"}</p>
+                  <p>{project.status || "—"}</p>
                 </div>
                 <div>
                   <h6 className="fw-semibold mb-1">Description</h6>
-                  <p>{project?.description || "—"}</p>
+                  <p>{project.description || "—"}</p>
                 </div>
               </>
+            ) : (
+              <p>No project data available.</p>
             )}
           </div>
         </div>
       </div>
-      <div className="modal-backdrop show" style={{ backdropFilter: "blur(6px)", backgroundColor: "rgba(0,0,0,0.3)" }} />
+      <div
+        className="modal-backdrop show"
+        style={{
+          backdropFilter: "blur(6px)",
+          backgroundColor: "rgba(0,0,0,0.3)",
+        }}
+      />
     </>
   );
 }
