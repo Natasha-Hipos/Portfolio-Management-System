@@ -1,5 +1,5 @@
 // src/pages/Project.jsx
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Layout from "../components/Layout";
 import "../styles/project.css";
 import { useNotification } from "../contexts/NotificationContext";
@@ -31,20 +31,24 @@ const Project = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // ---------- Load projects from API ----------
-  const fetchProjects = async () => {
-  try {
-    const res = await API.get("/projects"); // GET /api/projects
-    setProjects(res.data.data || []); // <-- use res.data.data
-  } catch (error) {
-    console.error("Fetch projects error:", error.response || error);
-    showNotification("Failed to load projects", "error");
-  }
-};
+  const fetchProjects = useCallback(async () => {
+    try {
+      const res = await API.get("/projects"); // GET /api/projects
+      const fetched = res.data.data || [];
 
+      // ensure stable ordering: oldest -> newest (newest at the end)
+      fetched.sort((a, b) => (a.id || 0) - (b.id || 0));
+
+      setProjects(fetched);
+    } catch (error) {
+      console.error("Fetch projects error:", error.response || error);
+      showNotification("Failed to load projects", "error");
+    }
+  }, [showNotification]);
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   // ---------- Derived data ----------
   const filteredProjects = useMemo(() => {
@@ -68,10 +72,19 @@ const Project = () => {
   // Add
   const handleAddSave = (newProject) => {
     setProjects((prev) => {
+      // append the new project at the end
       const updated = [...prev, newProject];
-      setCurrentPage(Math.ceil(updated.length / rowsPerPage));
+
+      // keep ordering consistent (oldest -> newest)
+      updated.sort((a, b) => (a.id || 0) - (b.id || 0));
+
+      // move to last page so the newly added item is visible
+      const lastPage = Math.max(1, Math.ceil(updated.length / rowsPerPage));
+      setCurrentPage(lastPage);
+
       return updated;
     });
+
     showNotification("Project added successfully", "success");
   };
 
