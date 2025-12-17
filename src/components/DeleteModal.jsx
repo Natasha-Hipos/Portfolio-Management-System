@@ -23,7 +23,7 @@ export default function DeleteModal({ show, onClose, projectId, onDeleted }) {
 
   return (
     <>
-      <div className="modal fade show" style={{ display: "block" }}>
+      <div id="deleteModal" className="modal fade show" style={{ display: "block" }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content text-center rounded-4">
             <h5 className="fw-bold mb-3">Are you sure you want to delete this?</h5>
