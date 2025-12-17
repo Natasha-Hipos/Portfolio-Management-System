@@ -1,4 +1,3 @@
-
 /* NAVBAR */
 .navbar-section {
   background-color: #0c093d;
@@ -72,6 +71,28 @@ body.sidebar-expanded .navbar-section {
   transform: scale(1.1);
 }
 
+/* Optional admin name inside .admin-info, will be truncated on small screens */
+.admin-info .admin-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* avatar/icon */
+.admin-info img,
+.admin-info .avatar,
+.admin-info i {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+  object-fit: cover;
+}
+
+/* ADMIN DROPDOWN */
 .admin-dropdown {
   position: absolute;
   top: 70px;
@@ -104,7 +125,7 @@ body.sidebar-expanded .navbar-section {
   background-color: #1a1570;
 }
 
-/* SIDEBAR HOVER INTERACTION */
+/* SIDEBAR HOVER INTERACTION (desktop) */
 .sidebar:hover ~ .navbar-section {
   margin-left: calc(var(--sidebar-expanded) + 10px);
   width: calc(100% - (var(--sidebar-expanded) + 30px));
@@ -116,21 +137,26 @@ body.sidebar-expanded .navbar-section {
 }
 
 /* RESPONSIVE */
+
+/* Very small phones */
 @media (max-width: 480px) {
   .sidebar {
     display: none;
   }
   .navbar-section {
-    border-radius: 0;
+    border-radius: 10px;
     padding: 10px;
     width: 100% !important;
     margin-left: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
   }
   .search-box input {
     max-width: 120px;
   }
 }
 
+/* Small tablets / large phones */
 @media (min-width: 481px) and (max-width: 768px) {
   :root {
     --sidebar-collapsed: 70px;
@@ -138,6 +164,7 @@ body.sidebar-expanded .navbar-section {
   }
 }
 
+/* Medium desktops */
 @media (min-width: 769px) and (max-width: 1200px) {
   :root {
     --sidebar-collapsed: 80px;
@@ -145,6 +172,7 @@ body.sidebar-expanded .navbar-section {
   }
 }
 
+/* Large desktops */
 @media (min-width: 1201px) {
   :root {
     --sidebar-collapsed: 91px;
@@ -152,43 +180,141 @@ body.sidebar-expanded .navbar-section {
   }
 }
 
-/* Keep navbar fixed on mobile — prevent sidebar hover from pushing it */
+/* ================================
+   MOBILE: keep admin-info visible on the right
+   and prevent sidebar hover from pushing navbar
+   (place this at the end so it overrides earlier rules)
+   ================================ */
 @media (max-width: 768px) {
-  /* Ensure collapsed width is used on mobile regardless of body.sidebar-expanded */
+  /* Use collapsed width on mobile (ignore body.sidebar-expanded) */
   body.sidebar-expanded {
     --sidebar-width: var(--sidebar-collapsed) !important;
   }
 
-  /* Prevent the sidebar from expanding on hover on mobile */
+  /* Prevent sidebar expansion on hover for touch devices and ensure it doesn't push layout */
+  .sidebar,
   .sidebar:hover {
     width: var(--sidebar-collapsed) !important;
     transition: none !important;
   }
 
-  /* Force navbar/main to use collapsed sidebar spacing and ignore :hover sibling rules */
+  /* Force navbar to full width and stable position */
   .navbar-section,
-  main,
-  .page-content,
   .sidebar ~ .navbar-section,
-  .sidebar ~ main,
-  .sidebar ~ .page-content,
   .sidebar:hover ~ .navbar-section,
-  .sidebar:hover ~ main,
-  .sidebar:hover ~ .page-content,
   body.sidebar-expanded .navbar-section {
-    margin-left: calc(var(--sidebar-collapsed) + 10px) !important;
-    width: calc(100% - (var(--sidebar-collapsed) + 30px)) !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 8px 12px !important;
+    height: 64px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     transition: none !important;
   }
 
-  /* If you use left/right positioning on .navbar-section, keep it stable */
+  /* Layout: search on left (flex-grow) and admin-info pinned to the right */
   .navbar-section {
-    left: 5px !important;
-    right: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  /* Optional: reduce animations on touch devices to avoid jitter */
-  * {
-    transition-duration: 0s !important;
+  .search-box {
+    order: 1;
+    flex: 1 1 auto;
+    max-width: 60%;
+    min-width: 0;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box input {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 12px 8px 36px;
+    display: block;
+    border-radius: 22px;
+  }
+
+  .search-box i {
+    left: 12px;
+  }
+
+  .admin-info {
+    order: 2;
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  /* Ensure admin name is visible but truncated if needed */
+  .admin-info .admin-name {
+    display: inline-block;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  /* Admin avatar sizing for touch */
+  .admin-info img,
+  .admin-info .avatar,
+  .admin-info i {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 100px;
+  }
+
+  /* Position the dropdown correctly under the navbar on mobile */
+  .admin-dropdown {
+    top: 64px !important;
+    right: 8px !important;
+    margin-right: 100px;
+  }
+
+  /* Very small screens: hide search input and keep icon, reduce name width */
+  @media (max-width: 420px) {
+    .search-box {
+      max-width: 20px;
+      margin-right: 8px;
+    }
+    .search-box input { display: none; }
+    .search-box i { display: inline-block; left: 8px; }
+
+    .admin-info .admin-name {
+      max-width: 72px;
+      font-size: 0.88rem;
+    }
+    .admin-info img,
+    .admin-info .avatar,
+    .admin-info i {
+      width: 34px;
+      height: 34px;
+    }
+  }
+
+  /* Ensure the sidebar does not push main or navbar on mobile */
+  .sidebar:hover ~ main,
+  .sidebar:hover ~ .navbar-section,
+  .sidebar ~ main,
+  .sidebar ~ .navbar-section {
+    margin-left: 0 !important;
+    width: 100% !important;
+    transition: none !important;
+  }
+
+  /* Reduce transitions on touch devices to avoid jitter */
+  @media (hover: none) {
+    * { transition-duration: 0s !important; }
   }
 }

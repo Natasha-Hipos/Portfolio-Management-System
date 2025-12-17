@@ -478,43 +478,288 @@ button.btn:hover {
   cursor: default;
 }
 
-/* ===========================
-   RESPONSIVE DESIGN
-=========================== */
-@media (max-width: 768px) {
+/* ================================
+  MOBILE / RESPONSIVE (EXCLUDING TABLE)
+  Append this to the end of src/styles/project.css
+  These rules only adjust non-table parts (cards, controls, modals, charts, etc.)
+  ================================ */
+
+/* Large tablets */
+@media (max-width: 992px) {
+  /* Page container */
+  .project {
+    width: calc(100% - 24px);
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Stat cards stack and become fluid */
+  .d-flex#projectSummary,
+  .d-flex.gap-3.flex-wrap#projectSummary,
+  .d-flex.gap-3.flex-wrap {
+    gap: 12px;
+    align-items: stretch;
+  }
+
   .stat-card {
-    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 12px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
 
+  .stat-card p { font-size: 0.95rem; }
+  .stat-card h3 { font-size: 1.25rem; }
+
+  /* Project & deadline cards stack vertically */
   .project-card,
-  .deadline-card {
+  .deadline-card,
+  .analytics-card {
     flex: 1 1 100%;
+    min-width: 0;
+    height: auto;
+    padding: 18px;
   }
 
-  button.btn {
+  /* Smaller chart area */
+  .static-bar-chart { height: 200px; padding-left: 32px; }
+
+  /* Search / controls */
+  .project-management {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .project-management .d-flex { width: 100%; flex-direction: row; justify-content: space-between; gap: 12px; align-items: center; }
+  .project-management .project-title { margin-bottom: 0; }
+
+  .search-bar {
+    padding: 8px 12px;
+  }
+
+  /* Make Add button easier to tap but keep inline on larger narrow screens */
+  .project-management .btn { width: auto; padding: 10px 12px; max-width: 220px; }
+}
+
+/* Standard mobile phones / portrait */
+@media (max-width: 768px) {
+  .project {
+    width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Stack stat cards vertically */
+  .d-flex.gap-3.flex-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat-card {
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .stat-card p { font-size: 0.95rem; }
+  .stat-card h3 { font-size: 1.1rem; }
+
+  /* Stack project/analytics cards */
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    flex: 1 1 100%;
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  /* Project Management header + add button stack vertically */
+  .project-management .d-flex {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .project-management .project-title {
+    font-size: 1.05rem;
+  }
+  .project-management .btn {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Search: full width and larger touch target */
+  .search-bar {
+    padding: 8px 12px;
+    border-radius: 24px;
+  }
+  .search-bar input {
+    font-size: 15px;
+    padding: 10px 12px 10px 42px;
+  }
+
+  /* Charts & circular chart scaling */
+  .pcircle { padding-top: 18px; }
+  .circular-chart { max-width: 110px; }
+
+  /* Recent activities and analytics smaller padding */
+  .recent-activity,
+  .analytics-card {
+    padding: 14px;
+  }
+
+  /* Modal adjustments for mobile */
+  .modal-content { padding: 12px; border-radius: 12px; }
+  .modal-title { font-size: 1.05rem; }
+  .form-control, .form-select { padding: 10px; font-size: 0.95rem; }
+
+  /* Pagination compact */
+  .table-pagination { gap: 6px; margin-top: 12px; }
+  .page-btn, .current-page { width: 36px; height: 36px; }
+
+  /* Improve spacing for action icon groups (non-table) */
+  .mobile-action-group { gap: 8px; }
+
+  /* Prevent overly large shadows on small devices for perf */
+  .project-card, .deadline-card, .analytics-card, .stat-card {
+    box-shadow: 0 6px 18px rgba(19,24,44,0.05);
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .project { padding-left: 8px; padding-right: 8px; }
+
+  .stat-card p { font-size: 0.85rem; }
+  .stat-card h3 { font-size: 1.05rem; }
+
+  .project-card h5, .analytics-card h5 { font-size: 0.95rem; }
+  .project-card p.small, .project-card .text-light.small { font-size: 0.85rem; }
+
+  /* Search bar compact */
+  .search-bar { padding: 6px 10px; }
+  .search-bar input { padding: 8px 10px 8px 40px; font-size: 14px; }
+
+  /* Buttons smaller and full width where appropriate */
+  .project-management .btn { padding: 10px 12px; font-size: 0.95rem; }
+
+  /* Charts smaller */
+  .static-bar-chart { height: 150px; padding-left: 28px; }
+  .bars { height: 100px; }
+  .bar { width: 22px; }
+
+  /* Modals and form inputs */
+  .modal-content { padding: 10px; }
+  .form-control, .form-select { padding: 9px; font-size: 0.92rem; }
+}
+
+/* Accessibility / touch improvements for all touch devices */
+@media (hover: none) {
+  .btn, .action-btn, .search-bar input, .mobile-action-group .action-btn {
+    -webkit-tap-highlight-color: rgba(0,0,0,0.03);
+    touch-action: manipulation;
+  }
+
+  /* reduce transition jitter on touch devices */
+  * { transition-duration: 0s !important; }
+}
+
+/* =====================================
+   MOBILE RESPONSIVE TABLE → CARD VIEW
+===================================== */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: hidden;
+  }
+
+  table {
+    border: none;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table,
+  table tbody,
+  table tr {
+    display: block;
     width: 100%;
   }
 
-  .project {
-    padding: 15px !important;
+  table tr {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  /* ===== Core card row layout ===== */
+  table td {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px;
+    padding: 8px 0;
+    border: none;
+    font-size: 14px;
+    word-break: break-word;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+
+  /* ===== Description spans full width ===== */
+  table td.description {
+    grid-template-columns: 1fr;
+  }
+
+  table td.description::before {
+    margin-bottom: 4px;
+  }
+
+  /* ===== Action buttons stack correctly ===== */
+  td[data-label="Action"] {
+    grid-template-columns: 1fr;
+  }
+
+  td[data-label="Action"]::before {
+    margin-bottom: 6px;
+  }
+
+  .action-row {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .action-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* ===== Status badge fix ===== */
+  .status-badge {
+    display: inline-block;
+    width: fit-content;
   }
 }
 
-/* Scale card text and icons down progressively on smaller screens */
-@media (max-width: 768px) {
-  .stat-card p { font-size: 0.95rem; }
-  .stat-card h3 { font-size: 1.25rem; }
-  .stat-card i { font-size: 1.25rem; }
-
-  .project-card h5 { font-size: 1.05rem; }
-  .project-card p.small { font-size: 0.9rem; }
-}
-
-@media (max-width: 480px) {
-  .stat-card p { font-size: 0.85rem; }
-  .stat-card h3 { font-size: 1.05rem; }
-  .stat-card i { font-size: 1rem; }
-
-  .project-card h5 { font-size: 0.95rem; }
-  .project-card p.small { font-size: 0.85rem; }
-}

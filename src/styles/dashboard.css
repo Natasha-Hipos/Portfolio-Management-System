@@ -368,6 +368,7 @@ button.btn:hover {
     width: calc(100% - 24px);
     padding-left: 12px;
     padding-right: 12px;
+    margin-left: 0px;
   }
 
   /* Make stat cards flexible/wrapping */
@@ -540,4 +541,171 @@ button.btn:hover {
   margin-left: calc(var(--sidebar-collapsed, 72px) + 16px) !important;
   width: calc(100% - (var(--sidebar-collapsed, 72px) + 32px)) !important;
   transition: none !important; /* remove the animated jump */
+}
+
+/* ================================
+  MOBILE: compact card-style rows matching your design
+  - Labels and values show on same line for ID, Status, etc.
+  - Description appears as its own wrapped row
+  - Action icons float to the top-right of the card
+  - Card styling matches dashboard look (soft border, subtle shadow)
+  Append this to the end of src/styles/project.css
+  ================================ */
+
+@media (max-width: 768px) {
+  /* Card container for each table row */
+  .table-responsive tbody tr {
+    display: block;
+    position: relative;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 14px 16px 14px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(16, 24, 40, 0.04);
+    box-shadow: 0 6px 18px rgba(19, 24, 44, 0.04);
+  }
+
+  /* Make each cell a horizontal pair: label (small) followed by value */
+  .table-responsive tbody tr td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border: none;
+  }
+
+  /* Show label from data-label inline (compact) */
+  .table-responsive tbody tr td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #6b7280;
+    margin-right: 8px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.92rem;
+  }
+
+  /* Value area takes remaining space, left aligned to match design */
+  .table-responsive tbody tr td > * {
+    flex: 1 1 auto;
+    text-align: left;
+    color: #111827;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  /* ID row: make label and value stand out and keep compact */
+  .table-responsive tbody tr td[data-label="ID"] {
+    padding-right: 80px; /* reserve space for action icons */
+  }
+  .table-responsive tbody tr td[data-label="ID"] > * {
+    color: #0c093d;
+    font-weight: 700;
+  }
+
+  /* Position the action icons at the top-right of the card (like the example) */
+  .table-responsive tbody tr td[data-label="Action"] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: transparent;
+    padding: 0;
+  }
+
+  /* Make action buttons compact & clear */
+  .mobile-action-group .action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    padding: 0;
+    border: 1px solid rgba(32, 78, 207, 0.08);
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(19,24,44,0.03);
+  }
+  .mobile-action-group .action-btn i { font-size: 1rem; }
+
+  /* Description should appear as its own multi-line block */
+  .table-responsive tbody tr td[data-label="Description"] {
+    display: block;
+    text-align: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .table-responsive tbody tr td[data-label="Description"]::before {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .table-responsive tbody tr td[data-label="Description"] > * {
+    display: block;
+    font-weight: 500;
+    color: #475569;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  /* Status: show label then colon then status text inline (compact) */
+  .table-responsive tbody tr td[data-label="Status"] {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .table-responsive tbody tr td[data-label="Status"]::before {
+    content: "Status :";
+    font-weight: 700;
+    color: #6b7280;
+    margin-right: 6px;
+    flex: 0 0 auto;
+  }
+  /* style plain status text to match your design (not a large pill) */
+  .table-responsive tbody tr td[data-label="Status"] > .status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 60px;
+    text-align: left;
+  }
+  .status-ongoing { background: #fff8e6; color: #8a5b00; }
+  .status-completed { background: #e9f7ef; color: #0f5132; }
+  .status-archived { background: #f3eeff; color: #4b2f6b; }
+
+  /* Small blue footer row with centered "Send" text similar to your example.
+     This is a visual hint only; if you want it clickable add it in JSX. */
+  .table-responsive tbody tr .row-send {
+    display: block;
+    margin-top: 10px;
+    background: #eaf4ff; /* light blue */
+    color: #0c68d6;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(32,78,207,0.06);
+  }
+
+  /* Very small phones: tighten spacing */
+  @media (max-width: 420px) {
+    .table-responsive tbody tr {
+      padding: 10px 12px;
+    }
+    .table-responsive tbody tr td::before {
+      font-size: 0.9rem;
+    }
+    .mobile-action-group .action-btn {
+      width: 34px;
+      height: 34px;
+    }
+    .table-responsive tbody tr td[data-label="ID"] {
+      padding-right: 70px;
+    }
+    .table-responsive tbody tr td[data-label="Status"]::before {
+      content: "Status :";
+      font-size: 0.92rem;
+    }
+  }
 }

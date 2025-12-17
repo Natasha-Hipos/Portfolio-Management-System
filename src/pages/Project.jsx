@@ -1,5 +1,4 @@
-// src/pages/Project.jsx
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Layout from "../components/Layout";
 import "../styles/project.css";
 import { useNotification } from "../contexts/NotificationContext";
@@ -30,25 +29,97 @@ const Project = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // ---------- Load projects from API ----------
-  const fetchProjects = useCallback(async () => {
+  // Persist projects and notify listeners (same-tab via custom event + localStorage for cross-tab)
+  const persistProjects = (updated) => {
     try {
-      const res = await API.get("/projects"); // GET /api/projects
-      const fetched = res.data.data || [];
-
-      // ensure stable ordering: oldest -> newest (newest at the end)
-      fetched.sort((a, b) => (a.id || 0) - (b.id || 0));
-
-      setProjects(fetched);
-    } catch (error) {
-      console.error("Fetch projects error:", error.response || error);
-      showNotification("Failed to load projects", "error");
+      localStorage.setItem("projects", JSON.stringify(updated));
+      window.dispatchEvent(new CustomEvent("projectsChanged", { detail: updated }));
+    } catch (err) {
+      console.warn("Failed to persist projects:", err);
     }
+  };
+
+  // Persist recentActivity and notify listeners
+  const persistRecentActivity = (updatedActivity) => {
+    try {
+      localStorage.setItem("recentActivity", JSON.stringify(updatedActivity));
+      window.dispatchEvent(new CustomEvent("recentActivityChanged", { detail: updatedActivity }));
+    } catch (err) {
+      console.warn("Failed to persist recent activity:", err);
+    }
+  };
+
+  // Add a new recent activity entry (keeps max 10)
+  const addRecentActivity = (message) => {
+    try {
+      const entry = { message, timestamp: Date.now() };
+      const stored = JSON.parse(localStorage.getItem("recentActivity")) || [];
+      const updated = [entry, ...stored].slice(0, 10);
+      persistRecentActivity(updated);
+    } catch (err) {
+      console.warn("Failed to add recent activity:", err);
+    }
+  };
+
+  // ---------- Load projects from API (fallback to localStorage) ----------
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProjects = async () => {
+      try {
+        const res = await API.get("/projects"); // GET /api/projects
+        const fetched = res.data.data || [];
+
+        // ensure stable ordering: oldest -> newest (newest at the end)
+        fetched.sort((a, b) => (a.id || 0) - (b.id || 0));
+
+        if (isMounted) {
+          setProjects(fetched);
+          persistProjects(fetched);
+        }
+      } catch (error) {
+        console.error("Fetch projects error:", error?.response || error);
+        showNotification?.("Failed to load projects, using local data", "error");
+        try {
+          const stored = JSON.parse(localStorage.getItem("projects") || "[]");
+          if (isMounted && Array.isArray(stored)) setProjects(stored);
+        } catch {
+          if (isMounted) setProjects([]);
+        }
+      }
+    };
+
+    fetchProjects();
+    return () => {
+      isMounted = false;
+    };
+    // include showNotification so ESLint is happy if it can change (usually stable)
   }, [showNotification]);
 
+  // Listen for external updates (cross-tab via storage, same-tab via custom event)
   useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+    const onStorage = (e) => {
+      if (e.key === "projects") {
+        try {
+          const parsed = JSON.parse(e.newValue || "[]");
+          setProjects(parsed);
+        } catch {
+          setProjects([]);
+        }
+      }
+    };
+
+    const onProjectsChanged = (e) => {
+      if (e?.detail) setProjects(e.detail);
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("projectsChanged", onProjectsChanged);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("projectsChanged", onProjectsChanged);
+    };
+  }, []);
 
   // ---------- Derived data ----------
   const filteredProjects = useMemo(() => {
@@ -78,6 +149,12 @@ const Project = () => {
       // keep ordering consistent (oldest -> newest)
       updated.sort((a, b) => (a.id || 0) - (b.id || 0));
 
+      // persist & notify
+      persistProjects(updated);
+
+      // add activity
+      addRecentActivity(`Added project: ${newProject.title || "Untitled"}`);
+
       // move to last page so the newly added item is visible
       const lastPage = Math.max(1, Math.ceil(updated.length / rowsPerPage));
       setCurrentPage(lastPage);
@@ -94,17 +171,30 @@ const Project = () => {
     setShowView(true);
   };
 
-  // Edit
+  // Edit / Update
   const handleUpdate = (updatedProject) => {
-    setProjects((prev) =>
-      prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
-    );
+    setProjects((prev) => {
+      const updated = prev.map((p) => (p.id === updatedProject.id ? updatedProject : p));
+      persistProjects(updated);
+      addRecentActivity(`Updated project: ${updatedProject.title || updatedProject.id}`);
+      return updated;
+    });
     showNotification("Project updated successfully", "success");
   };
 
   // Delete
   const handleDeleted = (deletedId) => {
-    setProjects((prev) => prev.filter((p) => p.id !== deletedId));
+    setProjects((prev) => {
+      const deleted = prev.find((p) => p.id === deletedId);
+      const updated = prev.filter((p) => p.id !== deletedId);
+      persistProjects(updated);
+
+      // record recent activity with title if available
+      addRecentActivity(`Deleted project: ${deleted ? deleted.title : deletedId}`);
+
+      return updated;
+    });
+
     setSelectedProject(null);
     showNotification("Project deleted successfully", "success");
     setCurrentPage((prev) => Math.min(prev, Math.ceil((projects.length - 1) / rowsPerPage)));
@@ -223,7 +313,7 @@ const Project = () => {
 
         {/* Project Table */}
         <div className="table-responsive mt-4">
-          <table className="table align-middle">
+          <table className="table align-middle project-table">
             <thead className="table-light">
               <tr>
                 <th>ID</th>
@@ -233,6 +323,7 @@ const Project = () => {
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
               {paginatedProjects.length === 0 ? (
                 <tr>
@@ -243,46 +334,54 @@ const Project = () => {
               ) : (
                 paginatedProjects.map((project, index) => (
                   <tr key={project.id ?? index}>
-                    <td>{(currentPage - 1) * rowsPerPage + index + 1}</td>
-                    <td>{project.title}</td>
-                    <td>
+                    <td data-label="ID">
+                      {(currentPage - 1) * rowsPerPage + index + 1}
+                    </td>
+
+                    <td data-label="Title">
+                      {project.title}
+                    </td>
+
+                    <td data-label="Status">
                       <span className={statusClass(project.status)}>
                         {project.status}
                       </span>
                     </td>
-                    <td className="description">{project.description}</td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        <button
-                          className="action-btn"
-                          title="View"
-                          onClick={() => handleView(project)}
-                        >
-                          <i className="bi bi-eye"></i>
-                        </button>
 
-                        <button
-                          className="action-btn"
-                          title="Edit"
-                          onClick={() => {
-                            setSelectedProject(project);
-                            setShowEdit(true);
-                          }}
-                        >
-                          <i className="bi bi-pencil-square"></i>
-                        </button>
+                    <td data-label="Description" className="description">
+                      {project.description}
+                    </td>
 
-                        <button
-                          className="action-btn"
-                          title="Delete"
-                          onClick={() => {
-                            setSelectedProject(project);
-                            setShowDelete(true);
-                          }}
-                        >
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </div>
+                    <td data-label="Action" className="action-row">
+                      <button
+                        className="action-btn"
+                        title="View"
+                        onClick={() => handleView(project)}
+                      >
+                        <i className="bi bi-eye"></i>
+                      </button>
+
+                      <button
+                        className="action-btn"
+                        title="Edit"
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setShowEdit(true);
+                        }}
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </button>
+
+                      <button
+                        className="action-btn"
+                        title="Delete"
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setShowDelete(true);
+                        }}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
                     </td>
                   </tr>
                 ))

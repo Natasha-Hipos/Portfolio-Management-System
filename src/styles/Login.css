@@ -1,146 +1,172 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ================================
+   RESPONSIVE: Login page (mobile)
+   Add / paste this at the end of your existing login CSS file
+   ================================ */
 
+/* Allow the page to scroll on very small screens and avoid cut-off */
 .login-wrapper {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9fafc;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
-/* Glowing background circles */
-.login-wrapper::before,
-.login-wrapper::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  z-index: 0;
+/* Medium tablets / small laptops */
+@media (max-width: 992px) {
+  .login-wrapper::before {
+    /* move and scale background circles so they don't overlap form */
+    left: 320px;
+    top: 60px;
+    width: 260px;
+    height: 260px;
+    filter: blur(80px);
+  }
+
+  .login-wrapper::after {
+    left: 780px;
+    top: 420px;
+    width: 180px;
+    height: 180px;
+    filter: blur(60px);
+  }
+
+  .login-box {
+    width: min(420px, 86%);
+    padding: 40px 30px;
+    height: auto;
+  }
 }
 
-/* FIRST CIRCLE — 300x300, linear gradient, top sharp → bottom soft */
-.login-wrapper::before {
-  width: 300px;
-  height: 300px;
-  top: 91px;
-  left: 450px;
-  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
-  position: absolute;
-  overflow: hidden;
-  filter: blur(100px);
+/* Tablets and mobile landscape */
+@media (max-width: 768px) {
+  .login-wrapper {
+    padding: 32px 12px;
+    align-items: flex-start;
+  }
+
+  /* tone down / reposition decorative circles to avoid overlap */
+  .login-wrapper::before {
+    left: 180px;
+    top: 20px;
+    width: 220px;
+    height: 220px;
+    filter: blur(70px);
+    opacity: 0.9;
+  }
+
+  .login-wrapper::after {
+    left: calc(100% - 220px);
+    top: 420px;
+    width: 160px;
+    height: 160px;
+    filter: blur(50px);
+    opacity: 0.9;
+  }
+
+  .login-box {
+    width: min(440px, 92%);
+    padding: 28px 22px;
+    border-radius: 28px;
+    height: auto;
+    box-shadow: 0 8px 20px rgba(15, 23, 60, 0.08);
+    margin: 16px auto;
+    text-align: left;
+  }
+
+  .login-box p {
+    margin-bottom: 18px !important;
+  }
+
+  .form-control {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
+
+  .mb-4 {
+    margin-bottom: 20px !important;
+  }
+
+  .toggle-password {
+    right: 8px;
+  }
+
+  footer {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    padding: 18px 8px;
+    text-align: center;
+  }
 }
 
-/* SECOND CIRCLE — unchanged */
-.login-wrapper::after {
-  width: 200px;
-  height: 200px;
-  top: 550px;
-  left: 950px;
-  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
-  bottom: -100px;
-  right: -120px;
-  filter: blur(70px);
+/* Phones and very small screens */
+@media (max-width: 480px) {
+  /* hide / simplify decorative circles to maximize usable area */
+  .login-wrapper::before,
+  .login-wrapper::after {
+    display: none;
+  }
+
+  .login-wrapper {
+    align-items: center;
+    padding: 20px 12px;
+  }
+
+  .login-box {
+    width: 94%;
+    padding: 18px;
+    border-radius: 18px;
+    height: auto;
+    box-shadow: 0 6px 18px rgba(12, 16, 40, 0.06);
+  }
+
+  .login-box h1,
+  .login-box h2,
+  .login-box h3 {
+    font-size: 1.05rem; /* smaller headings if present */
+  }
+
+  .login-box p {
+    font-size: 0.95rem;
+    margin-bottom: 12px !important;
+  }
+
+  .form-control {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  #password {
+    padding-right: 36px; /* ensure space for toggle icon without overflow */
+  }
+
+  .toggle-password {
+    right: 10px;
+    font-size: 0.95rem;
+  }
+
+  .loading-screen .loading-spinner {
+    width: 44px;
+    height: 44px;
+    border-width: 5px;
+  }
+
+  footer {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    font-size: 12px;
+    padding: 12px;
+  }
 }
 
-/* Login box */
-.login-box {
-  background: #fff;
-  border-radius: 40px;
-  padding: 50px 35px;
-  width: 478px;
-  height: 488px;
-  box-shadow: 0 10px 10px 1px rgba(243, 236, 236, 1);
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.login-box p {
-  margin-bottom: 30px !important;
-}
-
-.form-control {
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  transition: border-color 0.3s;
-  margin-left: -1px;
-}
-
-.form-control:focus {
-  border-color: #4a90e2;
-  box-shadow: none;
-}
-
-.form-control::placeholder {
-  color: #bbb;
-}
-
-#password {
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  padding-right: 40px;
-}
-
-.input-group {
-  position: relative;
-}
-
-.mb-4 {
-  margin-bottom: 34px !important;
-}
-
-.toggle-password {
-  cursor: pointer;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  color: #6c757d;
-}
-
-/* Remove extra spacing so no hidden icon appears */
-#password {
-  padding-right: 15px !important;
-}
-
-footer {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 13px;
-  color: #666;
-  text-align: center;
-  width: 100%;
-}
-
-.loading-screen {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-}
-
-.loading-spinner {
-  width: 55px;
-  height: 55px;
-  border: 6px solid #e5e7eb;
-  border-top-color: #1e3a8a;
-  border-radius: 50%;
-  animation: spin 0.5s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* Accessibility: increase tap targets on touch devices */
+@media (hover: none) {
+  .form-control,
+  .toggle-password,
+  button,
+  .login-box .btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.03);
   }
 }
