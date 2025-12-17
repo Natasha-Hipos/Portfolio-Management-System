@@ -60,3 +60,90 @@ iframe {
   max-width: 100%;
   height: auto;
 }
+
+/* ==============================
+   Mobile: keep main & navbar visible
+   Sidebar stays collapsed / overlays
+   ============================== */
+
+/* For small screens use collapsed sidebar but DO NOT reserve left space.
+   This prevents hover/tap on the sidebar from shifting the navbar/main. */
+@media (max-width: 768px) {
+  /* Keep sidebar compact and positioned so it can overlay content */
+  .sidebar {
+    position: fixed;
+    left: 8px;
+    top: 8px;
+    width: var(--sidebar-collapsed) !important;
+    height: calc(100vh - 16px);
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 12px;
+    z-index: 4000; /* on top of page content but below any modal overlays */
+    transition: none !important;
+    box-shadow: 0 6px 20px rgba(8,10,30,0.12);
+  }
+
+  /* Prevent hover expansion on touch/mobile */
+  .sidebar:hover {
+    width: var(--sidebar-collapsed) !important;
+  }
+
+  /* Keep navbar full width and fixed in place */
+  .navbar-section,
+  .sidebar ~ .navbar-section,
+  .sidebar:hover ~ .navbar-section,
+  body.sidebar-expanded .navbar-section {
+    margin-left: 100px !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-radius: 0 0 12px 12px;
+    transition: none !important;
+    z-index: 3000 !important; /* navbar remains above most content but below sidebar */
+  }
+
+  /* Main content: remove reserved left padding and use comfortable mobile padding */
+  main,
+  .main-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-top: 80px; /* keep space for the fixed navbar (70px) + small gap */
+    margin-left: 100px !important;
+    transition: none !important;
+  }
+
+  /* If you use .page-content or other sibling rules, ensure they don't get pushed */
+  .page-content,
+  .sidebar ~ main,
+  .sidebar ~ .page-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    transition: none !important;
+  }
+
+  /* Optional: hide the sidebar entirely on very small devices to give more space */
+  /* Choose one: comment out the next block if you want the icon-only sidebar to remain visible */
+  @media (max-width: 420px) {
+    .sidebar {
+      display: none !important;
+    }
+    .navbar-section {
+      border-radius: 0 !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    main, .main-content {
+      padding-top: 70px; /* navbar height */
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+
+  /* Reduce transitions on touch devices to avoid jank */
+  @media (hover: none) {
+    * {
+      transition-duration: 0s !important;
+    }
+  }
+}

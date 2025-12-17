@@ -35,6 +35,8 @@ const Sidebar = () => {
         id="sidebar"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        role="navigation"
+        aria-label="Main sidebar"
       >
         <div className="portfolio-admin">Portfolio Admin</div>
         <hr className="sidebar-divider" />
@@ -42,36 +44,36 @@ const Sidebar = () => {
         <div className="menu-container">
           <span className="menu-text">Menu</span>
           {/*toggleSidebar */}
-          <i className="bi bi-list" id="hamburger-toggle"></i>
+          <i className="bi bi-list" id="hamburger-toggle" aria-hidden="true"></i>
         </div>
 
-        <Link to="/dashboard" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-grid"></i>
+        <Link to="/dashboard" className="icon-container" onClick={handleLinkClick} aria-label="Dashboard">
+          <i className="bi bi-grid" aria-hidden="true"></i>
           <span className="icon-text">Dashboard</span>
         </Link>
 
-        <Link to="/project" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-folder"></i>
+        <Link to="/project" className="icon-container" onClick={handleLinkClick} aria-label="Project">
+          <i className="bi bi-folder" aria-hidden="true"></i>
           <span className="icon-text">Project</span>
         </Link>
 
-        <Link to="/skills" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-pie-chart"></i>
+        <Link to="/skills" className="icon-container" onClick={handleLinkClick} aria-label="Skills">
+          <i className="bi bi-pie-chart" aria-hidden="true"></i>
           <span className="icon-text">Skills</span>
         </Link>
 
-        <Link to="/experience" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-file-earmark-text"></i>
+        <Link to="/experience" className="icon-container" onClick={handleLinkClick} aria-label="Experience">
+          <i className="bi bi-file-earmark-text" aria-hidden="true"></i>
           <span className="icon-text">Experience</span>
         </Link>
 
-        <Link to="/profile" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-person"></i>
+        <Link to="/profile" className="icon-container" onClick={handleLinkClick} aria-label="Profile">
+          <i className="bi bi-person" aria-hidden="true"></i>
           <span className="icon-text">Profile</span>
         </Link>
 
-        <Link to="/setting" className="icon-container" onClick={handleLinkClick}>
-          <i className="bi bi-gear"></i>
+        <Link to="/setting" className="icon-container" onClick={handleLinkClick} aria-label="Settings">
+          <i className="bi bi-gear" aria-hidden="true"></i>
           <span className="icon-text">Settings</span>
         </Link>
 
@@ -80,8 +82,9 @@ const Sidebar = () => {
         <button
           className="icon-container logout-btn"
           onClick={() => setShowLogout(true)}
+          aria-label="Log Out"
         >
-          <i className="bi bi-box-arrow-right"></i>
+          <i className="bi bi-box-arrow-right" aria-hidden="true"></i>
           <span className="icon-text">Log Out</span>
         </button>
       </aside>

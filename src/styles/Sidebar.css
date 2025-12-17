@@ -265,3 +265,132 @@
 .navbar-section {
   transition: all 0.3s ease;
 }
+
+/* ================================
+   MOBILE / SMALL SCREEN OVERRIDES
+   (added for mobile responsiveness)
+   ================================ */
+
+/* Provide a safe fallback for the CSS variable if it isn't defined elsewhere */
+:root {
+  --sidebar-collapsed: 72px;
+}
+
+/* Mobile: icon-only sidebar, tappable icons, no hover expansion */
+@media (max-width: 768px) {
+  .sidebar {
+    width: var(--sidebar-collapsed) !important;
+    margin: 8px;
+    border-radius: 12px;
+    padding: 8px 6px;
+    height: calc(100vh - 16px);
+    align-items: center;
+    justify-content: flex-start;
+    overflow: auto;
+    position: fixed;
+    left: 8px;
+    top: 8px;
+    z-index: 3000;
+    /* Disable width transition to avoid any layout jump when hover/touch occurs */
+    transition: none;
+  }
+
+  /* Ensure hover does NOT expand the sidebar on touch devices */
+  .sidebar:hover {
+    width: var(--sidebar-collapsed) !important;
+  }
+
+  /* Prevent hover from pushing the main content on mobile:
+     make both hover and non-hover sibling rules equal so no jump occurs. */
+  .sidebar ~ .navbar-section,
+  .sidebar ~ main,
+  .sidebar ~ .page-content,
+  .sidebar:hover ~ .navbar-section,
+  .sidebar:hover ~ main,
+  .sidebar:hover ~ .page-content {
+    margin-left: calc(var(--sidebar-collapsed) + 16px) !important;
+    width: calc(100% - (var(--sidebar-collapsed) + 32px)) !important;
+    transition: none !important;
+  }
+
+  /* Hide title and labels to show icons only */
+  .portfolio-admin,
+  .menu-text,
+  .icon-text {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Compact menu container */
+  .menu-container {
+    padding: 6px 0;
+    margin: 6px 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Optionally hide the hamburger toggle on small screens */
+  #hamburger-toggle {
+    display: none;
+  }
+
+  /* Make icon rows more touch-friendly */
+  .icon-container {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    margin: 6px 0;
+    gap: 0;
+    border-radius: 10px;
+  }
+
+  .icon-container i {
+    font-size: 22px;
+    min-width: auto;
+    color: #fff;
+  }
+
+  /* Keep icon hover feedback (background change) but no layout shift */
+  .icon-container:hover,
+  .icon-container:active,
+  .icon-container:focus {
+    background-color: rgba(255,255,255,0.04);
+    border-radius: 10px;
+  }
+
+  /* Logout button appearance in icon-only mode */
+  .logout-btn {
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  /* Make divider narrower and centered */
+  .sidebar-divider {
+    width: 60%;
+    margin: 8px auto;
+  }
+
+  /* Adjust page content to account for narrow sidebar (optional) */
+  .sidebar ~ .navbar-section,
+  .sidebar ~ main,
+  .sidebar ~ .page-content {
+    transition: all 0.3s ease;
+    margin-left: calc(var(--sidebar-collapsed) + 16px);
+  }
+}
+
+/* Very small screens: slightly larger icon and spacing */
+@media (max-width: 420px) {
+  .icon-container {
+    height: 52px;
+    margin: 4px 0;
+  }
+  .icon-container i {
+    font-size: 24px;
+  }
+}

@@ -151,3 +151,44 @@ body.sidebar-expanded .navbar-section {
     --sidebar-expanded: 200px;
   }
 }
+
+/* Keep navbar fixed on mobile — prevent sidebar hover from pushing it */
+@media (max-width: 768px) {
+  /* Ensure collapsed width is used on mobile regardless of body.sidebar-expanded */
+  body.sidebar-expanded {
+    --sidebar-width: var(--sidebar-collapsed) !important;
+  }
+
+  /* Prevent the sidebar from expanding on hover on mobile */
+  .sidebar:hover {
+    width: var(--sidebar-collapsed) !important;
+    transition: none !important;
+  }
+
+  /* Force navbar/main to use collapsed sidebar spacing and ignore :hover sibling rules */
+  .navbar-section,
+  main,
+  .page-content,
+  .sidebar ~ .navbar-section,
+  .sidebar ~ main,
+  .sidebar ~ .page-content,
+  .sidebar:hover ~ .navbar-section,
+  .sidebar:hover ~ main,
+  .sidebar:hover ~ .page-content,
+  body.sidebar-expanded .navbar-section {
+    margin-left: calc(var(--sidebar-collapsed) + 10px) !important;
+    width: calc(100% - (var(--sidebar-collapsed) + 30px)) !important;
+    transition: none !important;
+  }
+
+  /* If you use left/right positioning on .navbar-section, keep it stable */
+  .navbar-section {
+    left: 5px !important;
+    right: 0 !important;
+  }
+
+  /* Optional: reduce animations on touch devices to avoid jitter */
+  * {
+    transition-duration: 0s !important;
+  }
+}

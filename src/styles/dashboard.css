@@ -5,13 +5,12 @@
   margin: 0 auto;
   width: min(1400px, calc(100% - 48px)); /* fluid up to 1400px */
   padding-left: 12px;
-
 }
 
 .dashboard h2 {
   color: #0c093d;
   font-weight: bold;
-}              
+}
 
 .dashboard p.text-muted {
   font-style: italic;
@@ -29,7 +28,6 @@
   width: 336px;
   height: 100px;
 }
-
 
 /* Stat Cards */
 .stat-card {
@@ -152,6 +150,7 @@ button.btn:hover {
 .pcircle {
   padding-top: 40px;
 }
+
 /* Center donut charts better */
 .circular-chart {
   max-width: 140px;
@@ -356,4 +355,189 @@ button.btn:hover {
   overflow-wrap: anywhere;
   word-break: break-word;
   white-space: normal; /* allow wrapping instead of clipping */
+}
+
+/* ================================
+   ADDED MOBILE / RESPONSIVE RULES
+   (stack layout, adjust paddings, make charts responsive)
+   ================================ */
+
+/* Make dashboard container full width on small devices */
+@media (max-width: 992px) {
+  .dashboard {
+    width: calc(100% - 24px);
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Make stat cards flexible/wrapping */
+  .stat-card {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  /* Buttons become smaller and flexible */
+  button.btn {
+    width: auto;
+    padding: 10px 12px;
+  }
+
+  /* Project & deadline stack vertically */
+  .d-flex.flex-wrap.gap-3 {
+    gap: 12px;
+  }
+
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    flex: 1 1 100%;
+    min-width: 0;
+    height: auto;
+    padding: 18px;
+  }
+
+  /* Charts: reduce height */
+  .static-bar-chart {
+    height: 200px;
+    padding-left: 32px;
+  }
+}
+
+/* Mobile: single column, larger touch targets, collapse spacing */
+@media (max-width: 768px) {
+  .dashboard {
+    width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Stack stat cards as a column */
+  .d-flex.gap-3.flex-wrap.mb-4 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat-card {
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stat-card h3 { font-size: 1.1rem; }
+
+  /* Keep cards full width */
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    flex: 1 1 100%;
+    min-width: 0;
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  /* Make charts and circular chart responsive */
+  .pcircle {
+    padding-top: 18px;
+  }
+  .circular-chart {
+    max-width: 110px;
+  }
+  .percentage { font-size: 0.45em; }
+
+  /* Project by category chart should be shorter */
+  .analytics-card.category-chart-card {
+    padding: 16px;
+  }
+  .static-bar-chart {
+    height: 170px;
+    padding-left: 32px;
+  }
+  .bars { height: 120px; }
+  .bar { width: 28px; }
+
+  /* Recent activity full width and compact */
+  .recent-activity {
+    padding: 16px;
+  }
+  .recent-activity ul li { padding: 8px 0; }
+
+  /* Button becomes full width and easier to tap */
+  .dashboard .btn {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px 12px;
+  }
+}
+
+/* Very small devices (phones) */
+@media (max-width: 480px) {
+  .dashboard {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .stat-card {
+    padding: 10px;
+    height: auto;
+  }
+
+  .circular-chart {
+    max-width: 96px;
+  }
+
+  .static-bar-chart {
+    height: 150px;
+    padding-left: 28px;
+  }
+
+  .bars { height: 100px; }
+  .bar { width: 22px; }
+
+  .project-card, .deadline-card {
+    padding: 12px;
+  }
+
+  .project-card h5, .analytics-card h5 {
+    font-size: 0.98rem;
+  }
+
+  .dashboard h2 {
+    font-size: 1.15rem;
+  }
+
+  /* Reduce spacing in recent activity list */
+  .recent-activity ul li { padding: 6px 0; font-size: 0.9rem; }
+}
+
+/* Accessibility / touch improvements */
+@media (hover: none) {
+  .icon, .btn, .action-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+  }
+}
+
+/* ------------------------------
+  Prevent main content shifting
+  when sidebar is hovered
+  ------------------------------ */
+
+/* Keep the main content margin fixed (no extra push on :hover).
+   Uses the collapsed sidebar width so hovering the sidebar won't
+   change page layout. */
+.sidebar ~ .navbar-section,
+.sidebar ~ main,
+.sidebar ~ .page-content,
+.sidebar:hover ~ .navbar-section,
+.sidebar:hover ~ main,
+.sidebar:hover ~ .page-content {
+  margin-left: calc(var(--sidebar-collapsed, 72px) + 16px) !important;
+  width: calc(100% - (var(--sidebar-collapsed, 72px) + 32px)) !important;
+  transition: none !important; /* remove the animated jump */
 }
