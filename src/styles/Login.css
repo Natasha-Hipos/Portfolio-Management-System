@@ -1,18 +1,55 @@
-/* ================================
-   RESPONSIVE: Login page (mobile)
-   Add / paste this at the end of your existing login CSS file
-   ================================ */
-
-/* Allow the page to scroll on very small screens and avoid cut-off */
-.login-wrapper {
-  min-height: 100vh;
-  overflow-y: auto;
+/* ======================================
+   Login Page: General Styles for Card
+   ====================================== */
+.login-box {
+  position: relative;
+  z-index: 2; /* Ensures the card is above background elements */
+  width: 100%; /* Default width, adjusted below per screen size */
+  max-width: 460px; /* Ensure it doesn’t stretch too wide on large screens */
+  padding: 40px 30px; /* Comfortable padding */
+  margin: 0 auto; /* Center the card horizontally */
+  border-radius: 50px; /* Rounded corners for modern aesthetics */
+  background: #ffffff; /* Clean white background */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  height: auto; /* Allow flexibility based on content */
+  text-align: left;
+  margin-top: 100px; /* Adds vertical spacing */
 }
 
-/* Medium tablets / small laptops */
+/* ======================================
+   Login Page: Background Gradient - Glowing effect added
+   ====================================== */
+.login-wrapper::before,
+.login-wrapper::after {
+  position: absolute;
+  content: '';
+  border-radius: 50%; /* Circular gradient */
+  z-index: 0; /* Below the card */
+}
+
+.login-wrapper::before {
+  width: 300px;
+  height: 300px;
+  top: 30px;
+  left: 310px;
+  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
+  filter: blur(100px);
+  position: absolute;
+}
+
+.login-wrapper::after {
+  width: 200px;
+  height: 200px;
+  top: 400px;
+  left: 800px;
+  background: linear-gradient(to bottom, #488cfa 0%, #6996de 100%);
+  filter: blur(70px);
+  position: absolute;
+}
+
+/* Medium tablets / small laptops (max-width: 992px) */
 @media (max-width: 992px) {
   .login-wrapper::before {
-    /* move and scale background circles so they don't overlap form */
     left: 320px;
     top: 60px;
     width: 260px;
@@ -27,146 +64,79 @@
     height: 180px;
     filter: blur(60px);
   }
-
-  .login-box {
-    width: min(420px, 86%);
-    padding: 40px 30px;
-    height: auto;
-  }
 }
 
-/* Tablets and mobile landscape */
+/* Tablets and mobile landscape (max-width: 768px) */
 @media (max-width: 768px) {
-  .login-wrapper {
-    padding: 32px 12px;
-    align-items: flex-start;
-  }
-
-  /* tone down / reposition decorative circles to avoid overlap */
   .login-wrapper::before {
-    left: 180px;
+    left: 10px;
     top: 20px;
     width: 220px;
     height: 220px;
     filter: blur(70px);
-    opacity: 0.9;
+    opacity: 0.9; /* Modify opacity for smaller screens */
   }
 
   .login-wrapper::after {
-    left: calc(100% - 220px);
-    top: 420px;
+    left: 340px;
+    top: 450px;
     width: 160px;
     height: 160px;
     filter: blur(50px);
     opacity: 0.9;
   }
-
-  .login-box {
-    width: min(440px, 92%);
-    padding: 28px 22px;
-    border-radius: 28px;
-    height: auto;
-    box-shadow: 0 8px 20px rgba(15, 23, 60, 0.08);
-    margin: 16px auto;
-    text-align: left;
-  }
-
-  .login-box p {
-    margin-bottom: 18px !important;
-  }
-
-  .form-control {
-    font-size: 0.95rem;
-    padding: 10px 12px;
-  }
-
-  .mb-4 {
-    margin-bottom: 20px !important;
-  }
-
-  .toggle-password {
-    right: 8px;
-  }
-
-  footer {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    padding: 18px 8px;
-    text-align: center;
-  }
 }
 
-/* Phones and very small screens */
+/* Phones and very small screens (max-width: 480px) */
 @media (max-width: 480px) {
-  /* hide / simplify decorative circles to maximize usable area */
   .login-wrapper::before,
   .login-wrapper::after {
-    display: none;
-  }
-
-  .login-wrapper {
-    align-items: center;
-    padding: 20px 12px;
-  }
-
-  .login-box {
-    width: 94%;
-    padding: 18px;
-    border-radius: 18px;
-    height: auto;
-    box-shadow: 0 6px 18px rgba(12, 16, 40, 0.06);
-  }
-
-  .login-box h1,
-  .login-box h2,
-  .login-box h3 {
-    font-size: 1.05rem; /* smaller headings if present */
-  }
-
-  .login-box p {
-    font-size: 0.95rem;
-    margin-bottom: 12px !important;
-  }
-
-  .form-control {
-    padding: 10px;
-    font-size: 0.95rem;
-  }
-
-  #password {
-    padding-right: 36px; /* ensure space for toggle icon without overflow */
-  }
-
-  .toggle-password {
-    right: 10px;
-    font-size: 0.95rem;
-  }
-
-  .loading-screen .loading-spinner {
-    width: 44px;
-    height: 44px;
-    border-width: 5px;
-  }
-
-  footer {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    font-size: 12px;
-    padding: 12px;
+    display: none; /* Remove glowing decorations for very small screens */
   }
 }
 
-/* Accessibility: increase tap targets on touch devices */
-@media (hover: none) {
-  .form-control,
-  .toggle-password,
-  button,
-  .login-box .btn {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0,0,0,0.03);
-  }
+/* ======================================
+   Accessibility Improvements for All Screens
+   ====================================== */
+.login-box .btn,
+.login-box .form-control,
+.login-box .toggle-password {
+  font-size: 1rem; /* Ensure touch-friendly elements are easy to use */
+  line-height: 1.5; /* Comfortable text spacing */
+  transition: background-color 0.3s, box-shadow 0.15s; /* Smooth interactive transitions */
+}
+
+.login-box .btn:hover {
+  background: #007bff; /* Subtle hover effect for focus */
+  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2); /* Hover feedback shadow */
+}
+
+.login-box .form-control {
+  padding: 12px; /* Comfortable input field padding */
+  font-size: 1rem; /* Readable font size */
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Slight outline for clarity */
+}
+
+.login-box .form-control:focus {
+  outline: none;
+  border-color: #0066cc; /* Make focus state visible and intuitive */
+  box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+}
+
+/* ======================================
+   Footer Adjustments
+   ====================================== */
+footer {
+  position: absolute; /* Place the footer at the bottom of the page */
+  bottom: 0; /* Align to the bottom of the viewport */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust the center position */
+  margin-top: 0; /* Remove additional top margin */
+  font-size: 0.9rem; /* Font size for compact view */
+  text-align: center; /* Center content within the footer */
+  color: #6c757d; /* Muted gray color for less focus */
+  width: 100%; /* Ensure the footer spans the width of the page */
+  padding: 16px; /* Add comfortable padding for content */
+  background-color: #f9fafc; /* Optional: background to visually separate footer */
 }
