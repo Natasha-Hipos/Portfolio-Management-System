@@ -9,6 +9,8 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
   const navigate = useNavigate();
+  const [showPassword] = useState(false); // State to toggle password visibility
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,7 +72,7 @@ function Login() {
                 <i className="bi bi-lock"></i>
               </span>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
                 placeholder="Enter Password"
@@ -93,4 +95,3 @@ function Login() {
 }
 
 export default Login;
- 
