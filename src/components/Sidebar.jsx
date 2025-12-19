@@ -9,20 +9,45 @@ const Sidebar = () => {
   const { showNotification } = useNotification();
   const navigate = useNavigate();
 
+  // track whether we are on a small screen where we show bottom nav
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 420px)");
+    const update = (e) => setIsMobile(!!e.matches);
+    // init
+    update(mq);
+    if (mq.addEventListener) {
+      mq.addEventListener("change", update);
+      return () => mq.removeEventListener("change", update);
+    } else {
+      mq.addListener(update);
+      return () => mq.removeListener(update);
+    }
+  }, []);
+
   const handleMouseEnter = () => {
-    document.body.classList.add("sidebar-expanded");
+    // only expand on non-mobile (desktop)
+    if (!isMobile) {
+      document.body.classList.add("sidebar-expanded");
+    }
   };
 
   const handleMouseLeave = () => {
-    document.body.classList.remove("sidebar-expanded");
+    if (!isMobile) {
+      document.body.classList.remove("sidebar-expanded");
+    }
   };
 
-  // clicking a sidebar link should CLOSE sidebar hover mode
+  // clicking a sidebar link should CLOSE sidebar hover mode (desktop only)
   const handleLinkClick = () => {
-    document.body.classList.remove("sidebar-expanded");
+    if (!isMobile) {
+      document.body.classList.remove("sidebar-expanded");
+    }
   };
 
   useEffect(() => {
+    // cleanup on unmount
     return () => {
       document.body.classList.remove("sidebar-expanded");
     };
@@ -31,10 +56,10 @@ const Sidebar = () => {
   return (
     <>
       <aside
-        className="sidebar d-flex flex-column align-items-center py-3"
+        className={`sidebar d-flex flex-column align-items-center py-3 ${isMobile ? "bottom-nav" : ""}`}
         id="sidebar"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={isMobile ? undefined : handleMouseEnter}
+        onMouseLeave={isMobile ? undefined : handleMouseLeave}
         role="navigation"
         aria-label="Main sidebar"
       >
@@ -43,7 +68,6 @@ const Sidebar = () => {
 
         <div className="menu-container">
           <span className="menu-text">Menu</span>
-          {/*toggleSidebar */}
           <i className="bi bi-list" id="hamburger-toggle" aria-hidden="true"></i>
         </div>
 

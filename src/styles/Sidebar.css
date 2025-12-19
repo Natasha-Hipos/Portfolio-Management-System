@@ -19,6 +19,7 @@
   font-weight: 500;
 }
 
+/* keep desktop expansion behavior intact (unless overridden by mobile rules) */
 .sidebar:hover {
   width: var(--sidebar-expanded);
 }
@@ -28,11 +29,11 @@
   display: flex;
   justify-content: center;     /* center horizontally */
   align-items: center;         /* center vertically */
-  padding: 20px 0;  
+  padding: 20px 0;
   padding-right: 20px;           /* top and bottom padding */
   font-family: "Poppins", sans-serif;
   font-size: 30px;
-  font-weight: 600;          
+  font-weight: 600;
   text-align: center;
   color: #ffffff;              /* adjust if needed */
   opacity: 0;
@@ -73,17 +74,20 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* prefer non-layout transitions to avoid jumps */
+  transition: background-color 180ms ease, box-shadow 180ms ease;
   position: relative;
   color: white;
   text-decoration: none;
 }
 
+/* Desktop icon hover (visual only) */
 .icon-container:hover {
   background-color: #203a92;
   border-radius: 8px;
 }
 
+/* Icon element */
 .icon-container i {
   font-size: 22px;
   color: white;
@@ -91,6 +95,7 @@
   min-width: 22px;
 }
 
+/* Desktop icon hover color */
 .icon-container:hover i {
   color: #4f6ef7;
 }
@@ -108,6 +113,7 @@
   line-height: 1;
 }
 
+/* Desktop reveal of icon-text when sidebar hovered */
 .sidebar:hover .icon-text {
   opacity: 1;
   visibility: visible;
@@ -116,6 +122,7 @@
   font-weight: bold;
 }
 
+/* Desktop: reveal labels and shift content when sidebar hovered */
 .sidebar:hover .icon-container {
   justify-content: flex-start !important;
   padding-left: 20px !important;
@@ -225,7 +232,6 @@
 
 .sidebar:not(:hover) .menu-text {
   display: none;
-
 }
 
 .sidebar:hover .menu-container {
@@ -268,7 +274,7 @@
 
 /* ================================
    MOBILE / SMALL SCREEN OVERRIDES
-   (added for mobile responsiveness)
+   (mobile behavior tuned to keep icons steady on hover)
    ================================ */
 
 /* Provide a safe fallback for the CSS variable if it isn't defined elsewhere */
@@ -276,121 +282,367 @@
   --sidebar-collapsed: 72px;
 }
 
-/* Mobile: icon-only sidebar, tappable icons, no hover expansion */
-@media (max-width: 768px) {
-  .sidebar {
-    width: var(--sidebar-collapsed) !important;
-    margin: 8px;
-    border-radius: 12px;
-    padding: 8px 6px;
-    height: calc(100vh - 16px);
-    align-items: center;
-    justify-content: flex-start;
-    overflow: auto;
-    position: fixed;
-    left: 8px;
-    top: 8px;
-    z-index: 3000;
-    /* Disable width transition to avoid any layout jump when hover/touch occurs */
-    transition: none;
-  }
-
-  /* Ensure hover does NOT expand the sidebar on touch devices */
-  .sidebar:hover {
-    width: var(--sidebar-collapsed) !important;
-  }
-
-  /* Prevent hover from pushing the main content on mobile:
-     make both hover and non-hover sibling rules equal so no jump occurs. */
-  .sidebar ~ .navbar-section,
-  .sidebar ~ main,
-  .sidebar ~ .page-content,
-  .sidebar:hover ~ .navbar-section,
-  .sidebar:hover ~ main,
-  .sidebar:hover ~ .page-content {
-    margin-left: calc(var(--sidebar-collapsed) + 16px) !important;
-    width: calc(100% - (var(--sidebar-collapsed) + 32px)) !important;
+/* ======================
+   MOBILE / BOTTOM NAV (<=420px)
+   ====================== */
+@media (max-width: 420px) {
+  /* Page content reserve space for bottom nav */
+  main,
+  .page-content,
+  .content-wrapper {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: calc(64px + 16px) !important; /* reserve space for nav */
+    padding-top: 80px !important;
     transition: none !important;
   }
 
-  /* Hide title and labels to show icons only */
-  .portfolio-admin,
-  .menu-text,
-  .icon-text {
+  /* Navbar full width */
+  .navbar-section,
+  .sidebar ~ .navbar-section {
+    margin-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 3000 !important;
+  }
+
+  /* Bottom nav bar */
+  .sidebar {
+    position: fixed !important;
+    bottom: env(safe-area-inset-bottom, 8px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 16px) !important;
+    max-width: 560px !important;
+    height: 64px !important;
+    margin: 0 !important;
+    padding: 0 !important;               /* no inner padding so icons occupy full width */
+    border-radius: 12px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important; /* distribute icons evenly */
+    gap: 0 !important;
+    z-index: 99999 !important;
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.20) !important;
+    background-color: #0c093d !important;
+    overflow: hidden !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+
+  /* Hide desktop-only elements that would change bar shape */
+  .sidebar .portfolio-admin,
+  .sidebar .menu-text,
+  .sidebar .sidebar-divider,
+  .sidebar .menu-container {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Icons-only: hide icon-text */
+  .sidebar .icon-text {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Icons: equal slots, fill height, steady on hover */
+  .sidebar .icon-container {
+    flex: 1 1 0 !important;        /* equal width slots */
+    width: 0 !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    transition: background-color 160ms ease !important; /* visual only */
+  }
+
+  /* Clickable fills slot */
+  .sidebar .icon-container > a,
+  .sidebar .icon-container > button,
+  .sidebar .icon-container > .nav-link {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    background: transparent !important;
+    outline: none !important;
+  }
+
+  /* Icon visuals: color only (no transform or size change) */
+  .sidebar .icon-container i {
+    display: inline-block !important;
+    font-size: 22px !important;
+    color: #fff !important;
+    line-height: 1 !important;
+    transition: color 140ms ease !important;
+    transform: none !important;
+  }
+
+  /* Hover/focus: visual feedback only (background + color) */
+  .sidebar .icon-container:hover,
+  .sidebar .icon-container:focus,
+  .sidebar .icon-container:active {
+    background-color: rgba(255,255,255,0.03) !important;
+  }
+  .sidebar .icon-container:hover i,
+  .sidebar .icon-container:focus i,
+  .sidebar .icon-container:active i {
+    color: #4f6ef7 !important;
+  }
+
+  /* Logout behaves like icons */
+  .sidebar .logout-btn {
+    flex: 1 1 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    transition: background-color 160ms ease !important;
+  }
+
+  /* Neutralize any attempted expansion on mobile (hover or class) */
+  .sidebar:hover,
+  .sidebar.expanded,
+  .sidebar.expanded:hover,
+  body.sidebar-expanded {
+    width: calc(100% - 16px) !important;
+  }
+}
+
+/* Slight tweak for very small devices */
+@media (max-width: 350px) {
+  .sidebar { height: 68px !important; }
+  .sidebar .icon-container i { font-size: 24px !important; }
+  main, .page-content, .content-wrapper { padding-bottom: calc(68px + 18px) !important; }
+}
+
+/* ---------------------------
+  Mobile bottom-nav: <= 720px (with extra tweaks <=420px)
+--------------------------- */
+
+/* Tablet & mobile: bottom nav for screens up to 720px */
+@media (max-width: 720px) {
+  /* Reserve space so content isn't hidden behind the bottom nav */
+  main,
+  .page-content,
+  .content-wrapper {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: calc(72px + 18px) !important; /* reserve space for nav */
+    padding-top: 80px !important;
+    transition: none !important;
+  }
+
+  /* Navbar full width so it doesn't get pushed by sidebar */
+  .navbar-section,
+  .sidebar ~ .navbar-section {
+    margin-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    transition: none !important;
+    z-index: 3000 !important;
+  }
+
+  /* Convert sidebar into centered bottom navigation */
+  .sidebar {
+    position: fixed !important;
+    bottom: env(safe-area-inset-bottom, 10px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 24px) !important;
+    max-width: 720px !important;
+    height: 72px !important;
+    margin: 0 !important;
+    padding: 0 !important;               /* no inner padding so icons occupy full width */
+    border-radius: 14px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important; /* distribute icons evenly */
+    gap: 0 !important;
+    z-index: 99999 !important;
+    box-shadow: 0 12px 34px rgba(2, 6, 23, 0.18) !important;
+    background-color: #0c093d !important;
+    overflow: hidden !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+
+  /* Hide desktop-only elements inside the sidebar */
+  .sidebar .portfolio-admin,
+  .sidebar .menu-text,
+  .sidebar .sidebar-divider,
+  .sidebar .menu-container {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
   }
 
-  /* Compact menu container */
-  .menu-container {
-    padding: 6px 0;
-    margin: 6px 0;
-    width: 100%;
-    justify-content: center;
+  /* Icons-only: hide icon labels */
+  .sidebar .icon-text {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
-  /* Optionally hide the hamburger toggle on small screens */
-  #hamburger-toggle {
-    display: none;
+  /* Make each icon slot equal and fill height — steady on hover */
+  .sidebar .icon-container {
+    flex: 1 1 0 !important;        /* equal slots */
+    width: 0 !important;           /* let flex determine width */
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    transition: background-color 160ms ease !important; /* visual only */
   }
 
-  /* Make icon rows more touch-friendly */
-  .icon-container {
-    width: 100%;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    margin: 6px 0;
-    gap: 0;
-    border-radius: 10px;
+  /* Clickable fills the slot for large tap targets */
+  .sidebar .icon-container > a,
+  .sidebar .icon-container > button,
+  .sidebar .icon-container > .nav-link {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    background: transparent !important;
+    outline: none !important;
   }
 
-  .icon-container i {
-    font-size: 22px;
-    min-width: auto;
-    color: #fff;
+  /* Icon visuals: color-only changes, no transform/size changes */
+  .sidebar .icon-container i {
+    display: inline-block !important;
+    font-size: 24px !important;
+    color: #fff !important;
+    line-height: 1 !important;
+    transition: color 140ms ease !important;
+    transform: none !important;
   }
 
-  /* Keep icon hover feedback (background change) but no layout shift */
-  .icon-container:hover,
-  .icon-container:active,
-  .icon-container:focus {
-    background-color: rgba(255,255,255,0.04);
-    border-radius: 10px;
+  /* Hover/focus: visual feedback only (background + color) */
+  .sidebar .icon-container:hover,
+  .sidebar .icon-container:focus,
+  .sidebar .icon-container:active {
+    background-color: rgba(255,255,255,0.03) !important;
+  }
+  .sidebar .icon-container:hover i,
+  .sidebar .icon-container:focus i,
+  .sidebar .icon-container:active i {
+    color: #4f6ef7 !important;
   }
 
-  /* Logout button appearance in icon-only mode */
-  .logout-btn {
-    justify-content: center;
-    margin-bottom: 8px;
+  /* Logout icon behaves same as other icons */
+  .sidebar .logout-btn {
+    flex: 1 1 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    transition: background-color 160ms ease !important;
   }
 
-  /* Make divider narrower and centered */
-  .sidebar-divider {
-    width: 60%;
-    margin: 8px auto;
+  /* Prevent any hover/class-triggered expansion on <=720px */
+  .sidebar:hover,
+  .sidebar.expanded,
+  .sidebar.expanded:hover,
+  body.sidebar-expanded {
+    width: calc(100% - 24px) !important;
   }
 
-  /* Adjust page content to account for narrow sidebar (optional) */
-  .sidebar ~ .navbar-section,
-  .sidebar ~ main,
-  .sidebar ~ .page-content {
-    transition: all 0.3s ease;
-    margin-left: calc(var(--sidebar-collapsed) + 16px);
+  /* Safety: neutralize any expanded-class reveals */
+  .sidebar.expanded .portfolio-admin,
+  body.sidebar-expanded .portfolio-admin,
+  .sidebar.expanded .icon-text,
+  body.sidebar-expanded .icon-text {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 }
 
-/* Very small screens: slightly larger icon and spacing */
+/* --------
+  Extra tweaks for very small screens <=420px
+   -------- */
 @media (max-width: 420px) {
-  .icon-container {
-    height: 52px;
-    margin: 4px 0;
+  main,
+  .page-content,
+  .content-wrapper {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: calc(64px + 16px) !important; /* reserve space for nav */
+    padding-top: 80px !important;
+    transition: none !important;
   }
-  .icon-container i {
-    font-size: 24px;
+
+  .navbar-section,
+  .sidebar ~ .navbar-section {
+    margin-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    transition: none !important;
+    z-index: 3000 !important;
   }
+
+  .sidebar {
+    width: calc(100% - 16px) !important;
+    max-width: 560px !important;
+    height: 64px !important;
+    border-radius: 12px !important;
+  }
+
+  .sidebar .icon-container i {
+    font-size: 22px !important;
+  }
+
+  /* prevent expansion on tiny screens too */
+  .sidebar:hover,
+  .sidebar.expanded,
+  body.sidebar-expanded {
+    width: calc(100% - 16px) !important;
+  }
+}
+
+/* Slight tweak for very small devices <=350px */
+@media (max-width: 350px) {
+  .sidebar { height: 68px !important; }
+  .sidebar .icon-container i { font-size: 24px !important; }
+  main, .page-content, .content-wrapper { padding-bottom: calc(68px + 18px) !important; }
 }

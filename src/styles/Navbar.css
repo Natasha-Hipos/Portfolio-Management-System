@@ -71,7 +71,7 @@ body.sidebar-expanded .navbar-section {
   transform: scale(1.1);
 }
 
-/* Optional admin name inside .admin-info, will be truncated on small screens */
+
 .admin-info .admin-name {
   white-space: nowrap;
   overflow: hidden;
@@ -136,73 +136,15 @@ body.sidebar-expanded .navbar-section {
   transition: all 0.3s ease;
 }
 
-/* RESPONSIVE */
-
-/* Very small phones */
-@media (max-width: 480px) {
-  .sidebar {
-    display: none;
-  }
-  .navbar-section {
-    border-radius: 10px;
-    padding: 10px;
-    width: 100% !important;
-    margin-left: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-  }
-  .search-box input {
-    max-width: 120px;
-  }
-}
-
-/* Small tablets / large phones */
-@media (min-width: 481px) and (max-width: 768px) {
-  :root {
-    --sidebar-collapsed: 70px;
-    --sidebar-expanded: 160px;
-  }
-}
-
-/* Medium desktops */
-@media (min-width: 769px) and (max-width: 1200px) {
-  :root {
-    --sidebar-collapsed: 80px;
-    --sidebar-expanded: 180px;
-  }
-}
-
-/* Large desktops */
-@media (min-width: 1201px) {
-  :root {
-    --sidebar-collapsed: 91px;
-    --sidebar-expanded: 200px;
-  }
-}
-
-/* ================================
-   MOBILE: keep admin-info visible on the right
-   and prevent sidebar hover from pushing navbar
-   (place this at the end so it overrides earlier rules)
-   ================================ */
-@media (max-width: 768px) {
-  /* Use collapsed width on mobile (ignore body.sidebar-expanded) */
+@media (max-width: 720px) {
+  /* If JS set body.sidebar-expanded on small screens, neutralize its layout effect */
   body.sidebar-expanded {
     --sidebar-width: var(--sidebar-collapsed) !important;
   }
 
-  /* Prevent sidebar expansion on hover for touch devices and ensure it doesn't push layout */
-  .sidebar,
-  .sidebar:hover {
-    width: var(--sidebar-collapsed) !important;
-    transition: none !important;
-  }
-
-  /* Force navbar to full width and stable position */
+  /* Navbar becomes full-width and flush with viewport */
   .navbar-section,
-  .sidebar ~ .navbar-section,
-  .sidebar:hover ~ .navbar-section,
-  body.sidebar-expanded .navbar-section {
+  .sidebar ~ .navbar-section {
     margin-left: 0 !important;
     width: 100% !important;
     left: 0 !important;
@@ -211,10 +153,10 @@ body.sidebar-expanded .navbar-section {
     height: 64px !important;
     border-radius: 10px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-    transition: none !important;
+    transition: none !important; /* immediate layout on mobile */
   }
 
-  /* Layout: search on left (flex-grow) and admin-info pinned to the right */
+  /* Navbar layout: search takes available space, admin-info pinned right */
   .navbar-section {
     display: flex;
     align-items: center;
@@ -235,12 +177,12 @@ body.sidebar-expanded .navbar-section {
     width: 100%;
     max-width: 100%;
     padding: 8px 12px 8px 36px;
-    display: block;
     border-radius: 22px;
+    background: white;
   }
 
-  .search-box i {
-    left: 12px;
+  .search-box i { 
+    left: 12px; 
   }
 
   .admin-info {
@@ -253,68 +195,46 @@ body.sidebar-expanded .navbar-section {
     white-space: nowrap;
   }
 
-  /* Ensure admin name is visible but truncated if needed */
-  .admin-info .admin-name {
-    display: inline-block;
-    max-width: 110px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #fff;
-  }
+  /* truncate admin-name more on tablet */
+  .admin-info .admin-name { max-width: 110px; font-size: 0.95rem; }
 
-  /* Admin avatar sizing for touch */
+  /* slightly smaller avatar */
   .admin-info img,
   .admin-info .avatar,
-  .admin-info i {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    margin-right: 100px;
-  }
+  .admin-info i { width: 36px; height: 36px; }
 
-  /* Position the dropdown correctly under the navbar on mobile */
-  .admin-dropdown {
-    top: 64px !important;
-    right: 8px !important;
-    margin-right: 100px;
-  }
+  /* position dropdown under mobile navbar */
+  .admin-dropdown { 
+    top: 64px !important; 
+    right: 8px !important; }
+}
 
-  /* Very small screens: hide search input and keep icon, reduce name width */
-  @media (max-width: 420px) {
-    .search-box {
-      max-width: 20px;
-      margin-right: 8px;
-    }
-    .search-box input { display: none; }
-    .search-box i { display: inline-block; left: 8px; }
+/* -------------------------
+   SMALL PHONES (<= 420px)
+   ------------------------- */
+@media (max-width: 420px) {
+  .search-box { max-width: 28px; margin-right: 8px; color: white; }
+  .search-box input { display: none; background: white;} /* keep icon visible as compact control */
+  .search-box i { display: inline-block; left: 8px; color: #fff; }
 
-    .admin-info .admin-name {
-      max-width: 72px;
-      font-size: 0.88rem;
-    }
-    .admin-info img,
-    .admin-info .avatar,
-    .admin-info i {
-      width: 34px;
-      height: 34px;
-    }
-  }
+  .admin-info .admin-name { max-width: 72px; font-size: 0.88rem; }
+  .admin-info img,
+  .admin-info .avatar,
+  .admin-info i { width: 34px; height: 34px; }
+}
 
-  /* Ensure the sidebar does not push main or navbar on mobile */
-  .sidebar:hover ~ main,
-  .sidebar:hover ~ .navbar-section,
-  .sidebar ~ main,
-  .sidebar ~ .navbar-section {
-    margin-left: 0 !important;
-    width: 100% !important;
-    transition: none !important;
-  }
+/* -------------------------
+   VERY SMALL PHONES (<= 350px)
+   ------------------------- */
+@media (max-width: 350px) {
+  .navbar-section { height: 64px; padding: 8px 10px; }
+  .search-box input { padding: 6px 10px 6px 32px; }
+  .admin-info .admin-name { max-width: 60px; font-size: 0.85rem; }
+}
 
-  /* Reduce transitions on touch devices to avoid jitter */
-  @media (hover: none) {
-    * { transition-duration: 0s !important; }
-  }
+/* -------------------------
+   REDUCE TRANSITIONS ON TOUCH DEVICES
+   ------------------------- */
+@media (hover: none) {
+  * { transition-duration: 0s !important; }
 }
