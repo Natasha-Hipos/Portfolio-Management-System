@@ -309,7 +309,7 @@ export default function Experience() {
                             title="Edit"
                             style={{ pointerEvents: "none" }}
                           >
-                            <i className="bi bi-pencil"></i>
+                            <i className="bi bi-pencil-square"></i>
                           </button>
 
                           {/* STATIC DELETE BUTTON */}
