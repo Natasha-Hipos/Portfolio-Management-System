@@ -165,7 +165,7 @@ export default function Skills() {
                             className="action-btn edit-btn"
                             style={{ pointerEvents: "none" }}
                           >
-                            <i className="bi bi-pencil"></i>
+                            <i className="bi bi-pencil-square"></i>
                           </button>
 
                           {/* STATIC DELETE BUTTON */}
