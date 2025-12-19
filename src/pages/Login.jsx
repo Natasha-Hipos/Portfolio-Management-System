@@ -9,8 +9,10 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
   const navigate = useNavigate();
-  const [showPassword] = useState(false); // State to toggle password visibility
-
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,6 +80,13 @@ function Login() {
                 placeholder="Enter Password"
                 required
               />
+              <span
+                className="input-group-text bg-white password-toggle"
+                onClick={togglePasswordVisibility}
+                style={{ cursor: "pointer" }}
+              >
+                <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+              </span>          
             </div>
           </div>
 
