@@ -478,11 +478,9 @@ button.btn:hover {
   cursor: default;
 }
 
-/* ================================
-  MOBILE / RESPONSIVE (EXCLUDING TABLE)
-  Append this to the end of src/styles/project.css
-  These rules only adjust non-table parts (cards, controls, modals, charts, etc.)
-  ================================ */
+/* =======================
+  MOBILE / RESPONSIVE
+  ======================= */
 
 /* Large tablets */
 @media (max-width: 992px) {
@@ -763,3 +761,86 @@ button.btn:hover {
   }
 }
 
+/* Center stat cards and main cards on narrow viewports
+   - keeps desktop layout unchanged
+   - apply on tablet/phone widths so cards appear centered and nicely sized
+*/
+
+/* Center for tablets & phones */
+@media (max-width: 720px) {
+  /* Make the project summary container center its children */
+  .d-flex#projectSummary,
+  .d-flex.gap-3.flex-wrap#projectSummary,
+  .d-flex.gap-3.flex-wrap {
+    display: flex !important;
+    flex-direction: column !important; /* stack vertically */
+    align-items: center !important;    /* center each card horizontally */
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Stat cards: full width but capped so they don't stretch too wide */
+  .stat-card {
+    width: 92% !important;        /* nearly full width inside container */
+    max-width: 560px !important;  /* keeps a comfortable card width on tablets */
+    margin: 8px auto !important;  /* center horizontally */
+    min-width: 0 !important;      /* allow nice shrinking */
+    box-shadow: 0 8px 20px rgba(19,24,44,0.04) !important;
+  }
+
+  /* Center the main content cards (projects, deadlines, analytics) */
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    width: 94% !important;
+    max-width: 720px !important;
+    margin: 12px auto !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Keep search, buttons and other controls full width and aligned */
+  .project-management,
+  .search-bar {
+    width: 100% !important;
+    max-width: 720px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Tighter center for narrow phones */
+@media (max-width: 420px) {
+  .stat-card {
+    width: 95% !important;
+    max-width: 520px !important;
+    padding: 10px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    width: 96% !important;
+    max-width: 560px !important;
+    padding: 12px !important;
+  }
+}
+
+/* Smallest phones - keep enough padding and readable sizes */
+@media (max-width: 350px) {
+  .stat-card {
+    width: 98% !important;
+    padding: 8px 10px !important;
+  }
+
+  .project-card,
+  .deadline-card,
+  .analytics-card {
+    width: 98% !important;
+    padding: 10px !important;
+  }
+}

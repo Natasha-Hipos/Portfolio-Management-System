@@ -699,3 +699,195 @@ iframe {
   height: auto;
 }
 
+/*EXPERIENCE - mobile responsiveness */
+
+@media (max-width: 720px) {
+  /* Page container */
+  .experience {
+    width: calc(100% - 24px) !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Center Add button like Skills example */
+  .experience > .project-management,
+  .experience .project-management {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* Make Add button pill-shaped and centered */
+  .experience button.btn {
+    width: 220px;
+    max-width: 90%;
+    display: inline-block;
+    margin: 0 auto;
+    border-radius: 999px;
+    padding: 12px 18px;
+  }
+
+  /* Center and style search as a pill */
+  .experience .search-bar {
+    max-width: 620px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 12px 18px;
+    border-radius: 999px;
+  }
+  .experience .search-bar input {
+    padding-left: 44px; /* leave space for icon */
+    font-size: 15px;
+  }
+  .experience .search-bar i {
+    left: 18px;
+  }
+
+  /* Stack and center stat cards */
+  .d-flex#projectSummary,
+  .d-flex.gap-3.flex-wrap#projectSummary,
+  .d-flex.gap-3.flex-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    align-items: center !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .experience .stat-card {
+    width: 94% !important;
+    max-width: 560px !important;
+    margin: 6px auto !important;
+    min-width: 0 !important;
+    box-shadow: 0 10px 24px rgba(19,24,44,0.04) !important;
+    border-radius: 14px !important;
+    padding: 14px 18px !important;
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .experience .stat-card p,
+  .experience .stat-card h3 {
+    text-align: center;
+  }
+
+  /* Keep project / deadline cards centered and full width */
+  .experience .project-card,
+  .experience .deadline-card,
+  .experience .analytics-card {
+    width: 96% !important;
+    max-width: 720px !important;
+    margin: 10px auto !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Table adjustments: avoid horizontal clipping and make rows comfortable */
+  .experience .table-responsive {
+    overflow: visible !important;
+  }
+  .experience .table {
+    border-radius: 12px;
+  }
+}
+
+/* --------------------------
+   Small phones (<=420px)
+   - Make controls more compact, Add button grows to full width, tighter paddings
+   -------------------------- */
+@media (max-width: 420px) {
+  .experience {
+    width: calc(100% - 20px) !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* Add button becomes full-width and more touch friendly */
+  .experience button.btn {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 12px 14px !important;
+    font-size: 15px;
+  }
+
+  /* Search pill becomes more compact and centered */
+  .experience .search-bar {
+    max-width: 520px;
+    padding: 10px 14px;
+    border-radius: 999px;
+  }
+  .experience .search-bar input {
+    padding-left: 40px;
+    font-size: 14px;
+  }
+  .experience .search-bar i { left: 14px; }
+
+  /* Stat cards slightly narrower and stacked */
+  .experience .stat-card {
+    width: 96% !important;
+    max-width: 520px !important;
+    padding: 10px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Table / list spacing */
+  .experience .table-responsive .table tr {
+    margin-bottom: 10px;
+  }
+}
+
+/* --------------------------
+   Extra tiny phones (<=350px)
+   - Tightest spacing while remaining usable
+   -------------------------- */
+@media (max-width: 350px) {
+  .experience {
+    width: calc(100% - 16px) !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .experience button.btn {
+    padding: 10px 12px !important;
+    font-size: 14px;
+    border-radius: 999px;
+  }
+
+  .experience .search-bar {
+    padding: 8px 12px;
+  }
+  .experience .search-bar input { font-size: 13px; padding-left: 36px; }
+
+  .experience .stat-card {
+    width: 98% !important;
+    padding: 8px 10px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Tiny table tweaks */
+  .experience .table-responsive .table td {
+    padding: 8px 6px !important;
+    font-size: 13px;
+  }
+}
+
+/* --------------------------
+   Accessibility / touch improvements
+   - keep tap targets large and avoid hover-only transitions on touch devices
+   -------------------------- */
+@media (hover: none) {
+  .experience button.btn,
+  .experience .action-btn,
+  .experience .search-bar input {
+    -webkit-tap-highlight-color: rgba(0,0,0,0.03);
+    touch-action: manipulation;
+  }
+
+  /* reduce transition jitter on touch devices */
+  * { transition-duration: 0s !important; }
+}
